@@ -1,0 +1,5 @@
+task,feature,threshold,auc,rule
+wake_vs_deep_sleep,C_idx_mean,0.5752775897367605,1.0,"If C_idx_mean < 0.575, predict non-wake / low-integration state."
+wake_vs_reflex,B_mean,0.8323341181269571,0.8899999999999999,"If B_mean < 0.832, predict reflex-like subintegrated regime."
+wake_vs_anxiety,Psi_eff_mean,0.41840479215103893,1.0,"If Psi_eff_mean < 0.418 while arousal remains high, predict anxiety rather than integrated wakefulness."
+integrated_vs_low,C_idx_mean,0.49823848070474536,1.0,"If C_idx_mean >= 0.498, predict integrated-like regime over low regime."

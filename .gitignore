@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+*.swp
+~$*
+
+# Build / distribution
+build/
+dist/
+*.egg-info/
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Node, if ever added
+node_modules/
+
+# Generated model outputs / reports
+# Keep current CSV, PNG, and Markdown files versioned unless reviewed as temporary.
+outputs/
+reports/generated/
+data/cache/
+data/raw/

@@ -1,0 +1,6 @@
+,task,feature,auc
+24,integrated_vs_low,C_idx_mean,1.0
+12,wake_vs_anxiety,C_idx_mean,1.0
+0,wake_vs_deep_sleep,C_idx_mean,1.0
+18,wake_vs_nonwake,C_idx_mean,1.0
+6,wake_vs_reflex,C_idx_mean,1.0
