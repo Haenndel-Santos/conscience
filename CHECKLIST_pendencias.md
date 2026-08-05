@@ -40,7 +40,7 @@ Ver `RELATORIO_claude_code.md` para o detalhamento completo desta sessão.
 
 - [x] **D1.** Sumário consolidado. 🤖 — ver `andaime_editorial.md`.
 - [x] **D2.** Mapa de lacunas por capítulo. 🤖
-- [~] **D3.** Padronizar chamadas de referência no corpo. 🤖 — números `[n]` existem só na versão `.docx` antiga (desatualizada); o `Versao atual.md` mantém citações em prosa + hiperlink, por não estar no escopo desta rodada. 🧑 decidir se quer padronizar para `[n]` no `.md`.
+- [x] **D3.** Padronizar chamadas de referência no corpo. 🤖 — resolvido: todo o corpo agora usa `[n]` numerado (adotado do `.docx` ao reestruturar em capítulos separados).
 - [x] **D4.** Expandir capítulos em prosa. 🤖 — Cap. 3 mesclado (`Cap3_expandido.md`); Caps. 5, 7, 11 expandidos; listas dos Caps. 4, 6, 10, 12 convertidas em prosa.
 - [ ] **D5.** Revisão em camadas antes de publicar. 🔁 — ainda não passou por uma leitura integral "de capa a capa" pós-edição pelo autor.
 - [!] **D6.** Versão editorial em DOCX/PDF. 🧑 — **adiada a pedido do autor nesta sessão**. `Consciencia_versao_editorial_limpa.docx` existente está **desatualizado** (não reflete nenhuma mudança desta sessão). Gerar nova versão a partir de `Versao atual.md` quando o autor pedir.
@@ -67,13 +67,22 @@ Ver `RELATORIO_claude_code.md` para o detalhamento completo desta sessão.
 - [x] Expandir Cap. 11 (Trauma: remover afirmação sem fonte, reformular como interpretação explícita). 🤖
 - [x] Converter listas dos Caps. 4, 6, 10, 12 em prosa, com exemplos concretos onde pedido. 🤖
 
+## Bloco H — Reestruturação em capítulos separados → **concluído**
+
+- [x] Converter `Consciencia_versao_editorial_limpa.docx` para markdown (Pandoc) e comparar com `Versao atual.md`. 🤖 — confirmado que o `.docx` estava desatualizado em tudo, exceto o estilo de citação `[n]`.
+- [x] Adotar o estilo de citação `[n]` no corpo do texto (resolve D3). 🤖
+- [x] Separar o manuscrito em 17 arquivos por capítulo em `capitulos/`. 🤖
+- [x] Criar índice (`capitulos/README.md`) e script de reconstrução (`capitulos/build_manuscript.py`). 🤖
+- [x] Verificar por diff que nada foi perdido na reestruturação. 🤖
+
 ---
 
 ## O que agora depende de você (🧑)
 
-1. **DOCX/PDF** — dizer quando quer que eu gere a versão editorial a partir do `Versao atual.md` atual (o `.docx` existente está desatualizado).
-2. **D3** — decidir se quer padronizar as citações do corpo para `[n]` numerado (como o `.docx` antigo já fazia) ou manter o estilo prosa + hiperlink do `.md` atual.
-3. **D5** — ler a versão integral pós-edição antes de qualquer circulação pública.
-4. **Referência 13 (Whyte et al.)** — confirmar DOI/paginação final na prova (está em transição arXiv → *Physics of Life Reviews* vol. 56).
-5. **Cap. 11/Trauma** — se quiser uma citação específica de neurobiologia do trauma (ex.: van der Kolk, ou um artigo sobre neurocircuitos de PTSD), posso verificar e inserir; por ora ficou marcado como interpretação, sem fonte.
-6. **Amostra do recompute empírico (Tarefa F)** — ver limitações de tamanho de amostra na seção 2 de `RELATORIO_claude_code.md`; ampliar para mais sujeitos do Sleep-EDF é possível a qualquer momento.
+1. **DOCX/PDF** — dizer quando quer que eu gere a versão editorial a partir de `Versao atual.md` (agora sempre reconstruído de `capitulos/`).
+2. **Nova política de edição** — a partir de agora, edite os arquivos em `capitulos/`, não `Versao atual.md` diretamente (ele é regenerado por `capitulos/build_manuscript.py` e uma edição direta nele seria perdida).
+3. **`Consciencia_versao_editorial_limpa.docx`** — ficou obsoleto (conteúdo desatualizado + estrutura de arquivo único). Decidir se quer que eu remova ou mantenha como registro histórico.
+4. **D5** — ler a versão integral pós-edição antes de qualquer circulação pública.
+5. **Referência 13 (Whyte et al.)** — confirmar DOI/paginação final na prova (está em transição arXiv → *Physics of Life Reviews* vol. 56).
+6. **Cap. 11/Trauma** — se quiser uma citação específica de neurobiologia do trauma (ex.: van der Kolk, ou um artigo sobre neurocircuitos de PTSD), posso verificar e inserir; por ora ficou marcado como interpretação, sem fonte.
+7. **Amostra do recompute empírico (Tarefa F)** — ver limitações de tamanho de amostra na seção 2 de `RELATORIO_claude_code.md`; ampliar para mais sujeitos do Sleep-EDF é possível a qualquer momento.

@@ -167,3 +167,22 @@ Nenhuma referência inventada. As três novas do manuscrito (Sterling & Eyer, St
 ## 7. Checklist atualizado
 
 Ver `CHECKLIST_pendencias.md`.
+
+---
+
+## 8. Reestruturação em capítulos separados (a pedido do autor, após a entrega inicial)
+
+A pedido do autor, o manuscrito foi reorganizado de um arquivo único para um arquivo por capítulo, em `capitulos/`.
+
+**Processo:**
+1. Convertido `Consciencia_versao_editorial_limpa.docx` para markdown via Pandoc, para checar o que ele tinha de diferente do `Versao atual.md`.
+2. A conversão confirmou que o `.docx` estava **atrasado em tudo, exceto um ponto**: usava citações numeradas `[n]` no corpo do texto, em vez de hiperlinks inline. O resto — Cap. 3 (versão curta, pré-`Cap3_expandido.md`), Cap. 9 (ainda com "Pinker" em vez de Thomas et al. 2016), Cap. 13 (fórmulas **corrompidas** pela conversão Word→texto: símbolos gregos e `\mathcal{}` se perderam) — estava desatualizado frente ao `Versao atual.md` já corrigido nesta sessão.
+3. Adotado apenas o estilo de citação `[n]` do `.docx`; todo o conteúdo veio de `Versao atual.md` (já correto e completo). Construída uma tabela de conversão hiperlink→número usando a mesma lista de 28 referências, e as citações da Introdução, Caps. 1, 2, 3 (incluindo as 3 novas de alostase, [26]-[28]), 9, 10, 11 e 12 foram convertidas.
+4. Separado o resultado em 17 arquivos (`capitulos/00_nota_metodologica.md` … `16_referencias.md`), com um índice (`capitulos/README.md`) e um script de reconstrução (`capitulos/build_manuscript.py`).
+5. Verificado por `diff`: a reconstrução do arquivo único a partir dos capítulos bate 100% com o `Versao atual.md` anterior, exceto pelas citações convertidas — nenhum conteúdo foi perdido ou alterado.
+
+**Nova política de edição:** `capitulos/*.md` é agora a fonte de verdade. `Versao atual.md`, na raiz, passa a ser **gerado** por `python capitulos/build_manuscript.py` — não deve mais ser editado diretamente (uma edição direta nele seria perdida na próxima regeneração).
+
+**O que ficou pendente desta reestruturação:**
+- `Consciencia_versao_editorial_limpa.docx` não foi apagado nem atualizado — está obsoleto agora nos dois sentidos (conteúdo desatualizado e estrutura de arquivo único). Decida se quer que eu o remova, ou se prefere mantê-lo como registro histórico.
+- A questão D3 (padronizar citações para `[n]`) fica **resolvida** por esta reestruturação: o padrão adotado daqui para frente é `[n]`.

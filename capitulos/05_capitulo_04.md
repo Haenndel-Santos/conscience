@@ -1,0 +1,13 @@
+## Capítulo 4
+
+### Causalidade estratificada e comportamento
+
+Uma das contribuições mais fortes de *Behave* é a recusa da ideia de que se possa explicar comportamento por “baldes” separados. Biologia, psicologia, contexto, cultura e evolução não são recipientes independentes; cada nível já pressupõe os demais. 
+
+A teoria adota isso como **Princípio da Estratificação Temporal da Causa**: nenhum comportamento é adequadamente explicado por um único nível causal. Um ato momentâneo já contém, condensadas, múltiplas profundidades temporais — o estado corporal e neural do instante, a história recente de aprendizagem, a organização de hábitos já consolidados, o desenvolvimento individual que moldou disposições de longo prazo, a moldura social e cultural que torna certas ações significativas ou impensáveis, e a história evolutiva da espécie que preparou os circuitos de base sobre os quais tudo isso opera.
+
+Considere um ato simples: alguém retrai a mão de um fogão quente e, um segundo depois, xinga em voz baixa. A retração é reflexo puro — milissegundos, medula espinhal, sem consciência envolvida. O xingamento já mobiliza outra camada: um repertório verbal aprendido ao longo de uma vida, moldado por uma língua e uma cultura específicas, disparado por um circuito de dor e frustração que a evolução preparou muito antes de existir linguagem. Se essa mesma pessoa, minutos depois, reconta o episódio a um amigo com humor autodepreciativo, entra em cena a camada mais alta: narrativa, modelo de si, antecipação de como o outro vai reagir. Um único incidente de poucos segundos atravessa, assim, reflexo, automação aprendida, herança evolutiva e narrativa social — e nenhuma dessas camadas, isoladamente, explica o episódio inteiro.
+
+Esse princípio torna a própria consciência historicamente espessa. A experiência presente não é presença pura; é o resultado de um sistema que carrega corpo, memória, história de stress, contexto e expectativa. Essa estratificação também organiza a arquitetura funcional da teoria, que distingue reflexo puro, automação inteligente preditiva, consciência integrada e consciência reflexiva — quatro camadas que mobilizam profundidades causais diferentes. O reflexo depende do curtíssimo prazo. A automação inteligente depende de treinamento acumulado. A consciência integrada depende de comparação global entre múltiplos sinais. A consciência reflexiva depende de narrativas, normas, modelos de si e dos outros.
+
+Essa formulação torna natural o passo seguinte. Se o comportamento já nasce atravessado por causalidade multiescalar, o livre-arbítrio forte deixa de ser uma hipótese plausível.

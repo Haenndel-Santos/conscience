@@ -1,0 +1,11 @@
+## Capítulo 2
+
+### Corpo, interocepção e constituição da experiência
+
+Se a consciência surgiu como forma de integrar sinais múltiplos para orientar melhor o organismo, então o corpo não pode ser tratado como simples fonte periférica de dados. O corpo é um dos grandes sistemas de sinalização que a consciência precisou incorporar desde o começo. A experiência não é apenas de um mundo externo; é experiência de um mundo **a partir de um corpo**.
+
+Engelen, Solcà e Tallon-Baudry mostram que ritmos interoceptivos participam de processos que vão da percepção ao senso de self. Tallon-Baudry, Loescher e Clément vão além ao distinguir dois modos da interocepção: um modo de informação, ligado ao estado fisiológico propriamente dito, e um modo de coordenação, que ajuda a sustentar o ponto de vista egocêntrico unificado. Essa distinção reforça uma tese central da presente teoria: o corpo não apenas fornece conteúdo; ele participa da **forma da perspectiva consciente**. [7], [4]
+
+O loop cérebro–corpo deixa, então, de ser detalhe e passa a ser peça constitutiva. O organismo consciente não é um cérebro que consulta um painel de sinais internos; é um sistema cuja integração global depende do acoplamento entre estados neurais e corporais. Essa posição também marca uma diferença importante em relação a formulações clássicas da IIT e da GNWT: a presente teoria concorda com a importância da integração e da disponibilidade global, mas sustenta que qualquer teoria da consciência que não trate o corpo como estrutural permanece incompleta. A crítica recente de Cea e Signorelli à IIT vai precisamente nessa direção ao argumentar que uma teoria da consciência não pode “perder o corpo”. [8]
+
+A ancoragem corporal também ajuda a esclarecer a passagem do biológico ao social. Mancano e Papagno mostraram que a ínsula anterior direita, região central para interocepção, participa causalmente da representação das dimensões emocionais e sociais de conceitos abstratos. Somado à tese de reuso neural, isso sugere que experiências como repulsa moral, vergonha ou humilhação não são desligadas da corporeidade, mas reelaborações de uma arquitetura incorporada mais antiga. A consciência moral e social não nega o corpo; ela o reinscreve em outro nível de complexidade. [9]
