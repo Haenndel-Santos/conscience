@@ -159,10 +159,10 @@ Nenhuma referência inventada. As cinco novas do manuscrito (Sterling & Eyer, St
 ## 6. Pendências e decisões para o autor
 
 1. **DOCX/PDF**: adiados a seu pedido. Quando quiser a versão editorial em DOCX/PDF, ela deve ser gerada a partir do `Versao atual.md` já corrigido (não do `.docx` antigo, que não tem as mudanças desta sessão). Como já existe Pandoc 3.10 disponível no ambiente, a conversão em si é rápida quando você pedir.
-2. **Padronização de citações no corpo (D3)**: o `.docx` antigo usava números `[n]` no corpo do texto; o `.md` atual manteve o estilo prosa + hiperlink (não estava no escopo desta rodada de tarefas). Decida se quer que eu padronize para `[n]` também no `.md`.
-3. **Referência 13 (Whyte et al.)**: o DOI/paginação final ainda está em transição (arXiv:2410.06633 → *Physics of Life Reviews* vol. 56); recomendo confirmar na prova antes de publicação.
+2. ~~Padronização de citações no corpo (D3)~~ — **resolvido na seção 8**: todo o corpo passou a usar `[n]`.
+3. ~~Referência 13 (Whyte et al.)~~ — **resolvido na seção 8/9**: DOI e paginação finais confirmados via Crossref.
 4. **`Consciencia_versao_editorial_limpa.docx`**: ficou desatualizado em relação ao `.md` atual (não reflete bibliografia, Cap. 3, Cap. 13, nem a Tarefa G desta sessão). Não apaguei nem sobrescrevi — está preservado como estava, para você decidir o que fazer com ele.
-5. **Cap. 11 / Trauma**: se você quiser uma citação específica de neurobiologia do trauma (ex.: van der Kolk, ou um artigo sobre neurocircuitos de PTSD), posso verificar e inserir; por ora, o parágrafo ficou marcado explicitamente como interpretação, sem fonte empírica.
+5. ~~Cap. 11 / Trauma sem citação~~ — **resolvido na seção 8**: Lanius et al. (2010) e Nicholson et al. (2015), ambas verificadas de forma independente.
 6. **Amostra do recompute empírico (Tarefa F)**: 10 sujeitos, de 153 disponíveis no dataset. Ampliar é simples (`--n-subjects <N>`) — decida se vale o tempo de download adicional.
 7. **Revisão em camadas (D5)**: recomendo uma leitura integral sua do `Versao atual.md` de ponta a ponta antes de qualquer circulação — esta sessão fez muitas mudanças coordenadas e o olhar final de quem conhece a voz do texto é insubstituível.
 
@@ -190,3 +190,59 @@ A pedido do autor, o manuscrito foi reorganizado de um arquivo único para um ar
 **O que ficou pendente desta reestruturação:**
 - `Consciencia_versao_editorial_limpa.docx` não foi apagado nem atualizado — está obsoleto agora nos dois sentidos (conteúdo desatualizado e estrutura de arquivo único). Decida se quer que eu o remova, ou se prefere mantê-lo como registro histórico.
 - A questão D3 (padronizar citações para `[n]`) fica **resolvida** por esta reestruturação: o padrão adotado daqui para frente é `[n]`.
+
+---
+
+## 9. V4 — prova de conceito mínima da camada social S(t)/𝒞_hum(t)
+
+Até esta etapa, o Cap. 13 e a auditoria de formalismo diziam que $S(t)$ e $\mathcal{C}_{hum}(t)$ eram puramente conceituais — nenhum script implementava mentalização recursiva, publicidade ou ratificação. Esta tarefa criou `dados atuais/consciousness_model_v4_social.py`: a primeira implementação computacional (mínima) dessa camada, sem alterar o V3.
+
+### Definições operacionais adotadas
+
+| Símbolo | Operacionalização no V4 | Observação |
+|---|---|---|
+| $C_{base}(t)$ | Média do $C_{idx}(t)$ de $N=6$ agentes, cada um rodando a **mesma classe `ConsciousnessSystemV3` do V3**, sem nenhuma alteração, regime "wake" | É literalmente o que o V3 sozinho prediria — não sabe se há comunicação social ocorrendo |
+| $P_u(t)$ | Fração dos $N$ agentes que já "receberam" o conteúdo transmitido por um agente-porta-voz num canal público (broadcast em $t{=}8$; recepção probabilística, prob. `p_receive` por passo) | Existe nos cenários "compartilhado" e "ratificado"; é 0 no "privado" |
+| $R_a(t)$ | Fração dos agentes que enviaram um sinal de reconhecimento de volta ao canal, após receber | Mecanismo **só existe** no cenário "ratificado" — no "compartilhado" fica em 0 por construção, não por exceção no cálculo |
+| $M_r(t)$ | Contador de profundidade de mentalização recursiva (0/1/2, normalizado), que só avança além de 0 quando $R_a(t)>0$ — mera recepção unilateral não conta como "eu sei que você sabe" | Mesma fórmula nos dois cenários com comunicação; a diferença entre eles está em como $R_a$ evolui, não em como $M_r$ é calculado a partir dele |
+| $S(t)$ | $\lambda_1 M_r + \lambda_2 P_u + \lambda_3 R_a$, com $\lambda_1=\lambda_2=\lambda_3=1/3$ | Parâmetros nomeados em `SocialLayerParams` |
+| $\mathcal{C}_{hum}(t)$ | $C_{base}(t) + w_5 \cdot S(t)$, com $w_5=0{,}25$ | Aditivo, fiel à forma da fórmula do Cap. 13 |
+
+Os dois níveis (dinâmica individual via V3, camada social via canal) são **computacionalmente desacoplados por escolha de design**: a comunicação social não realimenta o estado interno ($m,b,e$) de cada agente. Isso garante que o V3 permanece intocado e é literalmente fiel à forma aditiva $\mathcal{C}_{hum} = \mathcal{C} + w_5 S$ da fórmula original — não uma fusão dos dois processos. Uma V5 que alimentasse a ratificação de volta em $V(t)$ (valoração social) de cada agente ficaria para uma extensão futura.
+
+### Resultado da predição testada
+
+Predição do Cap. 9: $S(t)$ e $\mathcal{C}_{hum}(t)$ crescem de privado → compartilhado → ratificado, enquanto o índice individual de base fica ~estável.
+
+**Tabela (15 execuções por cenário, seed=42):**
+
+| Cenário | $C_{base}$ | $S$ | $\mathcal{C}_{hum}$ | $M_r$ | $P_u$ | $R_a$ |
+|---|---|---|---|---|---|---|
+| (i) privado | 0,610 | 0,000 | 0,610 | 0,000 | 0,000 | 0,000 |
+| (ii) compartilhado não ratificado | 0,608 | 0,252 | 0,671 | 0,000 | 0,755 | 0,000 |
+| (iii) publicamente ratificado | 0,609 | 0,723 | 0,790 | 0,714 | 0,762 | 0,693 |
+
+**AUC "ratificado vs. privado":**
+- $S(t)$: **1,0000**
+- $\mathcal{C}_{hum}(t)$: **1,0000**
+- $C_{base}(t)$ sozinho: **0,4578** (nível de acaso — não discrimina)
+
+**A predição se confirmou** dentro desta operacionalização: $C_{base}$ permanece estável nos três cenários (0,608–0,610 — os agentes não "sabem", no próprio estado interno, se há comunicação); $S(t)$ e $\mathcal{C}_{hum}(t)$ crescem na ordem prevista i→ii→iii; a discriminação ratificado-vs-privado é quase perfeita via $S$/$\mathcal{C}_{hum}$ e é de nível de acaso via $C_{base}$ isolado — exatamente o padrão que motivaria, na teoria, tratar a camada social como algo que o índice individual sozinho não capta.
+
+**Reprodutibilidade por seed:** confirmada (duas execuções do cenário "ratificado" com seed=42 produzem séries numericamente idênticas).
+
+### Limites honestos
+
+- $S(t)$ e $\mathcal{C}_{hum}(t)$ aqui são **proxies operacionais de um processo social mínimo**, não uma afirmação de que os agentes têm consciência intersubjetiva real.
+- O "reconhecimento recíproco" é um sinal booleano probabilístico, não uma representação de crença sobre o estado mental de outro agente — não há teoria da mente nem lógica epistêmica sendo simulada.
+- A "profundidade de mentalização recursiva" é um contador limitado a 2 níveis, uma simplificação deliberada (a literatura de common knowledge não exige regressão infinita para explicar efeitos de coordenação social) — não uma simulação de crenças aninhadas.
+- Resultado é **direção/ordenação em dados sintéticos de prova de conceito**, não validação empírica sobre cognição social real, comunicação humana real, ou consciência de máquina.
+- $N=6$ agentes, canal público único, um só regime ("wake") — não um teste de robustez a diferentes tamanhos de rede, topologias de comunicação, ou combinações de regime.
+
+### O que ficou em aberto
+
+1. **Feedback social → dinâmica individual**: V4 não alimenta o resultado da ratificação de volta em $V(t)$ de cada agente (proposital, para não alterar o V3). Uma extensão natural (V5) testaria se ratificação também desloca a valoração/comportamento individual.
+2. **Sensibilidade a parâmetros**: não foi feita uma variação sistemática de `p_receive`, `p_ack`, `t_broadcast`, `N`, $\lambda$s ou $w_5$ — os valores usados são razoáveis mas não otimizados nem calibrados contra nada externo.
+3. **Cap. 13**: atualizado para dizer que $S(t)$/$\mathcal{C}_{hum}(t)$ são "minimamente simulados (prova de conceito, V4)"; tabela de estatuto dos símbolos atualizada.
+4. **`auditoria_formalismo.md`**: Nota 5 e o Veredito atualizados para refletir o V4.
+5. Nenhum arquivo do V3 foi sobrescrito; saídas do V4 ficam isoladas em `dados atuais/social_outputs/`.

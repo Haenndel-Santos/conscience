@@ -82,6 +82,16 @@ Ver `RELATORIO_claude_code.md` para o detalhamento completo desta sessão.
 - [x] Referência 13 (Whyte et al.) finalizada: DOI e paginação confirmados via Crossref (10.1016/j.plrev.2025.11.002, vol. 56, p. 4-28). 🤖
 - [x] Referências 29 e 30 adicionadas; nota de verificação atualizada para "26–30". 🤖
 
+## Bloco J — V4: prova de conceito da camada social → **concluído**
+
+- [x] `dados atuais/consciousness_model_v4_social.py`: N=6 agentes rodando a dinâmica interna intocada do V3 + canal social mínimo. 🤖 — V3 não foi alterado (confirmado via `git status`).
+- [x] $M_r$, $P_u$, $R_a$ operacionalizados como proxies provisórios, documentados na docstring do script. 🤖
+- [x] Três cenários (privado / compartilhado não ratificado / publicamente ratificado). 🤖
+- [x] Predição testada: $S$/$\mathcal{C}_{hum}$ crescem i→ii→iii, $C_{base}$ estável. 🤖 — confirmado: AUC(ratificado vs. privado) = 1,0 para $S$ e $\mathcal{C}_{hum}$, 0,458 (acaso) para $C_{base}$.
+- [x] Saídas em `dados atuais/social_outputs/` (script reprodutível, tabela, figura, README). 🤖 — baseline do V3 preservado.
+- [x] Reprodutibilidade por seed confirmada. 🤖
+- [x] Cap. 13 e `auditoria_formalismo.md` (Nota 5) atualizados: $S(t)$/$\mathcal{C}_{hum}$ passam de "não simulados" para "minimamente simulados (prova de conceito, V4)". 🤖
+
 ---
 
 ## O que agora depende de você (🧑)
@@ -92,3 +102,4 @@ Ver `RELATORIO_claude_code.md` para o detalhamento completo desta sessão.
 4. **`_revisao_2026-08-05/edicoes_cap11_e_referencias.md`** — arquivo de origem não identificada (não fui eu que criei), já aplicado e absorvido nos commits `a41f660` e `40e4708`. Continua no repositório, não rastreado pelo git; avise se quiser que eu remova ou mantenha como registro.
 5. **D5** — ler a versão integral pós-edição antes de qualquer circulação pública.
 6. **Amostra do recompute empírico (Tarefa F)** — ver limitações de tamanho de amostra na seção 2 de `RELATORIO_claude_code.md`; ampliar para mais sujeitos do Sleep-EDF é possível a qualquer momento.
+7. **V5 (opcional, futuro)** — o V4 não realimenta a ratificação social de volta na valoração individual $V(t)$ de cada agente, por escolha de design (para não alterar o V3). Se quiser explorar esse acoplamento, ou uma variação sistemática dos parâmetros do canal social (`p_receive`, `p_ack`, `N`, λs, $w_5$), é um próximo passo natural, não feito aqui.
