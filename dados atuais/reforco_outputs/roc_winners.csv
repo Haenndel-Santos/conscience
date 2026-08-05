@@ -1,0 +1,6 @@
+task,feature,auc
+integrated_vs_low,C_idx_mean,1.0
+wake_vs_anxiety,Psi_eff_mean,1.0
+wake_vs_deep_sleep,C_idx_mean,1.0
+wake_vs_nonwake,Psi_eff_mean,1.0
+wake_vs_reflex,C_idx_mean,1.0
