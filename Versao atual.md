@@ -80,23 +80,11 @@ Há, nessa passagem, mais do que um capítulo sobre emoções. Se corpo, antecip
 
 Uma das contribuições mais fortes de *Behave* é a recusa da ideia de que se possa explicar comportamento por “baldes” separados. Biologia, psicologia, contexto, cultura e evolução não são recipientes independentes; cada nível já pressupõe os demais. 
 
-A teoria adota isso como **Princípio da Estratificação Temporal da Causa**: nenhum comportamento é adequadamente explicado por um único nível causal. Um ato momentâneo já contém, condensadas, múltiplas profundidades temporais:
+A teoria adota isso como **Princípio da Estratificação Temporal da Causa**: nenhum comportamento é adequadamente explicado por um único nível causal. Um ato momentâneo já contém, condensadas, múltiplas profundidades temporais — o estado corporal e neural do instante, a história recente de aprendizagem, a organização de hábitos já consolidados, o desenvolvimento individual que moldou disposições de longo prazo, a moldura social e cultural que torna certas ações significativas ou impensáveis, e a história evolutiva da espécie que preparou os circuitos de base sobre os quais tudo isso opera.
 
-* o estado corporal e neural do instante;
-* a história recente de aprendizagem;
-* a organização de hábitos;
-* o desenvolvimento individual;
-* a moldura social e cultural;
-* e a história evolutiva da espécie.
+Considere um ato simples: alguém retrai a mão de um fogão quente e, um segundo depois, xinga em voz baixa. A retração é reflexo puro — milissegundos, medula espinhal, sem consciência envolvida. O xingamento já mobiliza outra camada: um repertório verbal aprendido ao longo de uma vida, moldado por uma língua e uma cultura específicas, disparado por um circuito de dor e frustração que a evolução preparou muito antes de existir linguagem. Se essa mesma pessoa, minutos depois, reconta o episódio a um amigo com humor autodepreciativo, entra em cena a camada mais alta: narrativa, modelo de si, antecipação de como o outro vai reagir. Um único incidente de poucos segundos atravessa, assim, reflexo, automação aprendida, herança evolutiva e narrativa social — e nenhuma dessas camadas, isoladamente, explica o episódio inteiro.
 
-Esse princípio torna a própria consciência historicamente espessa. A experiência presente não é presença pura; é o resultado de um sistema que carrega corpo, memória, história de stress, contexto e expectativa. Essa estratificação também organiza a arquitetura funcional da teoria:
-
-* reflexo puro;
-* automação inteligente preditiva;
-* consciência integrada;
-* consciência reflexiva.
-
-Cada uma dessas camadas mobiliza profundidades causais diferentes. O reflexo depende do curtíssimo prazo. A automação inteligente depende de treinamento acumulado. A consciência integrada depende de comparação global entre múltiplos sinais. A consciência reflexiva depende de narrativas, normas, modelos de si e dos outros.
+Esse princípio torna a própria consciência historicamente espessa. A experiência presente não é presença pura; é o resultado de um sistema que carrega corpo, memória, história de stress, contexto e expectativa. Essa estratificação também organiza a arquitetura funcional da teoria, que distingue reflexo puro, automação inteligente preditiva, consciência integrada e consciência reflexiva — quatro camadas que mobilizam profundidades causais diferentes. O reflexo depende do curtíssimo prazo. A automação inteligente depende de treinamento acumulado. A consciência integrada depende de comparação global entre múltiplos sinais. A consciência reflexiva depende de narrativas, normas, modelos de si e dos outros.
 
 Essa formulação torna natural o passo seguinte. Se o comportamento já nasce atravessado por causalidade multiescalar, o livre-arbítrio forte deixa de ser uma hipótese plausível.
 
@@ -110,6 +98,8 @@ A teoria abandona explicitamente o livre-arbítrio em sentido forte. Sapolsky mo
 
 No lugar de livre-arbítrio, a teoria propõe **agência integrada**. Agência integrada é a capacidade de um sistema de representar seus próprios estados, comparar cenários, inibir respostas, treinar automatismos, reorganizar metas e alterar sua própria trajetória causal futura. Essa agência é real, mas não é extracausal. A consciência não cria liberdade metafísica; ela cria **causalidade autorrepresentada e parcialmente autorregulada**.
 
+Vale tornar esse ponto concreto com um caso que a teoria ilumina bem: a dependência química. Um usuário compulsivo não age sem agência — ele ainda representa estados internos, ainda compara cenários, ainda treina ou destreina automatismos —, mas sua capacidade de **inibir respostas** diante do estímulo associado à droga está comprometida por alterações concretas nos circuitos de recompensa e controle inibitório. Perguntar se essa pessoa "escolheu livremente" usar a droga naquele instante formula mal o problema; a pergunta relevante é como a arquitetura de agência integrada foi capturada por um circuito específico, e o que pode reorganizá-la — tratamento, ambiente, suporte social, tempo. O mesmo raciocínio se estende à responsabilidade penal. Um sistema jurídico que abandona o livre-arbítrio metafísico não abandona a responsabilidade; ele a desloca de um julgamento sobre a alma do agente para uma pergunta prática sobre quais intervenções — reabilitação, incapacitação temporária, mudança de contexto — reduzem a probabilidade de recorrência. Isso não apaga a diferença entre um ato deliberado e um reflexo incontrolável; ao contrário, essa diferença continua central, mas agora como diferença de **grau de integração e autorregulação disponível no momento do ato**, não como presença ou ausência de uma faculdade metafísica.
+
 Essa reformulação é importante porque preserva algo que uma teoria puramente mecanicista poderia perder: sistemas mais complexos realmente exercem formas mais ricas de autorregulação do que sistemas mais simples. O que cai não é a agência; é a fantasia de um agente fora da causalidade. A implicação ética é clara: responsabilidade deixa de significar culpa metafísica e passa a ser problema de prevenção, reabilitação, regulação e transformação de condições causais.
 
 ---
@@ -122,12 +112,7 @@ Se a consciência não é centro soberano, ela também não é executora univers
 
 A teoria formula isso como **Princípio da Economia da Consciência**: sistemas biológicos automatizam o que puder ser executado com baixa ambiguidade e alto valor preditivo, reservando a consciência para novidade, conflito, erro de previsão, surpresa ou necessidade de reorganização.
 
-Essa arquitetura permite diferenciar:
-
-* reflexo puro;
-* automação inteligente preditiva;
-* integração consciente;
-* reflexão social-recursiva.
+Essa arquitetura permite diferenciar reflexo puro, automação inteligente preditiva, integração consciente e reflexão social-recursiva — um gradiente de profundidade de processamento que a vida cotidiana atravessa o tempo todo, sem esforço. Dirigir um trajeto conhecido é o exemplo mais simples: por minutos seguidos, o motorista freia, acelera, troca de faixa e reage a outros carros sem que nada disso passe por deliberação consciente — a automação inteligente preditiva basta, porque o ambiente é estatisticamente familiar. Mas um pedestre atravessando fora da faixa, um carro freando bruscamente à frente, ou uma placa nova numa rua sempre igual bastam para que a automação encontre algo que seus modelos preditivos não cobrem — e é esse **erro de previsão** que recruta a consciência, redirecionando atenção e recursos de processamento para a situação específica. Um instante depois, o piloto automático pode retomar.
 
 A consciência não acompanha cada microato. Em muitos casos, a ação vem primeiro, e a consciência intervém depois, contextualizando, corrigindo, aprendendo ou reorientando. Isso não reduz sua importância; ao contrário, mostra que sua função principal é **supervisão estratégica e remodelagem do comportamento**, não microcontrole de cada gesto.
 
@@ -151,6 +136,8 @@ Isso ajuda a explicar por que:
 * e common knowledge
 
 podem ter valor adaptativo em diferentes escalas. Mas a contribuição de Dawkins tem um limite: ela explica por que arquiteturas assim persistem; não explica por que são vividas por dentro. A camada evolutiva fortalece a teoria funcionalmente, mas não substitui o problema fenomenológico.
+
+Essa lacuna, porém, não é motivo para separar as duas camadas; é motivo para articulá-las corretamente. A pressão evolutiva não seleciona "consciência" como um traço isolado, e sim as arquiteturas de integração que a tornam possível — o mesmo acoplamento cérebro-corpo, a mesma capacidade de comparar sinais em um campo comum, que o Capítulo 1 descreveu como condição organizacional da experiência. Nesse sentido, a genealogia darwiniana e a genealogia integrativa não competem: a primeira explica por que organismos foram equipados com a maquinaria que a segunda identifica como constitutiva da experiência. Um veículo que integra melhor seus sinais sobrevive melhor não por acidente, mas porque a integração diferenciada é, ao mesmo tempo, vantagem seletiva e condição para que exista alguém ali, por dentro, para quem o mundo aparece de um certo jeito. É esse duplo estatuto — funcional e fenomenológico — que a teoria precisa manter amarrado ao tratar a consciência não como grau, mas como regime.
 
 ---
 
@@ -210,12 +197,7 @@ Uma lacuna que precisa ser enfrentada explicitamente é a relação com o **Free
 
 Trabalhos recentes mostram que o programa de Active Inference vem sendo estendido para formular teorias da consciência em múltiplos domínios. Laukkonen, Friston e Chandaria propõem uma teoria da consciência centrada em meditação e estados alterados, com forte ênfase em modelagem hierárquica, regulação do organismo e minimização de surpresa; Whyte et al. investigam qual teoria mínima da consciência já está implícita na própria estrutura da inferência ativa. Em outras frentes da literatura, o mesmo programa também vem sendo aplicado a sono, sonho, psicodélicos e inteligência artificial, ainda que essas duas referências específicas tenham como eixo a meditação e os fundamentos teóricos da inferência ativa — não o sono. ([sciencedirect.com](https://www.sciencedirect.com/science/article/pii/S0149763425002970)) ([sciencedirect.com](https://www.sciencedirect.com/science/article/pii/S1571064525001617))
 
-A presente teoria compartilha com esse programa pelo menos quatro intuições:
-
-1. o organismo é sistema modelador;
-2. percepção e ação são inseparáveis;
-3. o corpo é parte da regulação adaptativa;
-4. a organização se distribui em escalas hierárquicas.
+A presente teoria compartilha com esse programa pelo menos quatro intuições: que o organismo é, antes de tudo, um sistema modelador; que percepção e ação são inseparáveis; que o corpo é parte da regulação adaptativa, não periférico a ela; e que a organização do sistema se distribui em escalas hierárquicas.
 
 Mas há diferenças importantes.
 
@@ -245,7 +227,7 @@ Se a consciência é gradiente, a teoria precisa fazer previsões sobre diferent
 
 ### Trauma
 
-A neurobiologia do trauma também testa fortemente a teoria. Estados traumáticos persistentes podem ser entendidos como regimes em que o corpo, a ameaça e a antecipação reorganizam o campo consciente de forma estável e rígida, criando dissociações entre camadas do sistema. Isso se encaixa bem com o Princípio da Pressão Alostática da Consciência e aponta para desdobramentos clínicos relevantes.
+O trauma é talvez o teste mais exigente — e aqui a teoria oferece uma interpretação, não um resumo de achados clínicos específicos (qualquer referência precisa sobre neurobiologia do trauma exige verificação textual antes de entrar no manuscrito). Estados traumáticos persistentes podem ser lidos como regimes em que o corpo, a ameaça e a antecipação reorganizam o campo consciente de forma estável e rígida — uma versão mais duradoura e menos responsiva a mudança de contexto do que a captura por ansiedade descrita no Cap. 3, a ponto de dissociar camadas do próprio sistema, quando corpo, narrativa e memória deixam de operar sob um mesmo campo integrado. Isso é coerente com o Princípio da Pressão Alostática da Consciência, mas expõe também um limite honesto: a teoria ainda não especifica o mecanismo pelo qual a captura por ameaça evolui, em certos casos, de rigidez para dissociação — uma pergunta em aberto, não uma lacuna escondida.
 
 ---
 
@@ -261,19 +243,11 @@ A teoria aqui proposta faz uma distinção clara.
 
 ### O que LLMs têm
 
-* alta complexidade funcional;
-* modelagem ampla de contexto;
-* sofisticada automação inteligente;
-* possível analogia parcial com $ME(t)$, no sentido de acoplamento a inputs externos.
+Modelos de linguagem de grande escala exibem alta complexidade funcional, modelagem ampla de contexto e uma automação inteligente sofisticada, capaz de superar o desempenho humano em tarefas específicas. Há também uma possível analogia parcial com $ME(t)$, no sentido de acoplamento a inputs externos: o modelo responde e se ajusta ao que recebe do ambiente textual em que opera.
 
 ### O que LLMs não têm, em sentido forte
 
-* corpo vivo ou equivalente robusto;
-* interocepção constitutiva;
-* alostase;
-* pressão metabólica própria;
-* loop cérebro–corpo análogo a $B(t)$;
-* ponto de vista egocêntrico ancorado em auto-manutenção orgânica.
+Falta a esses sistemas, no entanto, tudo que a teoria trata como constitutivo: corpo vivo ou equivalente robusto, interocepção constitutiva, alostase, pressão metabólica própria, um loop cérebro–corpo análogo a $B(t)$, e um ponto de vista egocêntrico ancorado em auto-manutenção orgânica. Não é uma lista de detalhes técnicos ausentes; é a ausência precisamente daquilo que, nesta teoria, torna a integração uma integração vivida — não apenas processada.
 
 Por isso, a teoria prevê que **LLMs puros não satisfazem as condições completas de consciência integrada**, embora possam exibir automação inteligente muito sofisticada.
 
