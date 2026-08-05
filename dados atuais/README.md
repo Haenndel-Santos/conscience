@@ -1,6 +1,6 @@
-# Dados atuais — leitura consolidada dos três modelos
+# Dados atuais — leitura consolidada dos modelos
 
-Consolida os antigos `README.md`, `README2.md` e `README3.md` num único mapa. As três versões são iterações do mesmo modelo incorporado de consciência.
+Consolida os antigos `README.md`, `README2.md` e `README3.md` num único mapa. As quatro versões são iterações do mesmo modelo incorporado de consciência.
 
 ## Versões do modelo
 
@@ -8,9 +8,10 @@ Consolida os antigos `README.md`, `README2.md` e `README3.md` num único mapa. A
 |---|---|---|---|
 | **Toy** | `consciousness_toy_model.py` | Estrutura mínima, auditável, 4 regimes (wake, deep_sleep, anxiety, reflex). Variáveis: Ψ_eff, Q, 𝒞, B, M. | `summary.csv`, `*_indices.png`, `*_phase.png`, `regime_comparison.png` |
 | **V2** | `consciousness_model_v2.py` | Definições operacionais de B, Ψ, M, Q; comparação de regimes, *coupling sweep*, *phase map* (acoplamento × valoração corporal). | `Consciousness_Model_V2_Summary.csv`, `coupling_sweep.png`, `phase_map.png`, `*_indices_v2.png`, `*_phase_v2.png`, `regime_comparison_v2.png` |
-| **V3** (canônica) | `consciousness_model_v3.py` | Limiares, curvas ROC, testes de ablação, regras falsificáveis, análise de saturação, Monte Carlo. | `regime_summary.csv`, `thresholds_table.csv`, `auc_table.csv`, `ablation_table.csv`, `saturation_table.csv`, `falsifiable_rules.csv`, `roc_grid.png` |
+| **V3** (canônica p/ dinâmica individual) | `consciousness_model_v3.py` | Limiares, curvas ROC, testes de ablação, regras falsificáveis, análise de saturação, Monte Carlo. | `regime_summary.csv`, `thresholds_table.csv`, `auc_table.csv`, `ablation_table.csv`, `saturation_table.csv`, `falsifiable_rules.csv`, `roc_grid.png` |
+| **V4** (camada social) | `consciousness_model_v4_social.py` | Prova de conceito mínima de S(t)/𝒞_hum(t): N agentes rodando a dinâmica interna do V3 (intocada), comunicando-se por um canal público. Não substitui o V3 — acrescenta uma camada por cima. | `social_outputs/resumo_por_cenario.csv`, `social_outputs/monte_carlo_runs.csv`, `social_outputs/auc_ratificado_vs_privado.txt`, `social_outputs/s_e_chum_por_cenario.png` |
 
-V3 é a versão canônica dos coeficientes do modelo (ver `Versao atual.txt`, Cap. 13, e `_revisao_2026-08-05/auditoria_formalismo.md`).
+V3 é a versão canônica dos coeficientes do modelo individual (ver `Versao atual.md`, Cap. 13, e `_revisao_2026-08-05/auditoria_formalismo.md`). V4 é a primeira implementação (mínima, de prova de conceito) da camada social descrita no Cap. 9.
 
 ## Higiene do repositório (2026-08-05)
 
@@ -31,7 +32,7 @@ Detalhes completos em `RELATORIO_claude_code.md` (raiz do projeto).
 - **B** — acoplamento cérebro–corpo (correlação cruzada média).
 - **ME** — acoplamento cérebro–ambiente. **K** — complexidade. **R** — recursividade.
 - **M** — traço de memória. **E** — disponibilidade de recurso. **V** — valoração (corporal + social).
-- Camada social **S(t)** e **𝒞_hum** do manuscrito **não são implementadas** em nenhum script — permanecem esboço conceitual (ver `_revisao_2026-08-05/auditoria_formalismo.md`).
+- Camada social **S(t)** e **𝒞_hum** do manuscrito **não são implementadas** nos scripts toy/V2/V3. A partir do **V4**, têm uma prova de conceito mínima (ver seção acima e `_revisao_2026-08-05/auditoria_formalismo.md`, Nota 5) — mas isso não significa que a formulação plena do Cap. 9 (mentalização recursiva, publicidade, ratificação em sentido cheio) esteja implementada; V4 é proxy operacional simplificado, não simulação de crenças aninhadas ou lógica epistêmica.
 
 ## Reprodutibilidade
 
