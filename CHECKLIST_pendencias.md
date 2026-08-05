@@ -4,63 +4,76 @@
 > Status: `[ ]` pendente · `[~]` parcial · `[x]` concluído · `[!]` precisa decisão do autor.
 > Responsável: 🤖 executável na sessão · 🧑 depende do autor · 🔁 iterativo.
 
-Criado em 2026-08-05 · **Atualizado após execução em 2026-08-05.**
+Criado em 2026-08-05 · **Atualizado após execução em 2026-08-05 (sessão Claude Code, branch `revisao-2026-08`).**
+
+Ver `RELATORIO_claude_code.md` para o detalhamento completo desta sessão.
 
 ---
 
-## Bloco A — Integridade bibliográfica  → **essencialmente resolvido**
+## Bloco A — Integridade bibliográfica → **resolvido**
 
-- [x] **A1.** Extrair e catalogar todas as citações. 🤖 — 21 artigos + 6 livros catalogados.
-- [x] **A2.** Verificar cada referência contra fonte real. 🤖 — **todas as ~27 são reais e corretamente atribuídas** (verificadas em PubMed/Crossref/periódico). Ver `verificacao_referencias.md`.
-- [x] **A3.** Corrigir metadados e remover `utm_source=chatgpt.com`. 🤖 — aplicado na versão editorial limpa (`.docx`).
-- [~] **A4.** Reescrever formulações que afirmam mais do que a fonte sustenta. 🤖→🧑 — 3 pontos sinalizados (notas a/b/c do relatório); aguarda aprovação do autor.
-- [!] **A5.** Marcar livros lidos integralmente × influência conceitual. 🧑 — **precisa da sua confirmação** (Sapolsky, Dawkins, Gleick, Pinker, Chalmers).
-- [x] **A6.** Bibliografia padronizada (Vancouver numerada). 🤖 — pronta e anexada ao `.docx`.
+- [x] **A1.** Extrair e catalogar todas as citações. 🤖 — feito na sessão anterior.
+- [x] **A2.** Verificar cada referência contra fonte real. 🤖 — todas as ~28 (25 aprovadas + 3 novas de alostase) são reais e corretamente atribuídas.
+- [x] **A3.** Corrigir metadados e remover `utm_source=chatgpt.com`. 🤖 — aplicado diretamente no `Versao atual.md` (fonte), não só no `.docx`.
+- [x] **A4.** Reescrever formulações que afirmam mais do que a fonte sustenta. 🤖 — os 3 ajustes de atribuição/escopo (notas a/b/c) aplicados: Thomas et al. (2016) no Cap. 9, escopo de "A beautiful loop" no Cap. 10. Nota (a) sobre Mudrik et al. já estava formulada com cautela no texto original.
+- [x] **A5.** Marcar livros lidos integralmente × influência conceitual. 🧑→🤖 — confirmado pelo autor: Sapolsky (3 livros), Dawkins, Gleick lidos integralmente (verbos fortes mantidos); Chalmers como referência conceitual (enquadramento já adequado no texto).
+- [x] **A6.** Bibliografia padronizada (Vancouver numerada). 🤖 — seção "Referências" (28 itens) agora está no `Versao atual.md`, não só no `.docx` antigo.
 
-## Bloco B — Consistência do formalismo  → **auditado**
+## Bloco B — Consistência do formalismo → **resolvido**
 
 - [x] **B1.** Inventário de variáveis/símbolos. 🤖
-- [x] **B2.** Cruzar prosa ↔ código; achar símbolos órfãos. 🤖 — feito. Ver `auditoria_formalismo.md`.
-- [x] **B3.** Coerência das fórmulas do Cap.13 com a implementação. 🤖 — 3 discrepâncias documentadas (fator `coherence_bias` em Ψ_eff; intercepto de Q; 𝓜=M/(M+1) em 𝒞).
-- [x] **B4.** Classificar estatuto de cada variável. 🤖 — tabela símbolo→estatuto pronta.
-- [x] **B5.** Padronizar a ressalva "dados sintéticos". 🤖 — recomendação registrada; frase-padrão já no `.docx`.
-- [!] **Achado crítico:** a camada social **S(t) / 𝒞_hum não é simulada** em nenhum script. Decidir como declarar isso no texto (recomendo: "esboço programático, não simulação"). 🧑
+- [x] **B2.** Cruzar prosa ↔ código; achar símbolos órfãos. 🤖
+- [x] **B3.** Coerência das fórmulas do Cap. 13 com a implementação. 🤖 — interceptos incluídos (η₀, coherence_bias, arousal_bias declarados); 𝓜=M/(M+1) explicitado.
+- [x] **B4.** Classificar estatuto de cada variável. 🤖 — tabela símbolo→estatuto inserida no Cap. 13.
+- [x] **B5.** Padronizar a ressalva "dados sintéticos". 🤖 — frase-padrão nas equações do Cap. 13 e na seção de Referências.
+- [x] **Achado crítico (S(t)/𝒞_hum não simulados):** declarado explicitamente no corpo do Cap. 13, não apenas nos relatórios de auditoria.
 
-## Bloco C — Robustez computacional  → **reproduzido e reforçado**
+## Bloco C — Robustez computacional → **reproduzido e reforçado**
 
-- [x] **C1.** Reproduzir os 3 scripts. 🤖 — V3 reproduz o baseline **na precisão de máquina** (|Δ|≈0). Ver `reproducao_simulacoes.md`.
-- [x] **C2.** Reexecutar V3 com n_runs/T maiores. 🤖 — n_runs=40, T=60: ordenação preservada, separação mantida (AUC=1,0), CV 3–7%.
-- [x] **C3.** Verificar determinismo/sementes. 🤖 — modelos determinísticos por seed; documentado.
-- [x] **C4.** Não sobrescrever o baseline. 🤖 — saídas em `reforco_outputs/`.
-- [~] **C5.** Substituir/confrontar dados sintéticos com empíricos. 🤖→🧑 — **confronto inicial feito** (ver `confronto_empirico.md`): predições centrais confirmadas pela literatura; mapa de datasets abertos + protocolo definido. Recomputo sobre EEG bruto pendente de acesso a dados (bloqueado nesta sessão).
+- [x] **C1.** Reproduzir os 3 scripts. 🤖 — V2 e V3 na precisão de máquina; toy reproduz com divergência de ~0,004 em `deep_sleep` (provável não-portabilidade de `np.linalg.eigvals` entre builds de BLAS/LAPACK — ver `RELATORIO_claude_code.md`).
+- [x] **C2.** Reexecutar V3 com n_runs/T maiores. 🤖 — `dados atuais/reforco_outputs/` (n_runs=40, T=60): ordenação preservada, separação aumenta com séries mais longas.
+- [x] **C3.** Verificar determinismo/sementes. 🤖 — confirmado (toy autodeterminístico nesta máquina; a divergência vs. baseline é entre ambientes, não dentro do mesmo ambiente).
+- [x] **C4.** Não sobrescrever o baseline. 🤖 — `reforco_outputs/` separado, baseline intacto (hash conferido).
+- [x] **C5.** Substituir/confrontar dados sintéticos com empíricos. 🤖 — **recompute real feito** sobre Sleep-EDF Expanded (LZc por estágio). Ver seção 2 de `RELATORIO_claude_code.md` para tabela, figura e interpretação.
 
-## Bloco D — Arquitetura editorial  → **andaime pronto; expansão pendente**
+## Bloco D — Arquitetura editorial → **substancialmente concluído**
 
 - [x] **D1.** Sumário consolidado. 🤖 — ver `andaime_editorial.md`.
-- [x] **D2.** Mapa de lacunas por capítulo. 🤖 — feito (caps. 3, 5, 7 e 11 são os mais carentes).
-- [~] **D3.** Padronizar chamadas de referência no corpo. 🤖 — números [n] inseridos na versão limpa; falta a passagem final autor-data se preferir esse estilo.
-- [~] **D4.** Expandir capítulos em prosa. 🔁🧑 — **Cap. 3 expandido** (`Cap3_expandido.md`), aguarda sua revisão/merge. Próximos: 5→7→11→(converter listas em 4,6,10,12).
-- [ ] **D5.** Revisão em camadas antes de publicar. 🔁
-- [~] **D6.** Versão editorial. 🤖 — **compilação limpa em DOCX pronta** (`Consciencia_versao_editorial_limpa.docx`); a versão *expandida* depende de D4.
+- [x] **D2.** Mapa de lacunas por capítulo. 🤖
+- [~] **D3.** Padronizar chamadas de referência no corpo. 🤖 — números `[n]` existem só na versão `.docx` antiga (desatualizada); o `Versao atual.md` mantém citações em prosa + hiperlink, por não estar no escopo desta rodada. 🧑 decidir se quer padronizar para `[n]` no `.md`.
+- [x] **D4.** Expandir capítulos em prosa. 🤖 — Cap. 3 mesclado (`Cap3_expandido.md`); Caps. 5, 7, 11 expandidos; listas dos Caps. 4, 6, 10, 12 convertidas em prosa.
+- [ ] **D5.** Revisão em camadas antes de publicar. 🔁 — ainda não passou por uma leitura integral "de capa a capa" pós-edição pelo autor.
+- [!] **D6.** Versão editorial em DOCX/PDF. 🧑 — **adiada a pedido do autor nesta sessão**. `Consciencia_versao_editorial_limpa.docx` existente está **desatualizado** (não reflete nenhuma mudança desta sessão). Gerar nova versão a partir de `Versao atual.md` quando o autor pedir.
 
-## Bloco E — Higiene do repositório  → **feito**
+## Bloco E — Higiene do repositório → **feito, com uma correção importante**
 
-- [x] **E1.** Consolidar READMEs de `dados atuais/`. 🤖 — `README_dados_consolidado.md`.
-- [!] **E2.** Resolver duplicatas de figuras / CSV. 🧑 — **não consigo apagar arquivos no seu disco a partir desta sessão** (sem shell no seu computador). Lista exata para você deletar em `dados atuais/`: `summary2.csv`, `Toy_model_summary_by_regime.csv` (ambos são dados do V2, duplicados de `Consciousness_Model_V2_Summary.csv`), e as figuras redundantes `anxiety_indices 2.png`, `anxiety_phase 2.png`, `deep_sleep_indices 2.png`, `deep_sleep_phase 2.png`, `reflex_indices 2.png`, `reflex_phase 2.png`, `regime_comparison 2.png`, `wake_indices 2.png`, `wake_phase 2.png`, `wake_phase 3.png`.
-- [x] **E3.** `requirements.txt` revisado. 🤖 — criado.
-- [x] **E4.** Registrar mudanças na documentação. 🤖 — estes relatórios.
+- [x] **E1.** Consolidar READMEs de `dados atuais/`. 🤖 — `dados atuais/README.md` único.
+- [x] **E2.** Resolver duplicatas de figuras/CSV. 🤖 — feito, **com correção**: 9 das 10 figuras sinalizadas não eram duplicatas (eram saídas do V2 sem essa etiqueta); renomeadas para `*_v2.png` em vez de apagadas. Detalhes em `RELATORIO_claude_code.md`.
+- [x] **E3.** `requirements.txt` revisado. 🤖 — mantido; ambiente de execução real ficou em `.venv/` (não versionado, listado no `.gitignore`), com `mne`/`yasa`/`antropy`/`python-docx`/`reportlab`/`pypandoc` adicionais para as tarefas desta sessão.
+- [x] **E4.** Registrar mudanças na documentação. 🤖 — este checklist + `RELATORIO_claude_code.md`.
+
+## Bloco F — Recompute empírico real (Sleep-EDF) → ver `RELATORIO_claude_code.md`
+
+- [x] **F1.** Baixar Sleep-EDF Expanded (subset sleep-cassette, PhysioNet). 🤖
+- [x] **F2.** Calcular LZc por época de 30s, agregado por estágio (W, REM, N1, N2, N3). 🤖
+- [x] **F3.** Confirmar ordenação W≈REM>N2>N3 e reportar AUC W-vs-N3. 🤖
+- [x] **F4.** Comparar com a ordenação do índice 𝒞 do modelo. 🤖
+- [x] **F5.** Salvar script, tabela, figura e relatório curto. 🤖 — `recompute_empirico_sleepedf/`.
+
+## Bloco G (opcional) — Expansão de capítulos → **concluído**
+
+- [x] Expandir Cap. 5 (exemplo: dependência química/responsabilidade penal). 🤖
+- [x] Expandir Cap. 7 (reamarração ao núcleo integrativo). 🤖
+- [x] Expandir Cap. 11 (Trauma: remover afirmação sem fonte, reformular como interpretação explícita). 🤖
+- [x] Converter listas dos Caps. 4, 6, 10, 12 em prosa, com exemplos concretos onde pedido. 🤖
 
 ---
 
-## Registro de execução (2026-08-05)
-
-Executado nesta sessão: verificação bibliográfica completa (4 verificadores em paralelo), auditoria de formalismo texto↔código, reprodução exata + reforço estatístico das simulações, andaime editorial (sumário + lacunas), higiene do repositório e compilação de uma versão editorial limpa em DOCX com bibliografia verificada.
-
-Artefatos gerados: `verificacao_referencias.md`, `auditoria_formalismo.md`, `reproducao_simulacoes.md`, `andaime_editorial.md`, `README_dados_consolidado.md`, `requirements.txt`, `Consciencia_versao_editorial_limpa.docx`, e saídas em `reforco_outputs/`.
-
 ## O que agora depende de você (🧑)
-1. **A5** — confirmar quais livros foram lidos integralmente (libera os verbos "mostra/demonstra").
-2. **A4/B5** — aprovar os 3 ajustes de atribuição/escopo e a declaração de que S(t) é esboço, não simulação.
-3. **D4** — dizer por qual capítulo começar a expansão (sugiro Cap. 3).
-4. **E2** — confirmar deleção das duplicatas de CSV/figuras.
-5. **C5** — se/quando houver dados empíricos para confrontar o modelo.
+
+1. **DOCX/PDF** — dizer quando quer que eu gere a versão editorial a partir do `Versao atual.md` atual (o `.docx` existente está desatualizado).
+2. **D3** — decidir se quer padronizar as citações do corpo para `[n]` numerado (como o `.docx` antigo já fazia) ou manter o estilo prosa + hiperlink do `.md` atual.
+3. **D5** — ler a versão integral pós-edição antes de qualquer circulação pública.
+4. **Referência 13 (Whyte et al.)** — confirmar DOI/paginação final na prova (está em transição arXiv → *Physics of Life Reviews* vol. 56).
+5. **Cap. 11/Trauma** — se quiser uma citação específica de neurobiologia do trauma (ex.: van der Kolk, ou um artigo sobre neurocircuitos de PTSD), posso verificar e inserir; por ora ficou marcado como interpretação, sem fonte.
+6. **Amostra do recompute empírico (Tarefa F)** — ver limitações de tamanho de amostra na seção 2 de `RELATORIO_claude_code.md`; ampliar para mais sujeitos do Sleep-EDF é possível a qualquer momento.
