@@ -134,13 +134,17 @@ Ordenação preservada (wake > anxiety > deep_sleep > reflex); a separação ent
 
 ## 5. Referências novas e status de verificação
 
-**No manuscrito** (`Versao atual.md`, seção Referências, itens 26–28):
+**No manuscrito** (`Versao atual.md`, seção Referências, itens 26–30):
 
 | Referência | Uso | Status |
 |---|---|---|
 | Sterling P, Eyer J (1988). *Allostasis: A new paradigm to explain arousal pathology*. In: Fisher S, Reason J (eds), *Handbook of Life Stress, Cognition and Health*, Wiley, 629-649. | Cap. 3 — cunhagem do termo alostase | ✅ Verificada (múltiplas bases de citação acadêmica) |
 | Sterling P (2012). *Allostasis: A model of predictive regulation*. Physiology & Behavior, 106(1), 5-15. doi:10.1016/j.physbeh.2011.06.004 | Cap. 3 — alostase como regulação preditiva | ✅ Verificada (PubMed PMID 21684297, ScienceDirect) |
 | McEwen BS (1998). *Protective and damaging effects of stress mediators*. NEJM, 338(3), 171-179. doi:10.1056/NEJM199801153380307 | Cap. 3 — carga alostática | ✅ Verificada (NEJM, PubMed) |
+| Lanius RA, et al. (2010). *Emotion modulation in PTSD: Clinical and neurobiological evidence for a dissociative subtype*. American Journal of Psychiatry, 167(6), 640-647. doi:10.1176/appi.ajp.2009.09081168 | Cap. 11 (Trauma) — subtipo dissociativo do TEPT como ponto de contato empírico | ✅ Verificada (PubMed PMID 20360318) |
+| Nicholson AA, et al. (2015). *The Dissociative Subtype of Posttraumatic Stress Disorder: Unique Resting-State Functional Connectivity of Basolateral and Centromedial Amygdala Complexes*. Neuropsychopharmacology, 40(10), 2317-2326. doi:10.1038/npp.2015.79 | Cap. 11 (Trauma) — rigidez de conectividade em repouso, reforça o ponto de Lanius et al. | ✅ Verificada (PubMed PMID 25790021, autores completos e DOI confirmados) |
+
+Também finalizada a referência 13 (Whyte et al., já na lista original, antes marcada "a confirmar"): *Physics of Life Reviews*, 2026;56:4-28, doi:10.1016/j.plrev.2025.11.002 — confirmado via Crossref (não apenas o preprint arXiv/PII do ScienceDirect que já tínhamos).
 
 **Usada apenas no relatório do recompute empírico** (`recompute_empirico_sleepedf/RELATORIO_lzc_sleepedf.md`, não inserida no manuscrito):
 
@@ -148,7 +152,7 @@ Ordenação preservada (wake > anxiety > deep_sleep > reflex); a separação ent
 |---|---|---|
 | Denis D, et al. (2022). *EEG Lempel-Ziv complexity varies with sleep stage, but does not seem to track dream experience*. Frontiers in Human Neuroscience, 16, 987714. doi:10.3389/fnhum.2022.987714 | Tarefa F — precedente metodológico para LZc por estágio e explicação do achado sobre N1 | ✅ Verificada via busca web (PubMed PMID 36704096, PMC9871639) |
 
-Nenhuma referência inventada. As três novas do manuscrito (Sterling & Eyer, Sterling, McEwen) e a referência metodológica da Tarefa F (Denis et al.) foram verificadas via busca web (PubMed, ScienceDirect, NEJM) antes de entrarem em qualquer documento. Nenhum valor numérico de Denis et al. foi citado como fato — só o padrão qualitativo (LZc por estágio, achado sobre N1), e a tabela/AUC reportadas no relatório são **inteiramente do recompute desta sessão**, não copiadas da literatura.
+Nenhuma referência inventada. As cinco novas do manuscrito (Sterling & Eyer, Sterling, McEwen, Lanius et al., Nicholson et al.) e a referência metodológica da Tarefa F (Denis et al.) foram verificadas de forma independente (PubMed, ScienceDirect, NEJM, Crossref) antes de entrarem em qualquer documento — inclusive as duas últimas (Lanius, Nicholson), que vieram propostas por um arquivo de terceiros (`_revisao_2026-08-05/edicoes_cap11_e_referencias.md`) e não foram aceitas sem essa verificação própria. Nenhum valor numérico de Denis et al. foi citado como fato — só o padrão qualitativo (LZc por estágio, achado sobre N1), e a tabela/AUC reportadas no relatório são **inteiramente do recompute desta sessão**, não copiadas da literatura.
 
 ---
 
