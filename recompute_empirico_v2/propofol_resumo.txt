@@ -1,0 +1,11 @@
+=== Recompute empirico V2 - Propofol (Cambridge/Chennu) ===
+Sujeitos processados: 20 (de 20 no dataset)
+Arquivos com falha: nenhum
+Total de epocas: 3082
+
+Ordenacao por LZc (maior->menor): ['sedacao_moderada', 'sedacao_leve', 'recuperacao', 'basal']
+Ordenacao por PE  (maior->menor): ['sedacao_leve', 'recuperacao', 'sedacao_moderada', 'basal']
+Correlacao de Spearman entre ordenacoes por estado: 0.4000
+
+AUC basal-vs-sedacao_moderada (LZc): 0.3306
+AUC basal-vs-sedacao_moderada (PE):  0.4533
