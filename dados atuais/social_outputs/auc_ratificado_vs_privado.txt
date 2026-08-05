@@ -1,0 +1,8 @@
+AUC 'ratificado vs privado' (15 runs por cenario, seed=42):
+  S(t) medio da run     -> AUC = 1.0000
+  C_hum(t) medio da run -> AUC = 1.0000
+  C_base(t) medio da run (indice individual, sem camada social) -> AUC = 0.3911
+
+Reprodutibilidade por seed (2 execucoes identicas do cenario ratificado): True
+
+Parametros: SocialLayerParams(n_agents=6, t_broadcast=8.0, p_receive=0.05, p_ack=0.04, depth_cap=2, r_a_deep_threshold=0.8, lambda1=0.3333333333333333, lambda2=0.3333333333333333, lambda3=0.3333333333333333, w5=0.25)
