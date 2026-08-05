@@ -75,6 +75,13 @@ Ver `RELATORIO_claude_code.md` para o detalhamento completo desta sessão.
 - [x] Criar índice (`capitulos/README.md`) e script de reconstrução (`capitulos/build_manuscript.py`). 🤖
 - [x] Verificar por diff que nada foi perdido na reestruturação. 🤖
 
+## Bloco I — Cap. 11 e referências finais → **concluído**
+
+- [x] Cap. 11 (Sonho): confronto do REM com o recompute de LZc, como predição diferencial. 🤖
+- [x] Cap. 11 (Trauma): citação real (Lanius et al. 2010; Nicholson et al. 2015) em vez da ressalva "sem fonte". 🤖 — ambas verificadas de forma independente (PubMed) antes de entrar no manuscrito.
+- [x] Referência 13 (Whyte et al.) finalizada: DOI e paginação confirmados via Crossref (10.1016/j.plrev.2025.11.002, vol. 56, p. 4-28). 🤖
+- [x] Referências 29 e 30 adicionadas; nota de verificação atualizada para "26–30". 🤖
+
 ---
 
 ## O que agora depende de você (🧑)
@@ -82,7 +89,6 @@ Ver `RELATORIO_claude_code.md` para o detalhamento completo desta sessão.
 1. **DOCX/PDF** — dizer quando quer que eu gere a versão editorial a partir de `Versao atual.md` (agora sempre reconstruído de `capitulos/`).
 2. **Nova política de edição** — a partir de agora, edite os arquivos em `capitulos/`, não `Versao atual.md` diretamente (ele é regenerado por `capitulos/build_manuscript.py` e uma edição direta nele seria perdida).
 3. **`Consciencia_versao_editorial_limpa.docx`** — ficou obsoleto (conteúdo desatualizado + estrutura de arquivo único). Decidir se quer que eu remova ou mantenha como registro histórico.
-4. **D5** — ler a versão integral pós-edição antes de qualquer circulação pública.
-5. **Referência 13 (Whyte et al.)** — confirmar DOI/paginação final na prova (está em transição arXiv → *Physics of Life Reviews* vol. 56).
-6. **Cap. 11/Trauma** — se quiser uma citação específica de neurobiologia do trauma (ex.: van der Kolk, ou um artigo sobre neurocircuitos de PTSD), posso verificar e inserir; por ora ficou marcado como interpretação, sem fonte.
-7. **Amostra do recompute empírico (Tarefa F)** — ver limitações de tamanho de amostra na seção 2 de `RELATORIO_claude_code.md`; ampliar para mais sujeitos do Sleep-EDF é possível a qualquer momento.
+4. **`_revisao_2026-08-05/edicoes_cap11_e_referencias.md`** — arquivo de origem não identificada (não fui eu que criei), já aplicado e absorvido nos commits `a41f660` e `40e4708`. Continua no repositório, não rastreado pelo git; avise se quiser que eu remova ou mantenha como registro.
+5. **D5** — ler a versão integral pós-edição antes de qualquer circulação pública.
+6. **Amostra do recompute empírico (Tarefa F)** — ver limitações de tamanho de amostra na seção 2 de `RELATORIO_claude_code.md`; ampliar para mais sujeitos do Sleep-EDF é possível a qualquer momento.
