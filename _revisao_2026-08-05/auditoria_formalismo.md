@@ -5,7 +5,7 @@ Objetivo (regra do `formalism-and-model-guardian`): confirmar que cada símbolo 
 
 ## Veredito
 
-O **núcleo do formalismo está fielmente implementado**: o estado X(t)=(m,b,e), a integração efetiva Ψ_eff, o proxy fenomenológico Q e o índice 𝒞 existem no código e seguem a estrutura das fórmulas do Cap. 13. Há, porém, **três lacunas que exigem disclosure honesto** e alguns pontos de padronização de versão. A mais importante: **a camada social S(t) / 𝒞_hum não é simulada em nenhum script** — ela é hoje puramente conceitual.
+O **núcleo do formalismo está fielmente implementado**: o estado X(t)=(m,b,e), a integração efetiva Ψ_eff, o proxy fenomenológico Q e o índice 𝒞 existem no código e seguem a estrutura das fórmulas do Cap. 13. Há, porém, **três lacunas que exigem disclosure honesto** e alguns pontos de padronização de versão. A mais importante à época desta auditoria: **a camada social S(t) / 𝒞_hum não era simulada em nenhum script** — era puramente conceitual (ver Nota 5, atualizada em 2026-08-05 com a chegada de `consciousness_model_v4_social.py`, que passa a oferecer uma prova de conceito mínima).
 
 ## Mapa símbolo → código → estatuto
 
@@ -43,7 +43,7 @@ O código multiplica ainda por `coherence_bias` (parâmetro por regime): `Psi = 
 - Limiares de nível (toy): [0,12·0,24·0,40·0,58·0,76] · (V2/V3): [0,10·0,22·0,38·0,56·0,74].
 → Declarar **qual versão é canônica** (recomendo V3) e citar sempre os pesos dessa versão no manuscrito.
 
-**Nota 5 — a maior lacuna: a camada social não é simulada.** O manuscrito apresenta `S(t)=λ₁M_r+λ₂P_u+λ₃R_a` e `𝒞_hum = 𝒞 + w₅S`, mas **nenhum script implementa S, M_r, P_u ou R_a**. O `V_soc` presente no código é apenas um peso de valoração social dentro de V — não é a ratificação intersubjetiva do Cap. 9. → O texto deve dizer, de forma explícita, que a camada humana/social é hoje **programaticamente esboçada, não simulada**, coerente com a honestidade metodológica que o próprio projeto exige.
+**Nota 5 — atualização (2026-08-05, pós-V4): a camada social agora tem uma prova de conceito mínima.** O manuscrito apresenta `S(t)=λ₁M_r+λ₂P_u+λ₃R_a` e `𝒞_hum = 𝒞 + w₅S`. Até a V3, nenhum script implementava S, M_r, P_u ou R_a — o `V_soc` presente no código era apenas um peso de valoração social dentro de V, não a ratificação intersubjetiva do Cap. 9. Isso mudou parcialmente com `consciousness_model_v4_social.py`: uma simulação multiagente (N=6 agentes rodando a dinâmica individual do V3, sem alterá-la, comunicando-se por um canal público mínimo) que operacionaliza M_r, P_u e R_a como proxies provisórios e testa a predição de que S(t)/𝒞_hum crescem de um cenário privado para um publicamente ratificado, enquanto o índice individual de base (𝒞) permanece estável — confirmado com AUC=1,0 para S e 𝒞_hum, contra AUC≈0,46 (nível de acaso) para 𝒞 sozinho. → O texto deve continuar dizendo, de forma explícita, que essa é uma **simulação mínima de prova de conceito**, não uma medida de consciência intersubjetiva real: a "profundidade de mentalização recursiva" modelada é um contador de poucos níveis (0–2), não uma simulação de crenças aninhadas ou lógica epistêmica, e o resultado é direção/ordenação em dados sintéticos, não validação empírica sobre cognição social real.
 
 ## Recomendações (itens B3–B5)
 
