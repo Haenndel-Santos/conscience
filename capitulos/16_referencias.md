@@ -12,7 +12,7 @@
 10. Thomas KA, DeScioli P, Haque OS, Pinker S. The psychology of coordination and common knowledge. *Journal of Personality and Social Psychology*. 2014;107(4):657-676. doi:10.1037/a0037037
 11. Thomas KA, De Freitas J, DeScioli P, Pinker S. Recursive mentalizing and common knowledge in the bystander effect. *Journal of Experimental Psychology: General*. 2016;145(5):621-629. doi:10.1037/xge0000153
 12. Laukkonen R, Friston K, Chandaria S. A beautiful loop: An active inference theory of consciousness. *Neuroscience & Biobehavioral Reviews*. 2025;176:106296. doi:10.1016/j.neubiorev.2025.106296
-13. Whyte CJ, Corcoran AW, Robinson J, et al. On the minimal theory of consciousness implicit in active inference. *Physics of Life Reviews*. 2025;56. (preprint arXiv:2410.06633; confirmar DOI/paginação final na prova)
+13. Whyte CJ, Corcoran AW, Robinson J, Smith R, Moran RJ, Parr T, Friston KJ, Seth AK, Hohwy J. On the minimal theory of consciousness implicit in active inference. *Physics of Life Reviews*. 2026;56 (artigo iniciando na p. 4). (online 2025; ScienceDirect PII S1571064525001617; preprint arXiv:2410.06633; DOI/paginação final a confirmar na prova)
 14. Beneš M, Páleníček T, Horáček J. What fMRI studies say about the nature of the psychedelic effect: a scoping review. *Frontiers in Neuroscience*. 2025;19:1606798. doi:10.3389/fnins.2025.1606798
 15. The Cambridge Declaration on Consciousness. Francis Crick Memorial Conference, Cambridge; 2012.
 16. Birch J, Schnell AK, Clayton NS. Dimensions of animal consciousness. *Trends in Cognitive Sciences*. 2020;24(10):789-801. doi:10.1016/j.tics.2020.07.007
@@ -35,4 +35,8 @@
 27. Sterling P. Allostasis: A model of predictive regulation. *Physiology & Behavior*. 2012;106(1):5-15. doi:10.1016/j.physbeh.2011.06.004
 28. McEwen BS. Protective and damaging effects of stress mediators. *New England Journal of Medicine*. 1998;338(3):171-179. doi:10.1056/NEJM199801153380307
 
-*Nota: as referências 1–19 foram verificadas contra PubMed/Crossref/página do periódico em 2026-08-05; as referências 26–28 foram verificadas contra PubMed/ScienceDirect/catálogo editorial em 2026-08-05 (ver `RELATORIO_claude_code.md`). A camada social S(t) (Cap. 9) e o índice 𝒞_hum ainda não são simulados nos modelos computacionais; os resultados numéricos apresentados neste manuscrito são de simulação sintética de prova de conceito, não validação empírica.*
+### Referência adicionada nesta revisão (trauma, Cap. 11)
+
+29. Lanius RA, Vermetten E, Loewenstein RJ, Brand B, Schmahl C, Bremner JD, Spiegel D. Emotion modulation in PTSD: Clinical and neurobiological evidence for a dissociative subtype. *American Journal of Psychiatry*. 2010;167(6):640-647. doi:10.1176/appi.ajp.2009.09081168
+
+*Nota: as referências 1–19 foram verificadas contra PubMed/Crossref/página do periódico em 2026-08-05; as referências 26–29 foram verificadas contra PubMed/página do periódico em 2026-08-05 (ver `RELATORIO_claude_code.md`). A camada social S(t) (Cap. 9) e o índice 𝒞_hum ainda não são simulados nos modelos computacionais; os resultados numéricos apresentados neste manuscrito são de simulação sintética de prova de conceito, não validação empírica.*
