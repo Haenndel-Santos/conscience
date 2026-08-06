@@ -170,7 +170,7 @@ Nenhuma referência inventada. As cinco novas do manuscrito (Sterling & Eyer, St
 
 ## 7. Checklist atualizado
 
-Ver `CHECKLIST_pendencias.md`.
+Ver `CHECKLIST_pendencias.md`. **Nota:** a seção 6 acima registra as decisões pendentes no momento da entrega inicial (2026-08-05). Decisões que surgiram depois (Blocos J/K/L abaixo) são mantidas atualizadas só no checklist, seção "O que agora depende de você", para não manter duas listas que podem divergir.
 
 ---
 
@@ -246,3 +246,37 @@ Predição do Cap. 9: $S(t)$ e $\mathcal{C}_{hum}(t)$ crescem de privado → com
 3. **Cap. 13**: atualizado para dizer que $S(t)$/$\mathcal{C}_{hum}(t)$ são "minimamente simulados (prova de conceito, V4)"; tabela de estatuto dos símbolos atualizada.
 4. **`auditoria_formalismo.md`**: Nota 5 e o Veredito atualizados para refletir o V4.
 5. Nenhum arquivo do V3 foi sobrescrito; saídas do V4 ficam isoladas em `dados atuais/social_outputs/`.
+
+---
+
+## 10. Recompute empírico V2 — amostra ampliada, segunda métrica, e extremo de anestesia (Bloco K)
+
+Estende a Tarefa F (seção 2) sem sobrescrevê-la: saídas em `recompute_empirico_v2/` (pasta nova), `recompute_empirico_sleepedf/` preservada intocada. Relatório completo em `recompute_empirico_v2/RELATORIO_v2.md`.
+
+**Sono (Sleep-EDF ampliado):**
+- Amostra: 10 → 36 sujeitos (39.086 épocas; 3 sujeitos sem estágio N3, documentados como falha e não removidos por conveniência; 2 índices ausentes do dataset).
+- Segunda métrica independente: entropia de permutação (Bandt & Pompe, 2002, *Physical Review Letters* 88:174102, verificada nesta sessão), calculada lado a lado com a LZc já usada na Tarefa F.
+- Resultado: concordância quase perfeita entre as duas métricas — mesma ordenação por estágio (W>N1>REM>N2>N3, Spearman=1,0 entre as ordenações) e correlação forte época-a-época (Spearman=0,72). AUC W-vs-N3 reforçado com a amostra maior: LZc=0,9919, PE=0,9840.
+
+**Anestesia (propofol, Cambridge/Chennu et al. 2016, PLOS Computational Biology, DOI 10.1371/journal.pcbi.1004669):**
+- Dataset aberto (CC BY 2.0 UK) processado integralmente: 20/20 sujeitos, 91 canais EEG, 4 estados (basal/sedação leve/sedação moderada/recuperação), ~3.082 épocas pré-segmentadas pelos autores originais.
+- **Predição NÃO confirmada**: ao contrário do esperado por analogia com o sono, `basal` teve a *menor* complexidade das 4 condições, não a maior; AUC basal-vs-moderada ficou abaixo do acaso (LZc=0,33; PE=0,45); as duas métricas concordaram pouco entre si (Spearman=0,40 na ordenação por estado).
+- Reportado como resultado negativo/misto, com hipóteses explicativas não testadas (ritmo alfa de repouso influenciando a LZc; dissociação conhecida entre responsividade comportamental e dose, já documentada pelos próprios autores do dataset) — sem tentativa de forçar uma confirmação.
+
+**Leitura honesta:** o eixo central da teoria (integração alta ≠ baixa, com separação grande e replicável) ganhou reforço substancial do lado do sono; do lado da anestesia farmacológica, a extensão simples da mesma lógica não se sustentou, e isso está reportado tal como observado — não escondido nem reinterpretado para parecer sucesso.
+
+---
+
+## 11. Verificação de um achado citado por uma sessão paralela — confundidor espectral (Bloco L)
+
+Você colou a narração de uma sessão de IA paralela (trabalhando aparentemente em `C:\Haenndel Projects 2\conscience`, caminho **não acessível a partir desta máquina** — verificado) relatando, entre outros pontos, que a LZc usada nos recomputes acima poderia ser "substancialmente explicada" pela inclinação espectral (1/f slope), citando "Bruzzone et al. (2024, eNeuro)".
+
+Verificação independente (PubMed + leitura do texto completo, antes de aceitar a implicação):
+
+- **A citação está incorreta.** Não existe autor "Bruzzone" nesse artigo. O artigo real é **Höhn, Hahn, Lendner & Hoedlmoser (2024)**, "Spectral Slope and Lempel–Ziv Complexity as Robust Markers of Brain States during Sleep and Wakefulness", *eNeuro* 11(3), ENEURO.0259-23.2024, DOI 10.1523/ENEURO.0259-23.2024 (PMID 38471778).
+- **A alegação em si é só parcialmente sustentada.** Em banda larga (1–45 Hz — a banda usada nos nossos dois recomputes), o artigo mostra que slope espectral e LZc "track highly similar information about the underlying brain state" entre vigília e N3: é um confundidor real, digno de nota nos nossos relatórios. Mas o próprio artigo **não conclui que a LZc é inválida ou redundante** — a conclusão de "não-redundância" ("the two parameters are not redundant") aparece quando eles restringem a análise à banda estreita (30–45 Hz), onde as duas medidas divergem. A recomendação central do artigo é de ordem prática (o slope é mais barato/versátil de calcular), não uma invalidação da LZc.
+- Como o achado "mais sério" reportado por aquela sessão veio com o nome do autor errado, isso pesa contra aceitar sem checagem própria os outros quatro pontos que ela relatou (distanciamento de IIT, reformulação compatibilista de livre-arbítrio, "detecção de publicidade" na camada social, reformulação via criticalidade) — nenhum foi verificado nesta sessão, e os arquivos-fonte dela não são acessíveis a partir desta máquina.
+
+**Ação tomada:** ressalva adicionada (citando Höhn et al. corretamente) em `recompute_empirico_sleepedf/RELATORIO_lzc_sleepedf.md` e `recompute_empirico_v2/RELATORIO_v2.md`.
+
+**Ação proposta, não executada:** calcular o expoente 1/f (ex. via `specparam`/FOOOF) nas mesmas épocas do Sleep-EDF e correlacionar diretamente com LZc/PE por estágio — testaria o confundidor nos nossos próprios dados, em vez de inferir de um artigo com outro dataset. Ver `CHECKLIST_pendencias.md`, Bloco L, item L4.

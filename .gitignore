@@ -51,3 +51,15 @@ outputs/
 reports/generated/
 data/cache/
 data/raw/
+
+# Dados brutos de EEG/neurociência (grandes, baixados sob demanda via --data-dir;
+# nunca versionar - só os scripts e os resumos/figuras pequenos em CSV/PNG/txt).
+*.edf
+*.edf.gz
+*.mat
+*.set
+*.fif
+*.npy
+recompute_empirico*/raw/
+recompute_empirico*/*_cache/
+recompute_empirico*/**/*-download/

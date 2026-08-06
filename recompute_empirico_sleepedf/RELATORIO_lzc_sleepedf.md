@@ -54,6 +54,7 @@ O modelo (`consciousness_model_v3.py`) produz a ordenação **wake > anxiety > d
 - **N=10 sujeitos** (de 153 disponíveis no subset sleep-cassette) — suficiente para um recompute honesto de prova de conceito, mas não uma caracterização definitiva da população. Ampliar a amostra é direto (bastar rodar `analise_lzc_sleepedf.py --n-subjects <N>` com N maior).
 - Apenas 2 canais EEG (Fpz-Cz, Pz-Oz) — os únicos disponíveis neste dataset.
 - LZc é um proxy de complexidade, não uma medida direta de "integração diferenciada" no sentido do modelo (que combina acoplamento, complexidade *e* recursividade). A comparação é qualitativa/direcional, como o protocolo já previa.
+- **Possível confundidor espectral (adicionado após verificação independente):** Höhn, Hahn, Lendner & Hoedlmoser (2024), *eNeuro* 11(3), ENEURO.0259-23.2024, DOI 10.1523/ENEURO.0259-23.2024, mostram que em banda larga (1–45 Hz) a inclinação espectral (1/f slope) e a LZc "track highly similar information about the underlying brain state" entre vigília e N3 — ou seja, parte da diferença de LZc entre estágios pode covariar com uma mudança na inclinação espectral, não apenas com "complexidade" em sentido mais forte. O mesmo artigo mostra que, em banda estreita (30–45 Hz), as duas medidas divergem e não são redundantes. Não recalculamos o slope nos nossos dados nesta sessão; ver `CHECKLIST_pendencias.md`, Bloco L, item L4, para a checagem proposta e ainda não executada.
 
 ## Arquivos gerados
 
