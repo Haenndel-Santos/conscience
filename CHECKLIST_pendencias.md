@@ -87,10 +87,20 @@ Ver `RELATORIO_claude_code.md` para o detalhamento completo desta sessão.
 - [x] `dados atuais/consciousness_model_v4_social.py`: N=6 agentes rodando a dinâmica interna intocada do V3 + canal social mínimo. 🤖 — V3 não foi alterado (confirmado via `git status`).
 - [x] $M_r$, $P_u$, $R_a$ operacionalizados como proxies provisórios, documentados na docstring do script. 🤖
 - [x] Três cenários (privado / compartilhado não ratificado / publicamente ratificado). 🤖
-- [x] Predição testada: $S$/$\mathcal{C}_{hum}$ crescem i→ii→iii, $C_{base}$ estável. 🤖 — confirmado: AUC(ratificado vs. privado) = 1,0 para $S$ e $\mathcal{C}_{hum}$, 0,458 (acaso) para $C_{base}$.
+- [x] Predição testada: $S$/$\mathcal{C}_{hum}$ crescem i→ii→iii, $C_{base}$ estável. 🤖 — AUC(ratificado vs. privado) = 1,0 para $S$/$\mathcal{C}_{hum}$, 0,458 (acaso) para $C_{base}$.
 - [x] Saídas em `dados atuais/social_outputs/` (script reprodutível, tabela, figura, README). 🤖 — baseline do V3 preservado.
 - [x] Reprodutibilidade por seed confirmada. 🤖
 - [x] Cap. 13 e `auditoria_formalismo.md` (Nota 5) atualizados: $S(t)$/$\mathcal{C}_{hum}$ passam de "não simulados" para "minimamente simulados (prova de conceito, V4)". 🤖
+- [!] **Revisão crítica encontrada** (`_revisao_2026-08-05/revisao_critica_St_V4.md`, origem não identificada) aponta que a AUC=1,0 de $S$ é **quase tautológica** (os cenários são definidos exatamente pelas variáveis que compõem $S$) e que o achado defensável é outro ($C_{base}$ no acaso = camada social não-redundante com o índice individual). Avaliei o argumento de forma independente e **concordo com o diagnóstico central**. 🧑 decidir se quer que eu reescreva a leitura do resultado no relatório/manuscrito e/ou avance para uma V5 com teste comportamental não-circular (jogo de coordenação tipo stag-hunt) — ver seção correspondente do relatório.
+
+## Bloco K — Recompute empírico V2: amostra ampliada + 2ª métrica + anestesia → **concluído**
+
+- [x] Sleep-EDF escalado de 10 para 36 sujeitos (39.086 épocas); truncamentos documentados (3 sujeitos sem N3; 2 índices ausentes do dataset). 🤖
+- [x] Entropia de permutação (Bandt & Pompe 2002, verificada) como 2ª métrica independente. 🤖 — concordância perfeita com LZc no sono (Spearman=1,0 na ordenação, 0,72 época-a-época); AUC W-vs-N3 reforçada (LZc=0,9919, PE=0,9840).
+- [x] Dataset de anestesia por propofol (Cambridge/Chennu et al. 2016) baixado e processado — 20/20 sujeitos, sem bloqueio de licença/download. 🤖
+- [!] **Predição de anestesia NÃO confirmada**: `basal` teve a *menor* complexidade das 4 condições (não a maior); AUC basal-vs-moderada abaixo do acaso (LZc=0,33; PE=0,45); as duas métricas concordam pouco entre si (Spearman=0,40). Resultado negativo/misto reportado com honestidade, com hipóteses explicativas (ritmo alfa em repouso; dissociação responsividade/dose já documentada pelos próprios autores do dataset) — não confirmadas experimentalmente nesta sessão. 🧑 decidir se quer uma análise de acompanhamento estratificada por responsividade comportamental (dados já presentes em `datainfo.mat`, não utilizados nesta rodada).
+- [x] Saídas em `recompute_empirico_v2/` (nova pasta); `recompute_empirico_sleepedf/` preservada intocada. 🤖
+- [x] Reprodutibilidade confirmada (métricas determinísticas; nenhuma amostragem aleatória própria). 🤖
 
 ---
 
@@ -101,5 +111,8 @@ Ver `RELATORIO_claude_code.md` para o detalhamento completo desta sessão.
 3. **`Consciencia_versao_editorial_limpa.docx`** — ficou obsoleto (conteúdo desatualizado + estrutura de arquivo único). Decidir se quer que eu remova ou mantenha como registro histórico.
 4. **`_revisao_2026-08-05/edicoes_cap11_e_referencias.md`** — arquivo de origem não identificada (não fui eu que criei), já aplicado e absorvido nos commits `a41f660` e `40e4708`. Continua no repositório, não rastreado pelo git; avise se quiser que eu remova ou mantenha como registro.
 5. **D5** — ler a versão integral pós-edição antes de qualquer circulação pública.
-6. **Amostra do recompute empírico (Tarefa F)** — ver limitações de tamanho de amostra na seção 2 de `RELATORIO_claude_code.md`; ampliar para mais sujeitos do Sleep-EDF é possível a qualquer momento.
+6. ~~Amostra do recompute empírico~~ — **ampliada no Bloco K** (10→36 sujeitos, + entropia de permutação, + dataset de anestesia).
 7. **V5 (opcional, futuro)** — o V4 não realimenta a ratificação social de volta na valoração individual $V(t)$ de cada agente, por escolha de design (para não alterar o V3). Se quiser explorar esse acoplamento, ou uma variação sistemática dos parâmetros do canal social (`p_receive`, `p_ack`, `N`, λs, $w_5$), é um próximo passo natural, não feito aqui.
+8. **Revisão crítica do V4** (`_revisao_2026-08-05/revisao_critica_St_V4.md`, origem não identificada) — argumento tecnicamente correto (avaliei de forma independente): a AUC=1,0 de S(t) é quase tautológica; propõe reescrever a leitura do resultado e, como próximo passo não-circular, uma V5 com tarefa de coordenação comportamental (tipo stag-hunt). Decidir se quer que eu aplique a correção de texto e/ou construa essa V5.
+9. **Predição de anestesia não confirmada (Bloco K)** — decidir se quer uma análise de acompanhamento usando os dados de responsividade comportamental do `datainfo.mat` do dataset de propofol (não usados nesta rodada), que poderiam esclarecer se o resultado muda ao separar sujeitos que de fato perderam responsividade.
+10. **Arquivos de origem não identificada** — além do item 4, apareceram mais dois durante esta sessão: `_revisao_2026-08-05/revisao_critica_St_V4.md` e `PROMPT_claude_code_V5_social.md`. Nenhum foi criado por mim; ambos não rastreados pelo git. Avise se sabe a origem ou se quer que eu remova/mantenha.
