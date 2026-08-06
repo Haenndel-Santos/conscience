@@ -1,0 +1,13 @@
+=== Recompute empirico V2 - Sleep-EDF ampliado ===
+Sujeitos solicitados: 0-40 | processados com sucesso: 36
+IDs processados: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 35, 36, 37, 38]
+Falhas: [(32, 'No matching events found for N3 (event id 4)'), (33, 'No matching events found for N3 (event id 4)'), (34, 'No matching events found for N3 (event id 4)')]
+Total de epocas: 39086
+
+Ordenacao por LZc (maior->menor): ['W', 'N1', 'REM', 'N2', 'N3']
+Ordenacao por PE  (maior->menor): ['W', 'N1', 'REM', 'N2', 'N3']
+Correlacao de Spearman entre as ordenacoes por estagio: 1.0000
+Correlacao de Spearman epoca-a-epoca (LZc vs PE, todas as epocas): 0.7235
+
+AUC W-vs-N3 (LZc): 0.9919
+AUC W-vs-N3 (PE):  0.9840
