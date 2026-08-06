@@ -91,6 +91,7 @@ O modelo (`consciousness_model_v3.py`) prevê a ordenação **wake > anxiety > d
 - Apenas duas métricas de complexidade (LZc, entropia de permutação); nenhuma delas mede diretamente "integração diferenciada" no sentido do modelo (que combina acoplamento, complexidade *e* recursividade).
 - O confronto com o modelo é qualitativo/direcional, nunca de unidades ou magnitudes.
 - Resultados de propofol são **negativos/mistos em relação à hipótese original** — isso está reportado tal como observado, sem tentativa de forçar uma confirmação. Um resultado negativo bem documentado é, aqui, mais valioso para a integridade do projeto do que uma confirmação forçada.
+- **Possível confundidor espectral (adicionado após verificação independente):** Höhn, Hahn, Lendner & Hoedlmoser (2024), *eNeuro* 11(3), ENEURO.0259-23.2024, DOI 10.1523/ENEURO.0259-23.2024, mostram que em banda larga (1–45 Hz) a inclinação espectral (1/f slope) e a LZc covariam fortemente ("track highly similar information") entre vigília e N3 — parte do resultado de LZc por estágio pode estar refletindo essa mesma mudança espectral, não só "complexidade" em um sentido mais forte. A entropia de permutação (2ª métrica usada aqui) não resolve essa dúvida de forma independente, pois também é sensível ao conteúdo espectral do sinal. Nem slope nem uma decomposição espectral formal foram calculados nesta sessão; ver `CHECKLIST_pendencias.md`, Bloco L, item L4.
 
 ## Referências usadas nesta análise (verificadas nesta sessão)
 
