@@ -1,0 +1,6 @@
+task,auc_baseline_mediana,primeira_magnitude_auc_abaixo_0_85,primeira_magnitude_auc_abaixo_0_70
+wake_vs_deep_sleep,1.0,,
+wake_vs_reflex,1.0,,
+wake_vs_anxiety,1.0,,
+wake_vs_nonwake,1.0,,
+integrated_vs_low,1.0,,
