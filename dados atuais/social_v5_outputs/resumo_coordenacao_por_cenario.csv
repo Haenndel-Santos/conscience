@@ -1,0 +1,4 @@
+scenario,taxa_sucesso_coordenacao,frac_arriscada_media,P_u_medio_na_decisao,R_a_medio_na_decisao,K_ck_medio_na_decisao,M_medio_na_decisao,payoff_medio
+privado,0.0,0.0515625,0.0,0.0,0.0,1.454234226268815,0.9484375
+compartilhado,0.0,0.0515625,1.0,0.0,4.5397868702434395e-05,1.4543370228062844,0.9484375
+ratificado,0.9125,0.76875,1.0,1.0,0.9999999999999065,1.8734556300680907,1.69375
