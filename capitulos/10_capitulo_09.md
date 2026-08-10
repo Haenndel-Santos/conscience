@@ -27,3 +27,5 @@ onde:
 * $R_a(t)$: ratificação social.
 
 Essa operacionalização é provisória, mas suficiente para transformar a camada social da teoria em algo programaticamente testável.
+
+Uma instanciação mínima e sintética do modelo mostra que, dado um jogo de coordenação com risco, o conhecimento comum — reconhecimento recíproco de que os outros também sabem — habilita uma coordenação comportamental arriscada que o conhecimento meramente compartilhado — informação amplamente distribuída, mas sem reconhecimento recíproco — não habilita, mesmo quando os dois cenários partem de exatamente a mesma informação disponível. O resultado sobreviveu a uma ablação de controle: remover o mecanismo de reconhecimento recíproco colapsa a coordenação de volta ao nível basal, isolando esse mecanismo como responsável, não uma correlação incidental do desenho. É um resultado de simulação sintética de prova de conceito — não uma demonstração de cognição social real ou de consciência intersubjetiva —, mas é o primeiro teste do projeto sobre essa predição que poderia ter falhado e não falhou.

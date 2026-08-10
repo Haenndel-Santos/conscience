@@ -16,7 +16,7 @@ Cada capítulo do manuscrito *Consciência como Regime Integrado* vive em um arq
 | [09_capitulo_08.md](09_capitulo_08.md) | Cap. 8 — Não linearidade, integração diferenciada e regimes |
 | [10_capitulo_09.md](10_capitulo_09.md) | Cap. 9 — Common knowledge, ratificação pública e consciência intersubjetiva |
 | [11_capitulo_10.md](11_capitulo_10.md) | Cap. 10 — Diálogo com Active Inference e Free Energy Principle |
-| [12_capitulo_11.md](12_capitulo_11.md) | Cap. 11 — Sonho, psicodélicos, animais e trauma como testes de estresse da teoria |
+| [12_capitulo_11.md](12_capitulo_11.md) | Cap. 11 — Sonho, anestesia, psicodélicos, animais e trauma como testes de estresse da teoria |
 | [13_capitulo_12.md](13_capitulo_12.md) | Cap. 12 — Consciência biológica e inteligência artificial |
 | [14_capitulo_13.md](14_capitulo_13.md) | Cap. 13 — Esboço formal revisado |
 | [15_conclusao.md](15_conclusao.md) | Conclusão |
