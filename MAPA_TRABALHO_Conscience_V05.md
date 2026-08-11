@@ -1,0 +1,95 @@
+# Mapa de Trabalho — Conscience_V05
+
+**Estado:** ativo — mapa de revisão e governança.
+**Início:** 2026-08-11.
+**Baseline preservado:** `revisao-2026-08` em `c9a7c52`; inclui os resultados já registrados das Frentes C/D/E/F/G, bem como a qualificação da evidência epiléptica nos Caps. 1 e 8.
+**Escopo da V05:** aprofundar o núcleo teórico, explicitar o estatuto das evidências e preparar testes VNext mais discriminantes. Não é uma alegação de nova validação empírica.
+
+## 1. Regra de organização
+
+Esta revisão é organizada por **contextos argumentativos**, e não por capítulos isolados. Um identificador tem a forma `LetraCapítulo[-Capítulo...]`:
+
+- a **letra** identifica um problema teórico, metodológico ou editorial contínuo;
+- os **números** indicam os capítulos diretamente alterados naquele momento;
+- documentos de evidência, checklist, referências e scripts podem acompanhar qualquer código quando forem necessários para manter a coerência;
+- um item só é encerrado quando as passagens afetadas, os documentos de apoio e a transição entre eles concordarem.
+
+Exemplo: `B11-13` trata do mesmo problema empírico nos Caps. 11 e 13; não significa duas revisões independentes.
+
+### Legenda de estado
+
+- `[ ]` planejado
+- `[~]` em revisão
+- `[!]` depende de decisão, execução ou confirmação do autor
+- `[x]` concluído e verificado no manuscrito reconstruído
+
+## 2. Princípios operacionais da V05
+
+1. **Núcleo antes de extensão.** Corpo, socialidade, IA e comparações com teorias rivais só avançam depois que o núcleo e seu estatuto epistemológico estiverem estáveis.
+2. **Quatro níveis sempre separados.** Cada afirmação relevante será marcada como: compromisso teórico, hipótese mecanística, operacionalização/proxy ou resultado.
+3. **Regime, não escala universal.** O futuro formalismo descreve posição em um espaço de regimes; não mede uma quantidade absoluta de consciência.
+4. **Resultados negativos permanecem visíveis.** A falha da dissociação sono–vigília após o controle por 1/f limita uma interpretação mecanística; não será reescrita como confirmação.
+5. **Simulação não valida o mundo.** V3, V4 e V5 permanecem provas de conceito sintéticas, com seus alcances próprios.
+6. **Nenhuma escolha pós-hoc entre análises.** Estimandos alternativos serão preservados, rotulados e tratados como análises distintas.
+7. **Referência não substitui argumento.** Toda nova citação será verificada antes de entrar no manuscrito; livros e tradições sociológicas serão apresentados como diálogo conceitual, não como prova neurofenomenológica.
+8. **Sem execução computacional pelo agente.** A V05 pode desenhar, documentar e revisar scripts VNext; execução de novos cálculos continua sendo do autor, com posterior interpretação registrada.
+
+## 3. Linha de base que a V05 não reinterpreta
+
+| Tema | Estado congelado | Consequência editorial inicial |
+|---|---|---|
+| Sono, efeito bruto | LZc/PE separam W e N3 de forma robusta no recompute do projeto. | Relatar como descrição empírica robusta, não como mecanismo isolado. |
+| Sono, controle 1/f | A análise inferencial W/N3 residualizada dá AUC≈0,550 (LZc) e ≈0,580 (PE), sem sobrevivência a FDR. | A forma forte da interpretação mecanística falhou. |
+| Dois estimandos residuais | A análise global por estágios produz AUC residual ≈0,696 para LZc; a análise W/N3 inferencial produz ≈0,550. | Preservar ambos; nomear população, ajuste e finalidade de cada um. Não escolher retrospectivamente. |
+| Índice integração×diferenciação | Não superou sincronia bruta e não sobreviveu ao controle 1/f. | Retirar seu papel de assinatura corroborada; usá-lo como proxy que falhou no teste atual. |
+| Anestesia | A reanálise por responsividade esclarece heterogeneidade, mas não converte o resultado em prova geral da teoria. | Distinguir reanálise/concordância de replicação independente. |
+| V3 | A separação de regimes é robusta a perturbações, mas os pesos são pouco identificáveis pelo AUC avaliado. | V3 é baseline heurístico e prova de conceito, não modelo estimado. |
+| V5 social | O mecanismo de ratificação passou em teste sintético de coordenação com ablação. | É evidência interna da simulação, não demonstração de consciência social humana. |
+
+Fontes de linha de base: `embasamento/registro_falsificabilidade.md`, `CHECKLIST_pendencias.md` (Blocos N, O, Q e R), `scripts_para_rodar/integracao_diferenciada/` e `scripts_para_rodar/estatistica/`.
+
+## 4. Frentes contextuais
+
+| Código | Contexto e capítulos em foco | Mudança planejada | Dependência e critério de encerramento |
+|---|---|---|---|
+| `[ ] A1-8-13-16` | **Núcleo, linguagem de regime e estatuto da tese.** Caps. 1, 8, 13 e Conclusão. | Formular 5–7 postulados canônicos; substituir a leitura de `C` como escalar universal por um espaço vetorial provisório de regimes; criar uma distinção comum entre teoria, mecanismo, proxy e resultado. | Vem antes das demais reescritas. Encerra quando os quatro capítulos usam o mesmo vocabulário e nenhum trata o formalismo como prova ou a consciência como intensidade única. |
+| `[ ] B11-13` | **Evidência empírica, 1/f e anestesia.** Caps. 11 e 13; registro de falsificabilidade. | Documentar os dois estimandos residuais; corrigir a linguagem de residualização e de inferência; qualificar a reanálise de anestesia; definir o problema empírico que VNext deve enfrentar. | Depende da auditoria documental dos scripts e saídas já existentes, sem novo cálculo. Encerra quando texto, registro e checklist apresentam os mesmos números, população analítica e limites. |
+| `[ ] C8-13` | **V3, identificabilidade e formalismo.** Caps. 8 e 13; Bloco Q. | Reclassificar V3 como baseline heurístico; registrar o escopo real da auditoria de sensibilidade/identificabilidade; retirar inferências que os pesos não sustentam; eliminar dupla contagem conceitual de `B` e a circularidade de `Q` como componente e suposta consequência. | Depende de A e B. Encerra quando cada símbolo tem estatuto explícito e o texto distingue robustez de cenário, identificabilidade de parâmetros e validação externa. |
+| `[ ] D4-6-7` | **Agência, automação e evolução.** Caps. 4, 6 e 7. | Trocar a tese temporal forte associada a Libet por uma formulação contextual; articular agência integrada e causalidade estratificada; preservar o limite entre explicação evolutiva funcional e explicação da experiência. | Exige verificação bibliográfica de Libet, Schurger e Maoz. Encerra quando o capítulo não usa potencial de prontidão como prova de que ação sempre precede consciência, nem chama qualia de subproduto resolvido. |
+| `[ ] E2-3-11` | **Corpo, stress e casos de estresse.** Caps. 2, 3 e 11. | Distinguir a tese constitutiva do corpo do grau de suporte empírico atual; evitar que stress, trauma, sonho ou anestesia sejam usados como confirmação automática; manter o corpo como condição organizacional, não como slogan nem condição suficiente demonstrada. | Conversa com B e A. Encerra quando os três capítulos diferenciam evidência, hipótese e programa de teste. |
+| `[ ] F9-13` | **Dimensão social, common knowledge e ratificação.** Caps. 9 e 13. | Substituir a soma `C_hum = C_ind + S` por dimensões não intercambiáveis; separar common knowledge lógico, publicidade, co-ratificação e fenômeno consciente; situar V4/V5 como modelos de coordenação sintética. | Depende da definição vetorial de A. Encerra quando `S` não infla uma escala de consciência fenomenal e sua operacionalização não promete mais que o modelo V5 testou. |
+| `[ ] G10-14` | **FEP e teorias rivais.** Caps. 10 e 14. | Reescrever a crítica ao FEP como problema de alcance, premissas e previsões discriminantes — não como veredito retórico; retirar comparações não demonstráveis de superioridade metodológica; conservar apostas rivais como testes futuros. | Exige validação das novas referências. Encerra quando cada comparação declara convergência, divergência, evidência disponível e teste que poderia desfavorecer a Conscience. |
+| `[ ] H12` | **Fronteira IA e incorporação.** Cap. 12, com ecos em Caps. 2 e 13. | Converter requisitos de corpo, interocepção, alostase, vulnerabilidade e auto-manutenção em dimensões graduais; distingui-los de critérios suficientes de consciência; preservar a diferença entre automação inteligente e experiência situada. | Depende de A e E. Encerra quando LLMs atuais não são antropomorfizados, mas arquiteturas artificialmente corporificadas tampouco recebem consciência por definição. |
+| `[ ] I1-16` | **Matriz de evidências, citações e rastreabilidade.** Introdução, nota metodológica, capítulos, referências e documentos de apoio. | Criar uma matriz de estatuto das teses; corrigir referências incompletas ou não verificadas; harmonizar termos como “confirmada”, “replicação”, “suporte forte” e “prova de conceito”. | Acompanha todas as frentes, mas só encerra após elas. Encerra quando cada alegação central tem fonte, tipo de evidência e limitação localizáveis. |
+| `[ ] J1-16` | **Integração editorial e entrega.** Manuscrito inteiro, README e artefatos derivados. | Revisar transições; reconstruir `Versao atual.md`; verificar referências, numeração, coerência entre capítulos e documentação; preparar changelog V05. | É a última frente. Encerra com `git diff --check`, reconstrução determinística do manuscrito e leitura final de coerência, sem editar diretamente o arquivo agregado. |
+
+## 5. Ordem de execução
+
+1. **A1-8-13-16:** definir o núcleo e a gramática comum da V05.
+2. **B11-13:** fixar de modo auditável o que os dados permitem e não permitem dizer.
+3. **C8-13** e **D4-6-7:** alinhar formalismo, agência e evolução ao núcleo já definido.
+4. **E2-3-11**, **F9-13** e **H12:** revisar extensões corporal, social e artificial sem promovê-las a confirmações.
+5. **G10-14** e **I1-16:** consolidar diálogo com rivais, evidências e referências.
+6. **J1-16:** integrar, reconstruir e verificar o manuscrito.
+
+Nenhuma etapa exige apagar V3, V4, V5, resultados negativos ou arquivos históricos. Mudanças de experimento ficam fora desta sequência editorial e só poderão ser abertas como protocolos VNext separados, com hipótese, estimando, divisão por participante, comparadores adversariais e critério de sucesso/falha definidos antes da execução.
+
+## 6. Contrato para protocolos VNext
+
+Quando a revisão documental chegar a um novo teste, o respectivo protocolo deve declarar antes de qualquer execução:
+
+1. pergunta e estimando primário;
+2. dados, inclusão/exclusão e unidade de divisão — participante, não época;
+3. ajuste por 1/f, com modelo ajustado somente nos dados de treino ou cross-fitting equivalente;
+4. métrica primária, comparadores e análises de sensibilidade;
+5. critério explícito de suporte, resultado inconclusivo ou falha;
+6. distinção entre validação fora da amostra, replicação independente e reanálise do mesmo conjunto;
+7. caminho de saída separado, sem sobrescrever os baselines existentes.
+
+## 7. Registro de mudanças
+
+Cada alteração futura deve registrar, no próprio commit ou em um item deste mapa:
+
+`código` · `data` · `arquivos` · `afirmação alterada` · `tipo de evidência` · `motivo` · `verificação`.
+
+O `CHECKLIST_pendencias.md` continua sendo o histórico granular de tarefas e execuções. Este mapa é a camada estratégica da V05: ele define **por que** e **em que ordem** as mudanças acontecem.
