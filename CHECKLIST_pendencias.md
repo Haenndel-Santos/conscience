@@ -212,6 +212,14 @@ A seu pedido explícito (2026-08-10), depois de eu sinalizar que "o texto do man
 - [x] **S4 (Referências).** Adicionadas 31 (Höhn et al. 2024) e 32 (Newman et al. 2026) a `capitulos/16_referencias.md`, com nota de verificação. Corrigida, de passagem, uma nota de rodapé desatualizada que ainda dizia "$S(t)$ e $\mathcal{C}_{hum}$ ainda não são simulados" — não refletia nem o V4, quanto mais o V5. 🤖
 - [x] **S5.** `Versao atual.md` reconstruído via `capitulos/build_manuscript.py` (25 linhas alteradas, 20 inserções). Nenhuma edição direta no arquivo único. 🤖
 
+## Bloco U — Revisão V05 (Frentes A e B) → **em andamento**
+
+A pedido explícito do autor (2026-08-11): "leia [`MAPA_TRABALHO_Conscience_V05.md`] e use múltiplos agentes para atacar as frentes necessárias". O mapa é a camada estratégica desta revisão; este bloco é o registro granular correspondente (ver `MAPA_TRABALHO_Conscience_V05.md` para status por frente). `A` e `B` são sequenciais e fundacionais — feitas diretamente, sem agente, porque tudo depois depende delas. `C` e `D` são o primeiro ponto real de bifurcação do mapa; despachadas como agentes paralelos a seguir.
+
+- [x] **U-A (Frente A1-8-13-16).** 7 postulados canônicos com nível explícito (compromisso teórico/hipótese mecanística/proxy/resultado) adicionados ao Cap. 13; $\mathcal{C}(t)$ redefinido como projeção de um espaço de regimes provisório $\vec{C}(t)=(\Psi_{\text{eff}},\mathcal{M},V,S)$, não mais o construto primário. Cap. 1 e Conclusão cross-referenciam; Cap. 8 ganhou distinção robustez-de-cenário vs. identificabilidade-de-parâmetro. 🤖
+- [x] **U-B (Frente B11-13).** Cap. 11 e `registro_falsificabilidade.md` (entrada 1.2) agora documentam os dois estimandos da AUC residualizada por 1/f — por época (≈0,696/0,602) e por sujeito/inferencial (≈0,550/0,580) — sem escolha post-hoc, com nota de qual sustenta inferência válida. Entrada D.1 (anestesia) reclassificada de "replica" para "concorda com... reanálise do mesmo dado-fonte, não replicação independente". Problema para protocolo VNext nomeado no Cap. 11 (ajuste 1/f fora da amostra, divisão por participante). 🤖
+- [ ] **U-C/D (Frentes C8-13, D4-6-7).** Despachadas como agentes paralelos — ver relatório a seguir nesta sessão. 🤖 (em execução)
+
 ## Bloco T — Frente B integrada como Cap. 14 (verificação por múltiplos agentes + capítulo novo) → **concluído**
 
 A seu pedido explícito (2026-08-11): "use múltiplos agentes para fazer as verificações necessárias e após isso pode escrever outro capítulo para registrar". Segue a recomendação que eu tinha dado (capítulo novo dedicado, não fragmentos distribuídos) e a mesma disciplina de citação do resto do projeto.
