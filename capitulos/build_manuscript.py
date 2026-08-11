@@ -28,8 +28,9 @@ ORDER = [
     "12_capitulo_11.md",
     "13_capitulo_12.md",
     "14_capitulo_13.md",
-    "15_conclusao.md",
-    "16_referencias.md",
+    "15_capitulo_14.md",
+    "16_conclusao.md",
+    "17_referencias.md",
 ]
 
 
