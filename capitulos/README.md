@@ -19,8 +19,9 @@ Cada capítulo do manuscrito *Consciência como Regime Integrado* vive em um arq
 | [12_capitulo_11.md](12_capitulo_11.md) | Cap. 11 — Sonho, anestesia, psicodélicos, animais e trauma como testes de estresse da teoria |
 | [13_capitulo_12.md](13_capitulo_12.md) | Cap. 12 — Consciência biológica e inteligência artificial |
 | [14_capitulo_13.md](14_capitulo_13.md) | Cap. 13 — Esboço formal revisado |
-| [15_conclusao.md](15_conclusao.md) | Conclusão |
-| [16_referencias.md](16_referencias.md) | Referências (28 itens numerados) |
+| [15_capitulo_14.md](15_capitulo_14.md) | Cap. 14 — Posicionamento frente a teorias rivais da consciência |
+| [16_conclusao.md](16_conclusao.md) | Conclusão |
+| [17_referencias.md](17_referencias.md) | Referências (48 itens numerados) |
 
 ## Origem e histórico
 
