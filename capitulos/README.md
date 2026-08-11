@@ -21,7 +21,7 @@ Cada capítulo do manuscrito *Consciência como Regime Integrado* vive em um arq
 | [14_capitulo_13.md](14_capitulo_13.md) | Cap. 13 — Esboço formal revisado |
 | [15_capitulo_14.md](15_capitulo_14.md) | Cap. 14 — Posicionamento frente a teorias rivais da consciência |
 | [16_conclusao.md](16_conclusao.md) | Conclusão |
-| [17_referencias.md](17_referencias.md) | Referências (48 itens numerados) |
+| [17_referencias.md](17_referencias.md) | Referências (50 itens numerados) |
 
 ## Origem e histórico
 
