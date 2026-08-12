@@ -7,7 +7,7 @@ Total de epocas: 39086
 Ordenacao por LZc (maior->menor): ['W', 'N1', 'REM', 'N2', 'N3']
 Ordenacao por PE  (maior->menor): ['W', 'N1', 'REM', 'N2', 'N3']
 Correlacao de Spearman entre as ordenacoes por estagio: 1.0000
-Correlacao de Spearman epoca-a-epoca (LZc vs PE, todas as epocas): 0.7235
+Correlacao de Spearman epoca-a-epoca (LZc vs PE, todas as epocas): 0.7226
 
 AUC W-vs-N3 (LZc): 0.9919
 AUC W-vs-N3 (PE):  0.9840

@@ -7,20 +7,20 @@ Total de épocas com 1/f válido: 39086
 
 ## AUC W-vs-N3 (bruta vs. residualizada por 1/f)
                   metrica  auc_w_vs_n3_bruta  auc_w_vs_n3_residualizada_1f
-                      lzc           0.991887                      0.696020
-                       pe           0.983977                      0.601674
-              exponent_1f           0.006084                           NaN
-               sync_bruta           0.148172                      0.593776
-            integracao_mi           0.198268                      0.593964
-indice_integ_diferenciada           0.217960                      0.596409
+                      lzc           0.991901                      0.697609
+                       pe           0.984022                      0.604278
+              exponent_1f           0.006025                           NaN
+               sync_bruta           0.148172                      0.595139
+            integracao_mi           0.198268                      0.593812
+indice_integ_diferenciada           0.222870                      0.597033
 
 ## Correlação de Spearman com estágio (bruta vs. parcial controlando 1/f)
                   metrica  spearman_bruta  spearman_parcial_1f
-                      lzc        0.682895            -0.009832
-                       pe        0.737319             0.084523
-               sync_bruta       -0.429789            -0.106897
-            integracao_mi       -0.413935            -0.061482
-indice_integ_diferenciada       -0.392099            -0.065446
+                      lzc        0.683449            -0.010070
+                       pe        0.737917             0.087933
+               sync_bruta       -0.429789            -0.105346
+            integracao_mi       -0.413935            -0.061783
+indice_integ_diferenciada       -0.386795            -0.066612
 
 ## Leitura (preencher/revisar após rodar — não inventar conclusão aqui)
 - Se `auc_w_vs_n3_residualizada_1f` de `lzc`/`pe`/`indice_integ_diferenciada` permanecer

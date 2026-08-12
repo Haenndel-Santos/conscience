@@ -6,7 +6,8 @@ Conscience is an early-stage project for integrated consciousness theory, concep
 
 - `.codex/` contains project guidance, workflow notes, and local agent skills.
 - `dados atuais/` contains current simulation scripts, CSV tables, and generated figures used as part of the project baseline.
-- `Versao atual.txt` contains the current manuscript or theory draft.
+- `capitulos/` contains the source files of the manuscript; `Versao atual.md` is the generated full draft.
+- `MAPA_TRABALHO_Conscience_V05.md` is the active context-based revision map. `PLANO_ESTRATEGICO_cientifico.md` remains the historical strategic plan.
 
 ## Status
 

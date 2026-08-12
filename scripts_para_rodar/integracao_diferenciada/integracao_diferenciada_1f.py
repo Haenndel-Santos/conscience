@@ -133,8 +133,13 @@ def aperiodic_exponent(x: np.ndarray, sfreq: float) -> float | None:
     try:
         fm = FOOOF(peak_width_limits=(1.0, 8.0), max_n_peaks=6, aperiodic_mode="fixed", verbose=False)
         fm.fit(freqs, psd, FIT_FREQ_RANGE)
-        # aperiodic_params_ = [offset, exponent] no modo 'fixed'
-        return float(fm.aperiodic_params_[1])
+        # BUGFIX (2026-08-12): a API diverge entre fooof (atributo `.aperiodic_params_`)
+        # e seu sucessor specparam (metodo `.get_params(...)`) -- sem este fallback, todo
+        # ajuste falhava silenciosamente (AttributeError capturado pelo except abaixo),
+        # retornando None em 100% das epocas quando so specparam esta instalado.
+        if hasattr(fm, "aperiodic_params_"):
+            return float(fm.aperiodic_params_[1])  # aperiodic_params_ = [offset, exponent] no modo 'fixed'
+        return float(fm.get_params("aperiodic", "exponent"))
     except Exception:
         return None
 
@@ -183,8 +188,18 @@ def process_subject(psg_path: str, hyp_path: str, subject_id: int) -> pd.DataFra
 
     ch_types = raw.get_channel_types()
     eeg_picks = [ch for ch, t in zip(raw.ch_names, ch_types) if t == "eeg"]
+    # BUGFIX (2026-08-12): infer_types=True rotula erroneamente o canal 'Event marker'
+    # (gatilho/anotacao, nao sinal cerebral -- valores na faixa ~900-1000, escala
+    # incompativel com EEG real) como tipo "eeg" em todo o Sleep-EDF Cassette. Sem este
+    # filtro, ele entrava como 3o "canal" em sync_bruta/integracao_mi/lzc/pe/exponent_1f
+    # em 100% das epocas de todos os sujeitos ja processados por este script (achado
+    # confirmado em 2026-08-12 ao comparar contra um recompute limpo de 2 canais para o
+    # teste de LZc multivariada pedido pelo parecer de neurociencia). Restringe
+    # explicitamente ao whitelist dos 2 canais EEG reais deste dataset, independente do
+    # que infer_types rotulou.
+    eeg_picks = [ch for ch in eeg_picks if ch in ("Fpz-Cz", "Pz-Oz")]
     if not eeg_picks:
-        eeg_picks = [ch for ch in raw.ch_names if ("EEG" in ch) or ("Fpz-Cz" in ch) or ("Pz-Oz" in ch)]
+        eeg_picks = [ch for ch in raw.ch_names if ch in ("Fpz-Cz", "Pz-Oz")]
     if not eeg_picks:
         raise RuntimeError(f"Nenhum canal EEG em {psg_path}")
     raw.pick(eeg_picks)

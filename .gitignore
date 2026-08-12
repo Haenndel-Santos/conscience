@@ -63,3 +63,4 @@ data/raw/
 recompute_empirico*/raw/
 recompute_empirico*/*_cache/
 recompute_empirico*/**/*-download/
+.cache_sleepedf/
