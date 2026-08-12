@@ -91,9 +91,17 @@ def process_subject(psg_path: str, hyp_path: str, subject_id: int) -> pd.DataFra
 
     ch_types = raw.get_channel_types()
     eeg_picks = [ch for ch, t in zip(raw.ch_names, ch_types) if t == "eeg"]
+    # BUGFIX (2026-08-12): infer_types=True rotula erroneamente o canal 'Event marker'
+    # (gatilho/anotacao, nao sinal cerebral -- valores na faixa ~900-1000, escala
+    # incompativel com EEG real) como tipo "eeg" em todo o Sleep-EDF Cassette. Sem este
+    # filtro, ele entrava na media de lzc/pe junto dos 2 canais reais em 100% das
+    # epocas de todos os sujeitos ja processados, distorcendo lzc e (por downstream)
+    # qualquer analise que dependa dele. Restringe explicitamente ao whitelist dos 2
+    # canais EEG reais deste dataset, independente do que infer_types rotulou.
+    eeg_picks = [ch for ch in eeg_picks if ch in ("Fpz-Cz", "Pz-Oz")]
     if not eeg_picks:
         # Fallback: nomes conhecidos do Sleep-EDF quando infer_types nao rotula como eeg.
-        eeg_picks = [ch for ch in raw.ch_names if ("EEG" in ch) or ("Fpz-Cz" in ch) or ("Pz-Oz" in ch)]
+        eeg_picks = [ch for ch in raw.ch_names if ch in ("Fpz-Cz", "Pz-Oz")]
     if not eeg_picks:
         raise RuntimeError(f"Nenhum canal EEG encontrado em {psg_path}: {list(zip(raw.ch_names, ch_types))}")
     raw.pick(eeg_picks)

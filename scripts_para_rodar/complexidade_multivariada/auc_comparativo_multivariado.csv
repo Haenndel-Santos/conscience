@@ -1,0 +1,7 @@
+metrica,descricao,tipo,auc_epoca_pooled_ingenua,auc_bootstrap_sujeito,ic95_low,ic95_high,p_valor_bootstrap,n_sujeitos,p_valor_fdr_bh
+lzc_mean_channels,LZc média por canal (comparador já existente),bruta,0.9919014661523413,0.9919014661523413,0.9864810767263581,0.9956729122791624,0.0,36,0.0
+lzc_mean_channels,LZc média por canal (comparador já existente),residualizada_1f_in_sample,0.5504462821054115,0.5504462821054115,0.459213674976555,0.6340444575183295,0.296,36,0.375
+lzc_mean_channels,LZc média por canal (comparador já existente),residualizada_1f_out_of_sample_5fold,,0.5538856326911941,0.45473634466617896,0.6385037701779205,0.302,36,0.375
+lzc_multivariado,LZc multivariada (concatenação binária dos 2 canais),bruta,0.9918882192155579,0.9918882192155579,0.9869523974068942,0.9956457875862733,0.0,36,0.0
+lzc_multivariado,LZc multivariada (concatenação binária dos 2 canais),residualizada_1f_in_sample,0.5454442726339787,0.5454442726339787,0.45383279046027564,0.6273304037980452,0.375,36,0.375
+lzc_multivariado,LZc multivariada (concatenação binária dos 2 canais),residualizada_1f_out_of_sample_5fold,,0.5490591768740027,0.45653550276815147,0.6329908584408769,0.335,36,0.375
