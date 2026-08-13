@@ -1,0 +1,856 @@
+# Protocolo VNext-01 — Irreversibilidade temporal e normalização por surrogates de fase no EEG humano de sono
+
+**Estatuto:** protocolo prospectivo congelado — *timestamped preregistration draft* —, **não
+executado**. A distinção é deliberada e vale ser mantida: este documento é congelado antes de
+qualquer análise e sua data fica registrada no histórico do repositório, o que é boa evidência
+temporal, mas **não é um pré-registro depositado**. Branches podem ser reescritas; um commit em
+`main` é bem mais forte que um em branch de trabalho, e ainda assim não equivale a um registro em
+plataforma própria. Antes de qualquer publicação derivada deste protocolo, depositar esta versão
+congelada em **OSF ou Zenodo**, com DOI permanente, e citar o DOI aqui. Onde o texto abaixo usa
+"pré-registrado" e "pré-registro", leia-se no sentido de disciplina metodológica — fixar decisões
+antes de ver o dado —, não no sentido de depósito formal já realizado. Escrito em 2026-08-13 por agente, sob a
+regra 0.1 do `PLANO_ESTRATEGICO_cientifico.md` (agentes escrevem cálculo, não executam cálculo).
+Nenhum número deste documento é resultado: os números citados vêm de arquivos do projeto, com a
+fonte indicada em cada caso, ou são **estipulações de desenho** explicitamente marcadas como tais.
+
+**Contrato que este documento cumpre:** os sete itens da §6 do `MAPA_TRABALHO_Conscience_V05.md`,
+reproduzidos como seções §2 a §8, na ordem original.
+
+**Regra de congelamento.** Este arquivo deve ser commitado *antes* de qualquer execução. A partir do
+commit de congelamento, toda alteração entra na §16 (registro de emendas) com data, motivo e se
+ocorreu antes ou depois de o autor ter visto qualquer resultado da fase correspondente. Uma emenda
+posterior à visualização de resultados não invalida o protocolo, mas rebaixa a análise afetada de
+confirmatória a exploratória — sem exceção.
+
+---
+
+## 1. O impasse que este protocolo ataca
+
+O projeto tem um resultado bruto forte e uma interpretação mecanística falhada. LZc e entropia de
+permutação separam vigília de sono profundo com AUC por sujeito de 0,991 (n=36, `resultados_por_sujeito.csv`);
+residualizadas pelo expoente aperiódico fora da amostra, caem para 0,500 [0,425–0,577], p=0,96 — o acaso
+quase exato. As predições 1.2, 1.3 e 1.3b estão ❌ FALHOU no `registro_falsificabilidade.md`.
+
+Três fatos impedem tratar isso como questão encerrada, e um quarto impede tratá-la como reaberta
+de qualquer maneira.
+
+**Primeiro: o poder.** No tamanho de efeito observado (dz=−0,099) o teste tinha 16,7% de poder
+(`nota_calibracao_teste.md`, v3, n_sim=2000). Um nulo obtido com 16,7% de poder é ausência de
+evidência. Ele é decisivo contra um mecanismo de efeito grande (91% de poder em dz≥0,5) e mudo
+contra um efeito pequeno.
+
+**Segundo: a medida não foi a medida.** A Frente C foi desenhada para operar a alegação-assinatura
+da teoria — integração alta *e* diferenciação alta simultaneamente — com **medidas grafo-teóricas de
+integração e segregação**. O Sleep-EDF Cassette tem 2 canais reais de escalpo (Fpz-Cz, Pz-Oz), o que,
+como o próprio cabeçalho de `integracao_diferenciada_1f.py` declara, "NÃO permite medidas
+grafo-teóricas de integração/segregação multi-região (que exigiriam ≥8-16 canais/ROIs)". O que foi
+testado foi um proxy declaradamente degradado: informação mútua × entropia de permutação entre dois
+eletrodos. A predição 1.3 falhou **com esse proxy**, e é honesto registrar que ela nunca foi testada
+com a medida para a qual foi formulada.
+
+**Terceiro: o controle é o mínimo da área.** O padrão metodológico é normalização por surrogates de
+fase, que preserva o espectro inteiro; o projeto usa residualização por FOOOF, que remove apenas o
+expoente (`nota_estado_da_arte_1f.md`, §3).
+
+**Quarto, e em sentido contrário: refazer 1.2 em dataset maior seria replicar o já replicado.**
+Maschke et al. (2025) fizeram exatamente esse teste com 225 pacientes e 256 canais e obtiveram o
+mesmo colapso — r(197)=0,86 entre expoente e LZc, valor diagnóstico da LZc desaparecendo na
+correlação parcial, r caindo a 0,24 sob surrogates de fase. A linha de fuga "faltou resolução
+espacial" não se sustenta **para 1.2**.
+
+Esta última conclusão é sólida e **não se transfere para 1.3**. São perguntas diferentes que a
+`nota_estado_da_arte_1f.md` trata como uma só, e essa é a confusão que este protocolo desfaz:
+
+| | 1.2 | 1.3 |
+|---|---|---|
+| Pergunta | a complexidade de sinal sobrevive ao controle aperiódico? | integração diferenciada supera sincronia bruta? |
+| Medida exigida | LZc/PE, univariada | integração vs. segregação em rede |
+| Canais necessários | 1–2 bastam | ≥8–16 |
+| Estado | testada, falhou, **replicada externamente em escala** | testada só por proxy de 2 canais; **nunca testada com a medida que a define** |
+| Refazer em dataset maior | replicaria o já replicado | é o primeiro teste adequado |
+
+O protocolo tem, portanto, dois braços com estatutos distintos, e uma prioridade lógica entre eles.
+
+---
+
+## 2. Contrato, item 1 — Pergunta e estimando primário
+
+### 2.1 A pergunta
+
+**Existe, no EEG humano de sono, estrutura temporal que discrimine vigília de sono profundo e que
+seja inacessível, por construção, a qualquer descrição linear-gaussiana estacionária do sinal — isto
+é, a qualquer descrição que o espectro de potência já esgote?**
+
+A pergunta é deliberadamente mais fraca do que a alegação-assinatura da teoria. Ela não pergunta se
+há integração diferenciada; pergunta se há **qualquer coisa** além da assinatura espectral. É a
+pergunta que o impasse atual torna primeira: enquanto ela não for respondida, toda medida candidata
+de complexidade permanece sob a suspeita que Maschke et al. (2025) e Berger et al. (2017)
+levantaram, e nenhuma delas tem, na literatura publicada, demonstração de que sobrevive ao controle
+aperiódico (`nota_estado_da_arte_1f.md`, §4).
+
+### 2.1.1 O que um resultado positivo autoriza concluir — e o que não
+
+Esta restrição é vinculante para todo o documento e para qualquer relatório derivado dele. Um
+resultado positivo significa, exatamente:
+
+> **existe estrutura temporal incompatível com o nulo IAAFT — isto é, com a classe de descrições
+> lineares-gaussianas-estacionárias que esse nulo representa.**
+
+Não significa "encontramos não linearidade", e menos ainda "encontramos a não linearidade da
+consciência". A irreversibilidade temporal é **sensível a mais de uma causa**, e o nulo IAAFT é uma
+classe de hipóteses, não uma única. Um positivo é compatível com pelo menos quatro origens que este
+desenho não separa entre si: dinâmica genuinamente não linear; **não estacionariedade** dentro da
+época; **assimetria de forma de onda** (a onda lenta do sono profundo é o caso óbvio, e a §14.2 já a
+nomeia como a explicação alternativa mais provável de um resultado direcionalmente invertido); e
+dependências temporais de ordem superior que o nulo preserva mal. As duas primeiras já constam como
+ameaças pré-declaradas em §14 — a linguagem da conclusão precisa ser consistente com essa cautela,
+e não mais forte que ela.
+
+Consequência prática: nenhum relatório deste protocolo deve escrever "estrutura não linear" onde o
+que foi testado é "incompatibilidade com o nulo IAAFT". Separar as quatro origens acima é trabalho
+de um protocolo posterior, com nulos adicionais desenhados para discriminá-las — e é uma pergunta
+logicamente anterior a qualquer alegação sobre integração diferenciada, que por sua vez é anterior
+a qualquer alegação sobre consciência. A ordem é: existe excedente sobre o espectro → de que tipo é
+o excedente → ele é de rede → ele corresponde ao mecanismo que a teoria propõe. Este protocolo
+responde apenas ao primeiro elo.
+
+### 2.2 O estimando primário
+
+**Estimando:** a média, na população de adultos saudáveis registrados em polissonografia noturna, da
+área sob a curva ROC calculada **dentro de cada participante**, discriminando épocas de vigília de
+épocas de sono profundo pela **irreversibilidade temporal normalizada por surrogates IAAFT** do sinal
+de escalpo.
+
+**Unidade de amostragem:** o participante. **Unidade de observação:** a época de 30 s.
+
+**Direção pré-declarada:** a vigília é a classe positiva. A teoria prevê AUC > 0,5 — vigília
+temporalmente **mais irreversível** que sono profundo. Um resultado AUC < 0,5 com discriminação forte
+é falsificação direcional, não sucesso, e a §14.2 já registra qual é a explicação alternativa
+disponível para ele antes de ele acontecer.
+
+### 2.3 Por que irreversibilidade, e por que ela resolve o que a residualização não resolve
+
+O argumento é matemático antes de ser empírico. Processos lineares gaussianos estacionários são
+reversíveis no tempo (Weiss 1975, *J Appl Probab* 12:831 — referência ainda **não reverificada pelo
+autor**, ver §15, Fase 0). Um surrogate que preserva o espectro de potência e a distribuição de
+amplitudes preserva, portanto, tudo que uma descrição linear-gaussiana pode conter, e tem
+irreversibilidade nula em expectativa. Segue que:
+
+**O controle aperiódico deixa de ser um teste estatístico e passa a ser uma propriedade da medida.**
+Não se residualiza nada. Não se condiciona a nada. Não se pergunta se o expoente é mediador ou
+confundidor, porque o expoente não entra na conta — ele está integralmente preservado no nulo. A
+estatística normalizada mede exatamente o excedente sobre o que o espectro explica, seja qual for o
+papel causal do espectro.
+
+Isso é o oposto do que a residualização faz. A residualização remove variância compartilhada, e
+remover variância compartilhada com um mediador é sobrecontrole — o problema que a
+`nota_estado_da_arte_1f.md` identifica como lacuna genuína e sem discussão publicada em EEG de
+consciência. Ver §11.
+
+Há dois custos honestos nessa troca, declarados aqui e não descobertos depois. O primeiro é que a
+premissa de estacionariedade é uma idealização, e sua violação é a principal ameaça ao desenho
+(§14.1). O segundo é que irreversibilidade **não é** integração diferenciada: ela testa se existe
+algo além do espectro, não se esse algo é o que a teoria diz. Um resultado positivo aqui não
+confirma o Postulado 3; abre a possibilidade de testá-lo. Este protocolo não usará linguagem que
+sugira o contrário em nenhuma circunstância.
+
+---
+
+## 3. Contrato, item 2 — Dados, inclusão/exclusão e unidade de divisão
+
+### 3.1 Braço A — Sleep-EDF Cassette (dado em disco)
+
+**Fonte:** `dados_sleepedf/physionet-sleep-data/`, 39 pares PSG/Hipnograma em cache local. Canais
+`Fpz-Cz` e `Pz-Oz`, 100 Hz, épocas de 30 s, filtro 0,5–40 Hz — as mesmas convenções de
+`analise_sono_v2.py` e `integracao_diferenciada_1f.py`, deliberadamente não alteradas, para que os
+números novos sejam comparáveis com a linha de base.
+
+**Inclusão/exclusão, herdada e agora declarada explicitamente:** dos 41 índices solicitados na rodada
+original, 2 não existem no dataset e 3 dos 39 registros restantes não têm épocas de N3, o que dá o
+n=36 usado em todo o projeto (`CHECKLIST_pendencias.md`, linha do Bloco K: "3 sujeitos sem N3;
+2 índices ausentes do dataset"). Este protocolo mantém **os mesmos 36 participantes**, e a razão é
+metodológica, não de conveniência: qualquer alteração da amostra tornaria a comparação com
+AUC=0,991 bruta e 0,500 residual não interpretável. A exclusão por ausência de N3 é uma exclusão
+condicionada ao desfecho e deve ser reportada como tal em qualquer publicação.
+
+**Épocas por condição, na linha de base:** 8.923 de vigília contra 3.972 de N3, razão 2,25:1, mínimo
+de 128 e mediana de 312 épocas por participante (`resumo_teste_calibrado.md`). Esse desequilíbrio é
+exatamente o que invalidou o teste antigo e é irrelevante para o teste calibrado, por construção.
+
+**Unidade de divisão: o participante.** Sempre. Toda partição de validação cruzada particiona
+participantes, nunca épocas — a correção registrada em Z1, onde a guarda contava épocas e o `KFold`
+particionava sujeitos, é precedente suficiente para tornar isso explícito.
+
+### 3.2 A questão da vigília ativa (Z12) e por que ela **não** altera o contraste primário
+
+O corte atual mantém ±30 min em torno do primeiro e do último estágio anotado
+(`analise_sono_v2.py`, linhas 66–72). Os arquivos SC são gravações de ~20 h em atividade diurna
+normal, e não está verificado se os hipnogramas cobrem essas 20 h. Detalhe do próprio código que
+sugere — sem provar — que cobrem: o corte ancora em `sleep_annots[1]` e `sleep_annots[-2]`, isto é,
+**pula deliberadamente a primeira e a última anotação pontuada**, o que só faz sentido se elas forem
+blocos longos de vigília. Isso é uma leitura de código, não uma verificação: quem decide é a checagem
+de Z12, executada pelo autor.
+
+A tentação é fazer o contraste primário depender do resultado dessa checagem. **O protocolo recusa
+isso**, por duas razões. A primeira é forking path: deixar o denominador da comparação ser escolhido
+depois de olhar o dado é precisamente o que um pré-registro existe para impedir. A segunda é que
+recuperar vigília diurna não é um ganho limpo — troca um problema por outro. A vigília do corte atual
+é o período calmo em torno do sono, o que já explicou a falha do proxy de EMG (Z5); a vigília diurna
+está separada do sono profundo por muitas horas, e portanto difere dele também em hora do dia,
+tempo desde a colocação dos eletrodos, deriva de impedância e contaminação por movimento e EMG — um
+confundidor **perfeitamente alinhado ao contraste**, e a literatura já registra que a contaminação
+por EMG derruba LZc e inclinação juntas (Halder et al. 2026, em `nota_estado_da_arte_1f.md`, §5).
+
+Decisão pré-registrada:
+
+- **Contraste primário: W(calmo) vs N3**, na definição atual, sem alteração. É onde a linha de base
+  existe e onde o valor incremental da medida nova é mensurável.
+- **Contraste secundário confirmatório: W(ativo) vs N3**, executado **somente se** a checagem de Z12
+  atingir o critério de suficiência estipulado abaixo, com critério de sucesso próprio (§6.3) e com
+  os controles de deriva do §14.3.
+- **Divergência entre os dois é achado, não menu.** Se a irreversibilidade discriminar num contraste
+  e não no outro, isso é informação sobre a condição de vigília do dataset e será reportado assim.
+
+**Critério de suficiência para Z12 (estipulado, fixado antes de olhar):** o braço W(ativo) só é
+executado se, em pelo menos **30 dos 36 participantes**, existirem **≥30 épocas** (15 min) anotadas
+como vigília fora da janela de ±30 min do corte atual, após rejeição de artefato. Os dois números são
+estipulações de desenho; sua única exigência é estarem fixados antes da checagem, e estão.
+
+### 3.3 Braço B — dataset multicanal
+
+Ver §12, onde a escolha é decidida e justificada, com a alternativa que foi preterida e por quê.
+
+---
+
+## 4. Contrato, item 3 — Ajuste por 1/f, treino separado ou cross-fitting
+
+O contrato exige declarar o ajuste por 1/f com modelo estimado apenas em dados de treino. Este
+protocolo **cumpre o item declarando que o rebaixa**, e a justificativa precisa ficar registrada
+porque é uma mudança de estratégia, não um esquecimento.
+
+A residualização por FOOOF deixa de ser o controle primário. Ela permanece no desenho em três papéis
+subordinados, e em todos eles com a mesma convenção de fora da amostra que o projeto já adota — ajuste
+linear métrica~expoente estimado por validação cruzada de 5 partições **sobre participantes**, nunca
+sobre épocas, com o modelo de cada partição de teste treinado exclusivamente em participantes das
+outras partições (`teste_auc_por_sujeito.py`; `integracao_diferenciada_1f.py`):
+
+1. **Comparabilidade histórica.** Os comparadores LZc e PE são recomputados nas mesmas épocas, brutos
+   e residualizados fora da amostra, para verificar que o pipeline novo reproduz a linha de base
+   (§5.4, controle positivo).
+2. **Banda de ajuste inalterada:** 1–40 Hz (`FIT_FREQ_RANGE`), limitada pelo filtro de 0,5–40 Hz já
+   aplicado. Ver §13.1 sobre por que 30–45 Hz não é uma opção sob o pipeline atual.
+3. **Convenção de ordem, documentada porque já custou uma conclusão errada:** filtrar o par de
+   estados primeiro, residualizar depois. Residualizar sobre os cinco estágios antes de filtrar W/N3
+   produziu uma AUC espúria de 0,648 que parecia reverter 1.2 (`nota_calibracao_teste.md`, §4).
+
+E fica registrado o que substitui a residualização como controle primário: **o nulo generativo IAAFT**
+(Schreiber & Schmitz 1996), que preserva simultaneamente o espectro de potência e a distribuição de
+amplitudes. Não há "ajuste em treino" a declarar aqui porque não há ajuste: o nulo é gerado da própria
+época, época a época, e a estatística é normalizada contra o ensemble da própria época. Não existe
+vazamento entre participantes possível nessa operação — o que é uma vantagem estrutural, não um
+detalhe.
+
+---
+
+## 5. Contrato, item 4 — Métrica primária, comparadores e análises de sensibilidade
+
+### 5.1 Métrica primária
+
+**Irreversibilidade temporal por assimetria de padrões ordinais, normalizada por ensemble IAAFT.**
+
+Para cada época e cada canal, compara-se a distribuição de padrões ordinais da série com a
+distribuição de padrões ordinais da mesma série invertida no tempo; a estatística é a divergência
+entre as duas. A escolha do estimador é justificada por três coisas: reutiliza a maquinaria ordinal
+que o projeto já usa em `pe_epoch` (ordem 3, atraso 1, `antropy`), funciona com 1 canal, e é
+invariante a qualquer transformação monótona da amplitude — o que a torna a companheira natural do
+IAAFT, que preserva exatamente a distribuição de amplitudes.
+
+Parâmetros pré-declarados: **ordem m=4, atraso τ=1**, sobre épocas de 30 s a 100 Hz (3.000 amostras,
+o que dá em média 125 contagens por padrão com 24 padrões — margem confortável de estimação; a ordem
+5, com 120 padrões, ficaria em ~25 contagens e não é usada como primária por isso). Média dos 2
+canais, seguindo a convenção do projeto para LZc/PE.
+
+**Normalização:** para cada época, gera-se um ensemble de **99 surrogates IAAFT** e reporta-se
+Δ_norm = (Δ_obs − média(Δ_surr)) / desvio-padrão(Δ_surr). A normalização não é cosmética: todo
+estimador de divergência por plug-in é não negativo e enviesado para cima em amostra finita, de modo
+que Δ_obs é positivo mesmo em dados perfeitamente reversíveis. **É o ensemble que define o zero.**
+É também por isso que Z10 e Z11 não são duas pendências espremidas no mesmo protocolo: sem o
+surrogate, a medida de Z11 não tem escala interpretável.
+
+O número 99 é estipulação. O autor deve rodar uma smoke test com `--n-subjects 3` antes da amostra
+cheia — convenção já estabelecida em `README_como_rodar.md` da Frente C — e, se o tempo de parede
+inviabilizar a rodada completa, reduzir o ensemble **antes** de vê-lo, registrando a mudança na §16.
+Ordem de grandeza a dimensionar na smoke test: as 12.895 épocas de W/N3 × 2 canais × 99 surrogates
+são ~2,55 milhões de gerações de surrogate.
+
+### 5.2 Teste estatístico
+
+O teste calibrado do projeto, sem alteração: AUC calculada **dentro** de cada participante (épocas de
+W dele contra épocas de N3 dele), seguida de Wilcoxon dos postos sinalizados dessas 36 AUCs contra
+0,5, com o teste-t de uma amostra ao lado como referência, e IC 95% por bootstrap sobre
+participantes. Correção FDR dentro da família declarada na §5.5.
+
+**Pré-requisito bloqueante:** o desenho novo passa antes pela calibração por permutação de rótulos
+dentro de participante (`varredura_desenhos.py`), e o erro tipo I empírico precisa cair na janela
+**2,0%–8,5%**, que é a faixa que o projeto já aceitou para os 15 desenhos existentes
+(`nota_calibracao_teste.md`, §3). Fora dessa janela, os p-valores do braço não são interpretados até
+o desenho ser corrigido. Isso não é formalidade: foi exatamente essa checagem que expôs um desenho
+rejeitando 100% das vezes sob o nulo.
+
+### 5.3 Comparadores adversariais
+
+Um teste sem comparador adversarial não decide nada. Todos são calculados nas **mesmas épocas**, com
+o **mesmo teste**, e entram na mesma família de FDR:
+
+| Comparador | Papel | O que significa se ele empatar ou vencer |
+|---|---|---|
+| LZc bruta | controle positivo do pipeline | deve reproduzir ≈0,991; se não, o pipeline está quebrado e nada se interpreta |
+| LZc residualizada fora da amostra | linha de base do impasse | deve reproduzir ≈0,500 |
+| **LZc normalizada por IAAFT** | o padrão da área (Z10) | se discriminar onde a residualizada não discrimina, a diferença é sobre o controle, não sobre a teoria |
+| Expoente aperiódico sozinho | o rival | se a irreversibilidade não superá-lo, não há excedente a alegar |
+| **Irreversibilidade dos próprios surrogates** | controle negativo | tem de dar ≈0,5 por construção; se não der, o gerador de surrogate está errado |
+
+A inclusão da LZc normalizada por IAAFT tem **expectativa pré-declarada de resultado nulo**: Maschke
+et al. (2025) já mostraram r caindo a 0,24 sob surrogates de fase, e o IAAFT é um nulo mais estrito
+que a residualização por FOOOF, porque preserva também os picos oscilatórios (alfa, sigma) que a
+residualização deixa passar. Esperar que ela discrimine seria esperar contra a literatura e contra a
+própria linha de base do projeto. Ela entra como **análise de comparabilidade** — para que os números
+do projeto possam ser postos ao lado de Schartner (2017), Toker (2022) e Maschke (2025) —, não como
+uma segunda chance da mesma hipótese. Declarar isso antes é o que impede que um acaso favorável nessa
+linha seja lido depois como resgate.
+
+### 5.4 Controles de integridade, executados e reportados antes do desfecho primário
+
+Nenhum resultado primário é interpretado antes de os dois controles da tabela acima passarem: LZc
+bruta reproduzindo ≈0,991 (tolerância estipulada: ±0,01) e irreversibilidade dos surrogates em
+0,5 (tolerância estipulada: IC 95% contendo 0,5). Se qualquer um falhar, a rodada é diagnóstico de
+pipeline, não teste de hipótese, e assim será registrada.
+
+### 5.5 Família de FDR e análises de sensibilidade
+
+**Família primária: um único teste** — irreversibilidade normalizada, W(calmo) vs N3, média dos
+2 canais. Um teste primário isolado é uma escolha deliberada de proteção de poder; tudo o mais é
+secundário.
+
+**Família secundária (FDR entre si, não com o primário):** LZc normalizada por IAAFT; expoente
+sozinho; irreversibilidade por canal (Fpz-Cz e Pz-Oz separados); irreversibilidade em W(ativo) vs N3,
+se Z12 autorizar.
+
+**Sensibilidade, pré-especificada e sem poder de mudar veredito:** ordem m=3 e m=5; atraso
+τ ∈ {2, 4}; estimador alternativo por grafo de visibilidade horizontal; ordenação completa dos cinco
+estágios (W, N1, REM, N2, N3) pela irreversibilidade, com Spearman contra o ordinal já convencionado
+no projeto. Cada uma dessas linhas serve para descrever a robustez do resultado primário, **não para
+substituí-lo**: se o primário falhar e uma sensibilidade "der certo", o registro dirá que o primário
+falhou.
+
+Uma observação que precisa constar antes e não depois: a evidência de que irreversibilidade
+discrimina estados em ECoG de macaco (de la Fuente et al. 2023) e LFP de rato (Camassa et al. 2024)
+foi obtida com estimadores que **não foram verificados como sendo este**. A transferência de
+plausibilidade entre trabalhos é boa; a transferência de tamanho de efeito entre estimadores
+diferentes não é. Isso está registrado na Fase 0 como item de verificação, e limita o quanto se pode
+usar essas duas referências para calibrar expectativa.
+
+---
+
+## 6. Contrato, item 5 — Critério explícito de suporte, resultado inconclusivo ou falha
+
+Os três critérios abaixo são fixados antes da execução, com números. Um protocolo que não pode falhar
+não vale nada, e a forma mais comum de um protocolo não poder falhar é não declarar antes o que
+contaria como falha.
+
+Todos os limiares desta seção são **estipulações de desenho**. A justificativa do limiar central está
+em §6.4.
+
+### 6.1 Desfecho primário (W calmo vs N3, irreversibilidade normalizada, n=36)
+
+**SUPORTE.** AUC média por participante ≥ **0,60**, com p < 0,05 no Wilcoxon, e ≥ **25 dos 36
+participantes** acima de 0,5. As três condições são conjuntas. A terceira existe porque o projeto já
+reporta `frac_sujeitos_acima_05` e porque um efeito carregado por poucos participantes não é o que a
+teoria afirma.
+
+**EQUIVALÊNCIA (nulo informativo).** O IC 95% da AUC média contido inteiramente em **[0,45; 0,55]**.
+Isto é um nulo positivo, não uma ausência de resultado: significa que o efeito, se existe, é menor
+que o menor efeito de interesse declarado, e a leitura registrada será a de **redundância
+informacional** — o EEG de sono de 2 canais, tal como este pipeline o processa, não contém estrutura
+temporal incompatível com o nulo IAAFT, e a alegação-assinatura da teoria perde mais uma
+operacionalização. Resultado negativo é dado.
+
+**FALSIFICAÇÃO DIRECIONAL.** AUC ≤ 0,40 com p < 0,05 — sono profundo **mais** irreversível que
+vigília. Não é sucesso, é resultado contrário à predição, e a §14.2 já nomeia a explicação
+alternativa mais provável antes de o resultado existir.
+
+**INCONCLUSIVO.** **Todo o restante**, sem exceção. Esta é uma categoria residual por construção,
+para que nenhum resultado possível fique sem destino declarado antes da execução. Ela cobre dois
+cenários qualitativamente distintos, e o registro deve nomear qual ocorreu:
+
+- *Nulo não informativo.* p ≥ 0,05 com o IC 95% se estendendo além de 0,55 — o desenho não
+  distinguiu "não há efeito" de "há efeito e faltou n". É o cenário mais provável se a variabilidade
+  entre participantes da medida nova for parecida com a da LZc residualizada (desvio-padrão das AUCs
+  ≈ 0,235, `resumo_teste_calibrado.md`).
+- *Efeito significativo abaixo do limiar de suporte.* Direção prevista, p < 0,05, mas AUC entre 0,55
+  e 0,60, ou as três condições conjuntas de SUPORTE não satisfeitas simultaneamente (por exemplo,
+  AUC = 0,58 com p = 0,01 e 27 dos 36 participantes acima de 0,5). **Isto não conta como suporte** —
+  o limiar de 0,60 foi estipulado antes justamente para que um efeito pequeno e significativo não
+  fosse relido como confirmação depois de aparecer. Mas também não é falha, e tratá-lo como tal
+  descartaria informação real.
+
+Em qualquer dos dois, o registro declara o n necessário calculado pela análise de poder da Fase 0, e
+a decisão sobre o Braço B passa a depender dele. No segundo, o registro declara adicionalmente que
+o efeito observado fica **entre** o menor efeito de interesse e o limiar de detecção do desenho —
+uma região que este n não resolve e que só um n maior resolveria.
+
+**Exaustividade.** As quatro categorias acima particionam o espaço de resultados: SUPORTE exige as
+três condições conjuntas; EQUIVALÊNCIA e FALSIFICAÇÃO DIRECIONAL têm critérios numéricos disjuntos
+entre si e em relação a SUPORTE; INCONCLUSIVO absorve tudo o mais. Nenhum resultado possível fica
+sem veredito, e nenhum veredito depende de uma regra criada depois de ver o dado.
+
+### 6.2 Comparadores
+
+Nenhum comparador pode converter uma falha do primário em suporte. Se a LZc normalizada por IAAFT
+discriminar e a irreversibilidade não, o registro dirá que a predição deste protocolo falhou e que
+uma análise de comparabilidade produziu um achado inesperado que precisa de teste próprio, em
+protocolo próprio.
+
+### 6.3 Contraste secundário W(ativo) vs N3
+
+Mesmos limiares de §6.1, com duas exigências adicionais e conjuntas: sobreviver à FDR da família
+secundária, e passar nos controles de deriva do §14.3. Se falhar apenas no controle de deriva, o
+resultado é rebaixado a exploratório e reportado como tal — não descartado, não promovido.
+
+### 6.4 Justificativa do limiar de 0,55 como menor efeito de interesse
+
+O projeto já tratou, na prática, AUC residuais de 0,550 e 0,554 como indistinguíveis do acaso, e a
+recalibração posterior mostrou que elas eram, de fato, 0,500. Declarar 0,55 como piso do que
+interessa é apenas tornar explícito o critério que o projeto já aplicava implicitamente à sua própria
+leitura. E o limiar de suporte em 0,60 é o que a §10 mostra ser detectável neste n sob a aproximação
+adotada pelo próprio projeto — não um número escolhido por ser alcançável.
+
+---
+
+## 7. Contrato, item 6 — Validação fora da amostra, replicação independente e reanálise
+
+O contrato exige distinguir os três, e a distinção é onde protocolos honestos costumam escorregar.
+
+**O Braço A é reanálise do mesmo conjunto.** Mesmos 36 participantes, mesmos registros, mesmas
+épocas que produziram 0,991 e 0,500. O que muda é a medida. Chamar isso de replicação seria falso, e
+chamar de validação fora da amostra também: a validação cruzada de 5 partições sobre participantes
+que aparece nos comparadores é fora da amostra **para o ajuste do modelo de residualização**, e nada
+mais. Nenhuma frase do relatório final do Braço A pode sugerir amostra nova.
+
+**O Braço B é primeiro teste, não replicação.** ANPHY-Sleep é amostra independente, mas a predição
+1.3 nunca foi testada com medida grafo-teórica; não há o que replicar. É o primeiro teste adequado da
+alegação-assinatura, e assim deve ser nomeado.
+
+**A única replicação genuína disponível é barata e deve ser aproveitada.** Se o Braço A rodar e o
+Braço B acontecer, rodar **a mesma medida de irreversibilidade** no ANPHY-Sleep custa quase nada
+depois que os dados estiverem em disco, e aí sim há replicação independente de um achado próprio, em
+amostra nova, com montagem e taxa de amostragem diferentes. Isso fica pré-declarado aqui para que
+seja confirmatório quando acontecer, e não uma análise adicional inventada depois.
+
+**Estatuto externo:** Maschke et al. (2025) é replicação independente **do resultado negativo de
+1.2**, não deste protocolo. Continua sem citação em capítulo algum (Z9), e essa pendência é
+independente desta.
+
+---
+
+## 8. Contrato, item 7 — Caminho de saída separado
+
+Tudo em `scripts_para_rodar/vnext01_irreversibilidade/`, diretório novo. **Nenhum arquivo existente
+é sobrescrito, movido ou apagado** — em particular, nada em `teste_calibrado/`,
+`integracao_diferenciada/`, `complexidade_multivariada/`, `poder_estatistico/` ou `anestesia_1f/`.
+
+Saídas previstas no diretório novo: `irrev_por_epoca.csv` (uma linha por época/canal, com Δ_obs,
+média e desvio do ensemble, Δ_norm, e os comparadores nas mesmas épocas), `auc_por_sujeito_vnext01.csv`
+(mesmo esquema de colunas de `resultados_por_sujeito.csv`, para diff direto),
+`calibracao_permutacao_vnext01.csv`, `cobertura_hipnogramas.csv` (Z12), `poder_vnext01.csv` (Fase 0)
+e `resumo_vnext01.md` (relatório narrativo, escrito pelo agente **depois** de o autor rodar).
+
+Convenção de arquivos inválidos, já usada no projeto: rodadas descartadas por bug preservam o sufixo
+`_INVALIDO_<motivo>` em vez de serem apagadas.
+
+Comandos esperados, na ordem de execução:
+
+```
+python cobertura_hipnogramas.py --data-dir <pasta_cache> --out-dir saida_vnext01
+python poder_vnext01.py --n-sim 2000 --out-dir saida_vnext01
+python irreversibilidade_sono.py --n-subjects 41 --ordem 4 --atraso 1 --n-surrogates 99 --data-dir <pasta_cache> --out-dir saida_vnext01
+python calibracao_vnext01.py --n-perm 200 --out-dir saida_vnext01
+```
+
+---
+
+## 9. Confirmatório e exploratório, separados
+
+| Análise | Estatuto | Família de FDR |
+|---|---|---|
+| Irreversibilidade normalizada, W(calmo) vs N3 | **Confirmatório primário** | isolada |
+| LZc normalizada por IAAFT (Z10) | Confirmatório secundário, **com expectativa nula pré-declarada** | secundária |
+| Irreversibilidade, W(ativo) vs N3 (Z12) | Confirmatório secundário, **condicionado ao critério de §3.2** | secundária |
+| Irreversibilidade por canal isolado | Confirmatório secundário | secundária |
+| Expoente sozinho, LZc bruta, LZc residualizada | Controles de integridade | fora de FDR |
+| Irreversibilidade dos surrogates | Controle negativo | fora de FDR |
+| Ordem m ∈ {3,5}, atraso τ ∈ {2,4}, grafo de visibilidade | **Exploratório** | fora de FDR |
+| Ordenação dos cinco estágios por irreversibilidade | **Exploratório** | fora de FDR |
+| Reajuste em 30–40 Hz (Z13 truncado) | **Exploratório, anexo** — ver §13.1 | fora de FDR |
+| Braço B, medidas grafo-teóricas | **Confirmatório, em protocolo próprio** — ver §12 | a declarar |
+
+Regra que vale para a tabela inteira: nenhuma linha exploratória pode alterar o veredito de uma linha
+confirmatória, e nenhum resultado exploratório entra no manuscrito sem a etiqueta "exploratório" no
+próprio texto.
+
+---
+
+## 10. Análise de poder a priori
+
+### 10.1 O que é conhecido
+
+Do próprio projeto, com o teste calibrado (`nota_calibracao_teste.md`; `CHECKLIST_pendencias.md`, Z2):
+com n=36, 80% de poder exige dz entre 0,4 e 0,5, convergindo com a fórmula fechada para teste pareado
+(dz ≥ 0,4669); no efeito observado (dz = −0,099) o poder foi de 16,7%; em dz ≥ 0,5, de 91%.
+
+### 10.2 O que pode ser declarado por álgebra, e com que ressalvas
+
+A fórmula fechada que o projeto adotou é a aproximação normal para teste pareado,
+n = (z<sub>0,975</sub> + z<sub>0,80</sub>)² / dz². Ela reproduz exatamente a âncora do projeto: com
+dz = 0,4669, dá n = 36. Invertida, ela dá a regra de escala abaixo — que é **consequência algébrica
+da fórmula já adotada, não simulação nova**:
+
+| dz alvo | n para 80% de poder (aprox. normal) |
+|---|---|
+| 0,50 | 32 |
+| 0,45 | 39 |
+| 0,40 | 50 |
+| 0,35 | 65 |
+| 0,30 | 88 |
+| 0,25 | 126 |
+| 0,20 | 197 |
+
+Três ressalvas que impedem tratar esta tabela como a análise de poder do protocolo. Primeira: o teste
+primário é Wilcoxon, não t — menos eficiente que o t sob normalidade e mais eficiente sob caudas
+pesadas, de modo que a aproximação erra nas duas direções e só a simulação diz de quanto (foi
+exatamente por isso que o projeto rodou a v3 em vez de confiar na fórmula). Segunda: **nada se sabe
+sobre o tamanho de efeito da irreversibilidade em EEG humano de sono** — ninguém mediu, é o que torna
+a medida original —, então qualquer dz alvo aqui é estipulação, não estimativa. Terceira: a relação
+entre dz (definido sobre a diferença de médias por participante) e AUC (o estimando declarado)
+depende das distribuições intra-participante e **não é fixa**; a v3 do projeto foi parametrizada em
+dz e reportada em AUC porque as duas coisas foram computadas juntas, e é assim que precisa ser feito
+de novo.
+
+Um único ancoramento em AUC pode ser declarado, com sua premissa exposta: se o desvio-padrão das AUCs
+por participante da medida nova for parecido com o da LZc residualizada (0,2346,
+`resumo_teste_calibrado.md`), então dz = 0,4669 corresponde a um deslocamento de ≈0,11 na AUC média,
+isto é, AUC ≈ 0,61. **É daí que sai o limiar de suporte de 0,60 do §6.1** — e a premissa (o
+desvio-padrão se transferir de uma medida para outra) é forte e pode estar errada. Se a simulação da
+Fase 0 mostrar dispersão muito diferente, o limiar de §6.1 é reajustado **antes** da execução do
+Braço A e a mudança entra na §16.
+
+### 10.3 O que o autor precisa rodar, e por quê isso é bloqueante
+
+**Etapa 0.4 do sequenciamento: análise de poder do desenho novo, pelo teste calibrado, n_sim = 2000**,
+com a mesma arquitetura da v3 e com duas exigências que a v1 não cumpriu: réplicas Monte Carlo
+genuinamente reamostradas (a v1 gerava réplicas byte-idênticas e mediu ruído do teste) e poder medido
+sobre o teste que será usado (a v2 mediu o poder de um teste descalibrado). As duas falhas estão
+documentadas em Z2 e são o motivo de esta etapa ser explícita em vez de assumida.
+
+A saída exigida é uma curva poder × dz para n = 36, e a curva n × dz para 80% de poder, ambas com a
+tradução para AUC computada na mesma rodada. Enquanto ela não existir, **os números da tabela de
+§10.2 são orientação de ordem de grandeza e não devem ser citados em nenhum texto do projeto.**
+
+**Regra de decisão que amarra tudo:** nenhum braço confirmatório é executado sem que a análise de
+poder mostre que ele detecta o menor efeito de interesse (§6.4) com pelo menos 80% de poder. O que
+tornou o teste de 1.2 não informativo não foi o resultado, foi o poder; repetir isso num dataset novo
+e maior seria repetir o mesmo erro com mais gigabytes.
+
+---
+
+## 11. Mediador ou confundidor: como este protocolo se posiciona
+
+A `nota_estado_da_arte_1f.md` (§3) registra que a distinção entre mediador e confundidor não tem
+discussão publicada em EEG de consciência — nem em Maschke 2025, nem em Höhn 2024, nem no guideline
+de Ping et al. (2025) — e que nenhum teste estatístico separa os dois papéis com dados
+observacionais. É lacuna genuína e oportunidade, com o custo de não haver literatura para citar.
+
+A posição deste protocolo é deliberadamente modesta e, por isso, defensável: **ele não resolve a
+questão; ele constrói um desfecho primário que não depende dela.**
+
+Se o estado altera o balanço excitação/inibição, que altera o expoente aperiódico, que altera a
+complexidade medida, então o expoente é mediador e residualizar é sobrecontrole — e todo o resultado
+de 1.2 é ambíguo entre "não há nada além do espectro" e "removemos o caminho causal junto com o
+ruído". Nenhuma quantidade de dado observacional desfaz essa ambiguidade, porque as duas hipóteses
+implicam a mesma correlação parcial.
+
+A irreversibilidade normalizada muda a pergunta em vez de tentar responder à antiga. Ela não
+condiciona no expoente: preserva-o integralmente no nulo. Sob **qualquer** dos dois papéis causais,
+uma descrição linear-gaussiana estacionária do sinal — mediadora ou confundidora — prevê
+irreversibilidade normalizada nula. Um resultado positivo é excedente sobre o espectro seja o
+espectro o que for na cadeia causal; um resultado nulo é evidência de redundância informacional
+igualmente indiferente ao papel causal. **Essa indiferença é a contribuição metodológica do
+protocolo**, e é uma contribuição menor e mais segura do que "resolver o dilema": é mostrar que
+existe um estimando para o qual o dilema não precisa ser resolvido.
+
+Duas honestidades adicionais. A primeira: essa imunidade vale exatamente na medida em que a premissa
+linear-gaussiana-estacionária captura o que se quer dizer por "explicação espectral" — e a
+estacionariedade é a premissa frágil (§14.1). A segunda: para a anestesia, onde a
+`nota_calibracao_teste.md` registra que o 1/f é plausivelmente mediador, o mesmo argumento se
+aplicaria e a mesma medida seria informativa; isso fica fora deste protocolo, e a razão está em §13.3.
+
+---
+
+## 12. A decisão sobre dataset
+
+### 12.1 A decisão
+
+**Recomendado: ANPHY-Sleep (OSF R26FH) como Braço B, em protocolo próprio (VNext-02), condicionado a
+três verificações e não iniciado antes da Fase 1.** E, previamente a ele, **Farnes 2020 (Dryad, CC0,
+62 canais, 934 MB) como dataset-piloto de desenvolvimento do pipeline grafo-teórico** — não como
+dataset de teste.
+
+### 12.2 Por que um dataset multicanal é necessário — e para qual pergunta exatamente
+
+Não para refazer 1.2. Isso está replicado em 256 canais e 225 pacientes, e refazê-lo seria gastar
+86 GB para chegar onde Maschke et al. (2025) já chegaram.
+
+É para 1.3, e a razão é categórica, não quantitativa: a alegação de integração diferenciada afirma
+algo sobre a **organização espacial** de integração e segregação. Dois eletrodos não expressam essa
+proposição — não fracamente, não parcialmente: não a expressam. Informação mútua entre Fpz-Cz e
+Pz-Oz não tem como distinguir "rede integrada e segregada" de "duas derivações correlacionadas",
+porque com dois nós não existe módulo, não existe caminho alternativo, não existe eficiência global
+distinta de conectividade média. A falha de 1.3 é, até aqui, a falha de um proxy que o próprio script
+declarava insuficiente no cabeçalho.
+
+### 12.3 Por que ANPHY-Sleep, entre os candidatos da §7 da nota
+
+| Dataset | Serve para 1.3? | Decisão |
+|---|---|---|
+| **ANPHY-Sleep** (OSF R26FH, 83 eletrodos 10-10, 1000 Hz, noite inteira, ~86 GB, CC BY-NC-ND) | Sim: única opção aberta com sono de noite inteira e densidade que sustenta medida de rede | **Recomendado** |
+| **Farnes 2020** (Dryad, cetamina, 62 canais, 934 MB, CC0) | Densidade suficiente, mas o paradigma é cetamina, não sono | **Piloto de pipeline**, e o dataset natural para a predição B.3 num protocolo futuro |
+| Zenodo 806176 (Colombo 2019: propofol, xenônio, cetamina) | Acesso restrito; paradigma farmacológico, onde o 1/f é plausivelmente mediador | Preterido para 1.3 |
+| OpenNeuro ds005620 (Oslo, 65 canais, TMS-EEG + relato, 83 GB) | Rótulos de relato não estão no BIDS; anestesia, não sono | Preterido; valioso para outra pergunta |
+| DOD-H (Dreem, 5 scorers por registro) | Contagem de canais não verificada; valor está na confiabilidade do rótulo | Preterido para 1.3; é o dataset certo para medir ruído de estagiamento (§14.4) |
+| VitalDB | 2 canais | Excluído por construção |
+
+O custo é real e deve constar: ~86 GB de download, um pipeline de pré-processamento inteiramente novo
+(montagem 10-10, referência, rejeição de artefato, ICA, possivelmente reconstrução de fonte),
+reamostragem de 1000 Hz para uma taxa comparável, e um conjunto de escolhas de conectividade que o
+projeto nunca fez. É a maior expansão técnica da história do projeto, e é por isso que ela não começa
+antes da Fase 1 e não começa sem as três verificações abaixo.
+
+### 12.4 As três verificações que condicionam o Braço B
+
+1. **n de participantes do ANPHY-Sleep**, que a `nota_estado_da_arte_1f.md` não informa. Se o n
+   estiver abaixo do exigido pela análise de poder da Fase 0 para o menor efeito de interesse, o
+   Braço B **não** procede como confirmatório — seria repetir o erro de 1.2 com mais canais.
+2. **Licença.** CC BY-NC-ND: o uso acadêmico não comercial é claro, mas a cláusula ND ("no
+   derivatives") precisa ser lida antes de qualquer redistribuição de dado derivado. Publicar
+   estatísticas é uma coisa; redistribuir versões pré-processadas é outra.
+3. **Conteúdo real:** montagem, presença de EOG/EMG, e se as anotações de estágio seguem AASM. Todos
+   os atributos da tabela da §7 da nota foram reportados por agentes de busca a partir de páginas
+   oficiais e **não reconferidos** — inclusive os 83 eletrodos e os 86 GB.
+
+### 12.5 Por que a Fase 1 vem antes, e por que não é um portão de sucesso
+
+A prioridade da Fase 1 não é "se der certo, seguimos". Se a irreversibilidade der nulo em 2 canais, o
+Braço B **continua justificado**, porque medida de rede e medida de assimetria temporal testam
+proposições diferentes e a segunda não substitui a primeira.
+
+A prioridade é de outra ordem, e é dupla: a Fase 1 constrói e valida, num dataset já em disco e com
+linha de base conhecida, **exatamente a maquinaria de surrogate e de teste calibrado de que o Braço B
+vai precisar** — e a Fase 0 produz o número de poder sem o qual o Braço B não pode ser dimensionado.
+Começar pelos 86 GB seria construir o instrumento e o experimento ao mesmo tempo, sem controle
+positivo disponível.
+
+---
+
+## 13. O que ficou de fora, e por quê
+
+### 13.1 Z13 (reajuste em 30–45 Hz) sai do desenho confirmatório
+
+Três razões, em ordem de força.
+
+**Primeira, e decisiva: a banda não está disponível no sinal tal como o pipeline atual o processa.**
+O pipeline aplica filtro passa-banda de 0,5–40 Hz (`analise_sono_v2.py`;
+`integracao_diferenciada_1f.py`). Um ajuste em 30–45 Hz ajustaria 30–40 Hz de sinal real mais 40–45 Hz
+de rolloff de filtro — não é a banda de Höhn et al. (2024), é uma versão truncada dela, e o que se
+mediria acima de 40 Hz seria a resposta do filtro. Qualquer reajuste possível aqui é 30–40 Hz, e isso
+
+> **Precisão sobre a causa.** É o filtro, não a taxa de amostragem. O Sleep-EDF é amostrado a 100 Hz,
+> o que põe a frequência de Nyquist em 50 Hz — 40–45 Hz é, em princípio, representável no sinal
+> bruto. Uma versão anterior desta seção atribuía a exclusão à amostragem e afirmava que "a banda não
+> existe neste dataset"; isso está errado e foi corrigido. A consequência prática não muda — sob este
+> pipeline a banda não está disponível —, mas a diferença importa para quem quiser retomar Z13: seria
+> preciso construir um pipeline com filtro mais alto e **verificar também o filtro anti-aliasing de
+> aquisição do próprio registro**, que pode ou não preservar 40–45 Hz de forma utilizável. Isso é
+> trabalho de protocolo separado, não uma variante deste.
+precisa ser dito com essas palavras se ele for feito.
+
+**Segunda: é exatamente a banda do artefato.** 30–40 Hz de EEG de escalpo é onde vive a contaminação
+por EMG, e Halder et al. (2026) mostram que essa contaminação derruba inclinação e LZc juntas — sob
+bloqueio neuromuscular, a LZc classificou 100% dos segmentos acordado-paralisado como
+"não-consciente". Um resultado favorável em 30–40 Hz teria uma explicação alternativa banal
+esperando por ele.
+
+**Terceira: os próprios autores desqualificam o resgate.** Höhn et al. ressalvam que a complexidade
+em banda estreita "não produziu resultados particularmente significativos".
+
+Além disso, Z13 é um teste de robustez de uma residualização que este protocolo **rebaixa a papel
+secundário** (§4). Pré-registrar um teste confirmatório sobre a sensibilidade de banda de um controle
+que deixou de ser o controle primário seria inflar o protocolo sem aumentar o que ele decide.
+
+**Onde Z13 fica:** anexo exploratório, rodável a custo quase zero depois do Braço A, reportado com as
+três ressalvas acima no próprio texto, e sem poder de alterar veredito algum. Ele não deixa de ser
+feito; deixa de ser pré-registrado como se pudesse decidir alguma coisa.
+
+### 13.2 O que **não** ficou de fora, contra a expectativa
+
+Z10 e Z12 poderiam parecer candidatos a corte — o primeiro por ter resultado previsível, o segundo
+por ser checagem de dado e não teste de hipótese. Ambos permanecem, por razões estruturais e não de
+completude de lista. **Z10 não é um controle alternativo neste desenho: é o gerador do nulo sem o
+qual a métrica de Z11 não tem zero definido** (§5.1). **Z12 não é um teste: é definição de amostra**,
+e definição de amostra é a primeira coisa que um pré-registro tem de fixar (§3.2). As quatro
+pendências não foram forçadas num desenho; três delas se organizaram numa dependência real, e a
+quarta saiu.
+
+### 13.3 Anestesia fica fora deste protocolo
+
+A mesma medida de irreversibilidade seria informativa no dataset de propofol, e o argumento de
+imunidade ao papel causal do 1/f é ainda mais pertinente lá, onde a
+`nota_calibracao_teste.md` registra que o expoente é plausivelmente mediador. Fica fora por três
+razões: são 20 participantes contra 36, num desenho cuja limitação já demonstrada é poder; o achado
+de anestesia tem uma pendência de **reporte** ainda não resolvida (a leitura de supressão, §2 da nota
+de estado da arte) que precisa entrar no manuscrito antes de qualquer teste novo sobre o mesmo dado;
+e misturar dois paradigmas num só pré-registro dilui a família de FDR sem necessidade.
+
+### 13.4 Refazer 1.2 em dataset maior fica fora, definitivamente
+
+Já replicado com 100× mais canais e n 6× maior. A entrada 1.2 do `registro_falsificabilidade.md`
+permanece ❌ FALHOU e este protocolo não a reabre; o que ele abre é uma pergunta adjacente e uma
+medida diferente.
+
+---
+
+## 14. Ameaças pré-declaradas ao desenho
+
+Declaradas antes porque uma ameaça nomeada depois do resultado vira desculpa.
+
+### 14.1 Não estacionariedade — a ameaça principal
+
+O IAAFT randomiza fases globalmente e produz um surrogate estacionário. Um sinal **linear mas não
+estacionário** dentro da época pode, portanto, exibir irreversibilidade aparente contra seu próprio
+surrogate, sem nenhuma dinâmica não linear envolvida. Isso não é hipotético em sono: épocas de 30 s
+atravessam fusos, complexos K e transições de microestado.
+
+Mitigação pré-declarada: reportar a irreversibilidade também em subépocas de 5 s agregadas por época
+(análise de sensibilidade), sob a lógica de que uma janela mais curta é mais plausivelmente
+estacionária; e reportar um diagnóstico de não estacionariedade por época, com a correlação entre ele
+e Δ_norm. Se essa correlação for alta, o resultado primário — positivo ou negativo — é reportado com
+essa ressalva em destaque. **Nenhuma dessas análises pode converter um nulo em suporte.**
+
+### 14.2 Assimetria de forma de onda lenta
+
+Ondas lentas de N3 têm forma acentuadamente assimétrica (descida íngreme, subida lenta), e assimetria
+de forma de onda **é** uma forma de irreversibilidade temporal — genuína, e não artefatual. Se o
+resultado for AUC < 0,5 (N3 mais irreversível que W), a explicação mais provável é essa, e ela não
+tem nada a ver com consciência. Está registrada aqui, antes, para que não seja apresentada depois nem
+como surpresa nem como resgate. Diagnóstico exploratório previsto: comparar a irreversibilidade em
+épocas de N3 estratificadas por amplitude de onda lenta.
+
+### 14.3 Deriva temporal no contraste W(ativo) vs N3
+
+Vigília diurna e sono profundo estão separados por horas na mesma gravação. Controle pré-declarado:
+repetir o contraste restringindo às épocas de vigília **mais próximas** do período de sono e comparar
+o tamanho de efeito com o do contraste completo; e reportar a correlação entre Δ_norm e o tempo
+decorrido desde o início da gravação, dentro de participante. Se o efeito escalar com o tempo
+decorrido tanto quanto com o estágio, o braço é declarado não interpretável.
+
+### 14.4 Ruído de rótulo
+
+Todo o desenho depende de hipnogramas de escorador único no Sleep-EDF. Concordância entre escoradores
+é imperfeita, sobretudo em N1 e REM — menos crítico para W-vs-N3, que é o par mais fácil, mas não
+nulo. Não há mitigação dentro deste dataset; fica registrado como limite, e DOD-H (5 escoradores
+independentes por registro) é nomeado como o caminho para quantificá-lo, em outro protocolo.
+
+### 14.5 Custo computacional subestimado
+
+O ensemble de surrogates multiplica o custo por duas ordens de grandeza em relação a qualquer rodada
+anterior do projeto. Mitigação: smoke test obrigatória com `--n-subjects 3` antes da amostra cheia, e
+redução do ensemble decidida **antes** de ver resultado, com registro na §16.
+
+---
+
+## 15. Sequenciamento faseado
+
+Convenção do `CHECKLIST_pendencias.md`: 🤖 = agente escreve · 🧑 = autor executa/verifica.
+
+### Fase 0 — Pré-execução (nada aqui produz teste de hipótese)
+
+- [ ] **0.1** Congelar este protocolo em commit próprio, antes de qualquer script. 🤖
+- [ ] **0.2** **Verificação bloqueante de referências.** Weiss (1975), Schreiber & Schmitz (1996),
+  de la Fuente et al. (2023) e Camassa et al. (2024) contra Crossref/PubMed. **A premissa central do
+  protocolo — reversibilidade de processos lineares gaussianos estacionários — está hoje apoiada em
+  referência verificada por agente e não reverificada pelo autor** (Z8). Se Weiss (1975) não
+  confirmar, o argumento do §2.3 precisa de outra âncora antes de a Fase 1 começar. Verificar também,
+  na mesma passada, **qual estimador** de irreversibilidade de la Fuente e Camassa usaram (§5.5). 🧑
+- [ ] **0.3** Escrever `cobertura_hipnogramas.py` (Z12): distribuição das descrições de anotação por
+  registro, duração total coberta, e quantas épocas de vigília existem fora da janela de ±30 min. 🤖
+- [ ] **0.4** Rodar 0.3 e registrar o resultado contra o critério de §3.2 — **antes** de qualquer
+  métrica. 🧑
+- [ ] **0.5** Escrever `poder_vnext01.py` (§10.3), com réplicas genuinamente reamostradas e sobre o
+  teste calibrado. 🤖
+- [ ] **0.6** Rodar 0.5 (n_sim=2000) e registrar a curva poder × dz e a tradução para AUC. Se o
+  limiar de §6.1 precisar de ajuste, ajustar **agora** e registrar na §16. 🧑
+
+### Fase 1 — Braço A, Sleep-EDF (Z10 + Z11)
+
+- [ ] **1.1** Escrever `irreversibilidade_sono.py`: métrica ordinal de irreversibilidade, ensemble
+  IAAFT, comparadores (LZc bruta, LZc residualizada fora da amostra, LZc normalizada por IAAFT,
+  expoente sozinho), controle negativo sobre os surrogates, saída por época. 🤖
+- [ ] **1.2** Escrever `calibracao_vnext01.py`: permutação de rótulos dentro de participante para o
+  desenho novo, janela de aceitação 2,0%–8,5%. 🤖
+- [ ] **1.3** Rodar 1.1 com `--n-subjects 3` (smoke test) e reportar tempo de parede. 🧑
+- [ ] **1.4** Decidir, se necessário, redução do ensemble — antes de ver resultado. 🧑 + 🤖
+- [ ] **1.5** Rodar a amostra cheia e, em seguida, a calibração de 1.2. 🧑
+- [ ] **1.6** Verificar os controles de integridade (§5.4) **antes** de olhar o desfecho primário. 🧑
+- [ ] **1.7** Interpretar contra os critérios de §6, sem reabrir nenhum deles; escrever
+  `resumo_vnext01.md`. 🤖
+- [ ] **1.8** Atualizar `registro_falsificabilidade.md` com a nova entrada de predição (1.6, a
+  numerar), qualquer que seja o resultado, e o `CHECKLIST_pendencias.md` fechando Z10, Z11 e Z12. 🤖
+
+### Fase 2 — Decisão sobre o Braço B
+
+- [ ] **2.1** Verificar as três condições de §12.4 (n, licença, conteúdo real). 🧑
+- [ ] **2.2** Baixar Farnes 2020 (934 MB, CC0) e desenvolver o pipeline grafo-teórico nele — nunca no
+  dataset confirmatório. 🧑 (download) + 🤖 (pipeline)
+- [ ] **2.3** Escrever o **PROTOCOLO_VNext_02**, com os mesmos sete itens do contrato, o índice de
+  integração×segregação e o comparador adversarial de sincronia bruta declarados antes, e o n
+  exigido pela análise de poder de 0.6. 🤖
+- [ ] **2.4** Decisão do autor sobre custo/benefício dos ~86 GB, com a Fase 1 e a análise de poder já
+  na mesa. 🧑
+
+### Anexo exploratório (a qualquer momento após 1.5, sem poder de mudar veredito)
+
+- [ ] **A.1** Reajuste em 30–40 Hz (Z13 truncado), com as três ressalvas de §13.1 no próprio
+  relatório. 🤖 escreve · 🧑 roda
+
+---
+
+## 16. Registro de emendas
+
+| Data | Item alterado | Antes / depois de ver resultado da fase? | Motivo |
+|---|---|---|---|
+| — | (nenhuma até o congelamento) | — | — |
+
+---
+
+## 17. Estatuto de verificação das afirmações deste protocolo
+
+| Afirmação | Estatuto |
+|---|---|
+| Números da linha de base (AUC 0,991 / 0,500; dz −0,099; poder 16,7%; n=36; 8.923 vs 3.972 épocas; desvio-padrão 0,2346; erro tipo I 7,0%) | ✅ Lidos de arquivos do projeto, com fonte citada em cada caso |
+| Convenções de pipeline (2 canais, 100 Hz, 30 s, filtro 0,5–40 Hz, `FIT_FREQ_RANGE` 1–40 Hz, corte ±30 min) | ✅ Conferidos no código |
+| Inclusão/exclusão que leva 41 → 39 → 36 | ✅ Documentada no `CHECKLIST_pendencias.md` |
+| Referências externas (Weiss 1975, Schreiber & Schmitz 1996, Maschke 2025, Schartner 2017, Toker 2022, Höhn 2024, Halder 2026, de la Fuente 2023, Camassa 2024, Berger 2017, Westfall & Yarkoni 2016) | ⚠️ Verificadas por agentes, **não reverificadas pelo autor** (Z8). Nenhuma entra em `capitulos/17_referencias.md` antes disso |
+| Atributos do ANPHY-Sleep e demais datasets (canais, tamanho, licença) | ⚠️ Reportados por agentes a partir de páginas oficiais; não reconferidos — condição 3 de §12.4 |
+| Estimador de irreversibilidade usado por de la Fuente 2023 e Camassa 2024 | ❌ Não verificado; limita o uso dessas referências como calibração de expectativa |
+| Cobertura de 20 h dos hipnogramas do Sleep-EDF | ❌ Não verificada — é o objeto de Z12 (etapa 0.4) |
+| Tabela de escala n × dz da §10.2 | ⚠️ Álgebra da fórmula fechada já adotada pelo projeto, **não simulação**; substituída pela saída da etapa 0.6 |
+| Todos os limiares numéricos de §3.2, §5.1 e §6 | ⚠️ **Estipulações de desenho**, fixadas antes da execução; justificadas, não derivadas |

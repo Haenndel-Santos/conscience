@@ -10,7 +10,10 @@ The manuscript and all documentation are written in **Portuguese**.
 ## Status
 
 Advanced stage of **conceptual clarification**; early stage of **mechanistic
-validation**. The V05 revision closed on 2026-08-11.
+validation**. The V05 revision closed on 2026-08-11; a methodological hardening round
+(test recalibration, 1/f control on the anesthesia dataset, corrected power analysis)
+followed on 2026-08-12/13 and revised how the existing results are read — see
+`CHECKLIST_pendencias.md`, Bloco Z.
 
 The honest summary of where this stands: the established contribution today is the
 conceptual architecture and the testing apparatus — not a demonstrated empirical
@@ -28,16 +31,29 @@ citing any result as confirmed.
 ### What is *not* demonstrated
 
 - **That those metrics measure differentiated integration.** After controlling for
-  the aperiodic 1/f spectral exponent, discrimination collapses to AUC ≈ 0.55–0.58,
-  with confidence intervals crossing chance and nothing surviving FDR correction.
+  the aperiodic 1/f spectral exponent, discrimination collapses to chance: AUC = 0.500
+  [0.425–0.577] for LZc and 0.547 for permutation entropy, nothing surviving FDR
+  correction. (An earlier, anticonservative test reported ≈ 0.55–0.58; the calibrated
+  test makes the null *cleaner*, not weaker.) This negative result has **independent
+  replication at much larger scale** — Maschke et al. 2025, 225 patients on high-density
+  EEG (256-channel net, up to 195 channels retained after preprocessing), same collapse —
+  so it is not an artefact of this dataset's two channels.
   **How much that null tells us is itself limited:** at n=36 the design reaches 80%
   power only for Cohen's *dz* ≥ 0.47, while the observed effect is *dz* ≈ −0.10. The
   null is decisive against a large effect, not against a small real one. It also does
   not separate "complexity carries no signal beyond 1/f" from "1/f and complexity are
-  two readings of one physiological change."
+  two readings of one physiological change." The defensible framing is **informational
+  redundancy**, not "complexity is unrelated to consciousness."
 - **The anesthesia result.** The original dose-based prediction failed. Stratifying
-  by behavioural responsiveness (13 responsive / 7 drowsy) explains the pattern
-  plausibly but is post-hoc, same-dataset, and small — **exploratory, not confirmed**.
+  by behavioural responsiveness (13 responsive / 7 drowsy) is post-hoc, same-dataset,
+  and small — **exploratory, not confirmed** — and the proposed mechanism did not
+  survive scrutiny: under the 1/f control both subgroups move in the *same* paradoxical
+  direction, so "two opposite patterns cancelling in the mean" is a feature of the raw
+  metric, not of the residual. The drop in the drowsy subgroup is not statistically
+  established (n=7, p=0.109). The 1/f control here also *raises* discrimination rather
+  than lowering it, but that is **statistical suppression, not survival** — the exponent
+  barely tracks state under propofol while staying coupled to LZc, so removing it
+  unmasks an association already present in the raw data.
 - **The intersubjective layer.** V5 models behavioural coordination in small
   synthetic groups. Its ablation shows the code realises the intended mechanism, but
   its parameters were calibrated to produce that threshold — internal verification,
