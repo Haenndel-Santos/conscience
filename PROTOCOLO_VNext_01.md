@@ -277,6 +277,30 @@ amplitudes. Não há "ajuste em treino" a declarar aqui porque não há ajuste: 
 vazamento entre participantes possível nessa operação — o que é uma vantagem estrutural, não um
 detalhe.
 
+> ✅ **Premissa verificada (2026-08-13), e ela fecha o argumento com Weiss.** Schreiber T, Schmitz A.
+> "Improved Surrogate Data for Nonlinearity Tests". *Physical Review Letters* 1996;**77(4):635–638**,
+> DOI 10.1103/PhysRevLett.77.635 (conferido no PubMed, PMID 10062864). Confirmado: o algoritmo
+> iterativo produz surrogates que compartilham **simultaneamente a distribuição de amplitudes e o
+> espectro de potência** com o dado, randomizando as fases de Fourier.
+>
+> **O ponto que importa para §2.3.** O nulo que os autores propõem é explicitamente o de
+> *"nonlinear rescalings of a Gaussian linear process"* — processos lineares gaussianos **e suas
+> transformações não lineares estáticas**. Essa é exatamente a classe que a literatura sobre o
+> teorema de Weiss identifica como reversível no tempo. Os dois lados do argumento fecham por
+> verificação independente: o nulo do IAAFT **é** a classe reversível, e não uma aproximação dela.
+> É a justificativa mais forte disponível para a afirmação de que o controle aperiódico aqui é
+> propriedade da medida, e não teste estatístico.
+>
+> **Limitação registrada como ameaça.** O IAAFT foi criado para corrigir o viés de achatamento do
+> espectro do AAFT original, mas é um algoritmo **iterativo com critério de parada** (número máximo
+> de iterações e tolerância relativa), não uma construção exata. Resta discrepância residual entre o
+> espectro do surrogate e o do dado, e implementações costumam recomendar repetir a geração e
+> escolher o surrogate mais bem convergido. Como a estatística primária é normalizada **contra o
+> ensemble**, uma discrepância espectral residual sistemática entrava diretamente no zero da medida.
+> Consequência operacional, pré-declarada: a etapa de smoke test (§15) deve reportar a discrepância
+> espectral mediana entre surrogate e dado, e o critério de tolerância usado, junto com os demais
+> diagnósticos — não como resultado, mas como controle de qualidade do nulo.
+
 ---
 
 ## 5. Contrato, item 4 — Métrica primária, comparadores e análises de sensibilidade
@@ -364,18 +388,49 @@ sozinho; irreversibilidade por canal (Fpz-Cz e Pz-Oz separados); irreversibilida
 se Z12 autorizar.
 
 **Sensibilidade, pré-especificada e sem poder de mudar veredito:** ordem m=3 e m=5; atraso
-τ ∈ {2, 4}; estimador alternativo por grafo de visibilidade horizontal; ordenação completa dos cinco
+τ ∈ {2, 4} e, pela razão de escala temporal exposta abaixo, também **τ ∈ {25, 50, 75}** (0,25 s,
+0,5 s e 0,75 s a 100 Hz); estimador alternativo por grafo de visibilidade horizontal; ordenação
+completa dos cinco
 estágios (W, N1, REM, N2, N3) pela irreversibilidade, com Spearman contra o ordinal já convencionado
 no projeto. Cada uma dessas linhas serve para descrever a robustez do resultado primário, **não para
 substituí-lo**: se o primário falhar e uma sensibilidade "der certo", o registro dirá que o primário
 falhou.
 
-Uma observação que precisa constar antes e não depois: a evidência de que irreversibilidade
-discrimina estados em ECoG de macaco (de la Fuente et al. 2023) e LFP de rato (Camassa et al. 2024)
-foi obtida com estimadores que **não foram verificados como sendo este**. A transferência de
-plausibilidade entre trabalhos é boa; a transferência de tamanho de efeito entre estimadores
-diferentes não é. Isso está registrado na Fase 0 como item de verificação, e limita o quanto se pode
-usar essas duas referências para calibrar expectativa.
+### 5.5.1 Os dois precedentes animais: o que eles são, e o que eles não autorizam
+
+Etapa 0.2 executada em 2026-08-13. Os dois estimadores foram identificados, e o resultado muda o
+peso que essas referências podem carregar.
+
+| | de la Fuente et al. (2023) | Camassa et al. (2024) | **Este protocolo** |
+|---|---|---|---|
+| Estimador | rede neural convolucional 1D treinada para distinguir épocas diretas de invertidas | "arrow of time" do arcabouço INSIDEOUT (Deco et al.): $\lvert\rho(x_t, y_{t+\Delta t}) - \rho(x^r_t, y^r_{t+\Delta t})\rvert$ | assimetria de padrões ordinais, m=4 |
+| Forma fechada | **não tem** — o classificador é a medida | assimetria de covariância defasada | sim |
+| Univariado? | não — 3 primeiros componentes principais de 128 canais | **não** — é pareado por construção | **sim**, por canal |
+| Escala temporal | épocas de 4 s a 256 Hz | **Δt = 0,75 s**, janelas de 10 s a 200 Hz | **τ = 1 amostra = 0,01 s** a 100 Hz |
+| Amostra | 2 animais por condição, ECoG | 5 ratos, LFP | 36 humanos, EEG de escalpo |
+
+**Classificação da transferência de evidência: apenas evidência conceitual de irreversibilidade.**
+Não é a mesma métrica, e não é a mesma família de métricas — nenhum dos dois é baseado em padrões
+ordinais, e o de Camassa nem sequer é univariado. Segue que **nenhum dos dois pode ancorar tamanho de
+efeito** para este desenho, e a §10 não deve importar expectativa deles. O que eles sustentam é mais
+modesto e ainda assim útil: que a irreversibilidade temporal **discrimina estados de consciência em
+tecido cortical**, em duas espécies e duas modalidades de registro independentes.
+
+**O que eles sustentam de forma direcional.** Camassa et al. relatam irreversibilidade **mais baixa**
+em sono de ondas lentas e anestesia profunda, e **mais alta** na vigília — a mesma direção que a §2.2
+pré-declara (vigília como classe positiva, AUC > 0,5). A direção, portanto, não é uma aposta cega;
+o tamanho continua sendo.
+
+**Um risco de desenho que esta verificação expôs, e que não estava registrado.** A única escala
+temporal explícita na literatura precedente é a de Camassa: **Δt = 0,75 s**. O atraso primário deste
+protocolo é τ = 1 amostra, isto é, **0,01 s a 100 Hz**, e a faixa de sensibilidade originalmente
+prevista ia só até τ = 4 (0,04 s). São **duas ordens de grandeza** de distância. Se a assimetria
+temporal do córtex vive na escala de centenas de milissegundos, um estimador ordinal com τ = 1
+poderia não vê-la por construção — e um nulo obtido assim não seria evidência sobre o fenômeno, e
+sim sobre a escala escolhida. Por isso a lista de sensibilidade acima foi estendida para cobrir a
+faixa de Camassa. Isto é análise de sensibilidade pré-declarada, **não** um segundo teste primário:
+se o primário falhar e uma escala longa "der certo", o registro dirá que o primário falhou e que
+existe um achado exploratório de escala a testar em protocolo próprio.
 
 ---
 
@@ -811,18 +866,31 @@ Convenção do `CHECKLIST_pendencias.md`: 🤖 = agente escreve · 🧑 = autor 
 ### Fase 0 — Pré-execução (nada aqui produz teste de hipótese)
 
 - [ ] **0.1** Congelar este protocolo em commit próprio, antes de qualquer script. 🤖
-- [~] **0.2** **Verificação bloqueante de referências.** **Weiss (1975) está verificado** — conferido
+- [x] **0.2** **Verificação bloqueante de referências — concluída.** **Weiss (1975) está verificado** — conferido
   contra o registro do Cambridge Core em 2026-08-13: *J Appl Probab* 12(4):831–836, DOI
   10.2307/3212735, com a direção necessária confirmada e a recíproca também (ver a caixa em §2.3). A
   premissa central do protocolo, portanto, **se sustenta**, e a Fase 1 não está mais bloqueada por
   ela. Duas ressalvas ficam registradas: o texto integral não estava acessível na consulta, então as
   condições técnicas exatas (estacionariedade, causalidade, inovações iid) não foram lidas na fonte
   primária; e a verificação obrigou a acrescentar uma quinta origem possível de um positivo à §2.1.1
-  (processo linear não gaussiano). Seguem pendentes, e ainda bloqueantes para os itens que dependem
-  delas: Schreiber & Schmitz (1996), de la Fuente et al. (2023) e Camassa et al. (2024) contra
-  Crossref/PubMed, mais **qual estimador** de irreversibilidade de la Fuente e Camassa usaram (§5.5)
-  — sem isso, a transferência de plausibilidade dos estudos animais não é transferência de tamanho de
-  efeito. 🧑
+  (processo linear não gaussiano).
+  **Schreiber & Schmitz (1996) está verificado** — *Phys Rev Lett* 77(4):635–638, DOI
+  10.1103/PhysRevLett.77.635, PMID 10062864. É a segunda peça **estrutural** do protocolo, e ela
+  fecha o argumento: o nulo que os autores propõem é o de *rescalings não lineares de um processo
+  linear gaussiano*, exatamente a classe que Weiss identifica como reversível (caixa em §4). Uma
+  limitação entrou como ameaça pré-declarada: o algoritmo é iterativo com critério de parada, resta
+  discrepância espectral residual, e o smoke test passa a ter de reportá-la.
+  **de la Fuente et al. (2023) e Camassa et al. (2024) estão verificados, e foram rebaixados de
+  bloqueantes a contexto.** Os estimadores foram identificados (§5.5.1): rede neural convolucional
+  sobre componentes principais no primeiro, assimetria de covariância defasada do arcabouço INSIDEOUT
+  no segundo. Nenhum dos dois é da família ordinal deste protocolo, e o de Camassa nem é univariado.
+  A transferência de evidência está classificada como **apenas conceitual** — e essa é justamente a
+  razão pela qual eles **não bloqueiam a etapa 0.6**: uma referência que não pode ancorar tamanho de
+  efeito não pode, por definição, bloquear uma análise de poder que não importa tamanho de efeito
+  dela. A §10.3 já exige que a curva de poder seja construída sobre a variabilidade observada nos
+  próprios 36 participantes, não sobre expectativa importada. O que essas duas referências passam a
+  sustentar está registrado em §5.5.1: direção, não magnitude — e um risco de escala temporal que a
+  verificação expôs e que mudou a lista de sensibilidade de §5.5. ✅ 🤖
 - [ ] **0.3** Escrever `cobertura_hipnogramas.py` (Z12): distribuição das descrições de anotação por
   registro, duração total coberta, e quantas épocas de vigília existem fora da janela de ±30 min. 🤖
 - [ ] **0.4** Rodar 0.3 e registrar o resultado contra o critério de §3.2 — **antes** de qualquer
@@ -871,9 +939,10 @@ Convenção do `CHECKLIST_pendencias.md`: 🤖 = agente escreve · 🧑 = autor 
 | Data | Item alterado | Antes / depois de ver resultado da fase? | Motivo |
 |---|---|---|---|
 | 2026-08-13 | §6.1 (critérios de decisão), §13.1 (justificativa de Z13), §2.1.1 (nova), estatuto do cabeçalho | **Antes** — nenhuma fase executada | Revisão da PR #2. Os critérios não eram exaustivos (um efeito significativo abaixo do limiar de suporte ficava sem veredito); a exclusão de Z13 era atribuída à amostragem quando a causa é o filtro do pipeline (Nyquist a 100 Hz é 50 Hz); a linguagem de inferência deslizava de "incompatível com o nulo IAAFT" para "não linearidade"; e o estatuto de "pré-registrado" foi rebaixado a protocolo prospectivo congelado |
+| 2026-08-13 | §4 (caixa IAAFT), §5.5 (faixa de τ estendida), §5.5.1 (nova), §15 etapa 0.2, §17 (tabela) | **Antes** — nenhuma fase executada | Etapa 0.2 concluída (AA7b). Os estimadores de de la Fuente e Camassa foram identificados e **não são da família ordinal deste protocolo**: a transferência caiu para evidência conceitual, e as duas referências deixaram de bloquear a etapa 0.6. A verificação expôs um risco de escala temporal não registrado — Camassa mede com Δt=0,75 s, o primário aqui usa τ=0,01 s —, e por isso a lista de sensibilidade de §5.5 foi estendida para τ ∈ {25, 50, 75} |
 | 2026-08-13 | §2.3 (caixa de verificação), §2.1.1 (quarta → quinta origem), §15 etapa 0.2, §17 (tabela) | **Antes** — nenhuma fase executada | Etapa 0.2 (AA7) executada em parte. Weiss (1975) verificado contra o Cambridge Core, DOI 10.2307/3212735: a premissa se sustenta e a Fase 1 deixa de estar bloqueada por ela. A verificação obrigou a **acrescentar uma origem possível de um positivo** — processo linear não gaussiano —, que faltava na §2.1.1; e permitiu registrar que transformações não lineares estáticas de processos lineares gaussianos também são reversíveis, o que estreita o alinhamento entre a medida e o nulo IAAFT |
 
-> **Nota sobre estas duas emendas.** Ambas são anteriores a qualquer execução e a qualquer resultado,
+> **Nota sobre estas emendas.** Todas são anteriores a qualquer execução e a qualquer resultado,
 > e portanto **não rebaixam nenhuma análise de confirmatória a exploratória** — a cláusula da regra de
 > congelamento que produziria esse rebaixamento se aplica a emendas posteriores à visualização de
 > resultados. A segunda é o caso que a própria regra existe para tornar visível: uma verificação
@@ -891,9 +960,11 @@ Convenção do `CHECKLIST_pendencias.md`: 🤖 = agente escreve · 🧑 = autor 
 | Inclusão/exclusão que leva 41 → 39 → 36 | ✅ Documentada no `CHECKLIST_pendencias.md` |
 | **Weiss 1975** — a premissa matemática de §2.3 | ✅ **Verificada em 2026-08-13** contra o registro do Cambridge Core: *J Appl Probab* 12(4):831–836, DOI 10.2307/3212735. Direção necessária e recíproca confirmadas. Ressalva: texto integral inacessível na consulta, condições técnicas exatas não lidas na fonte primária |
 | **Maschke 2025** — a replicação independente | ✅ **Verificada em 2026-08-13** contra a página do periódico (Oxford Academic); ver `nota_estado_da_arte_1f.md`, §1 |
-| Demais referências externas (Schreiber & Schmitz 1996, Schartner 2017, Toker 2022, Höhn 2024, Halder 2026, de la Fuente 2023, Camassa 2024, Berger 2017, Westfall & Yarkoni 2016) | ⚠️ Verificadas por agentes, **não reverificadas pelo autor** (Z8). Nenhuma entra em `capitulos/17_referencias.md` antes disso |
+| **Schreiber & Schmitz 1996** — o nulo IAAFT de §4 | ✅ **Verificada em 2026-08-13** no PubMed (PMID 10062864): *Phys Rev Lett* 77(4):635–638. Nulo confirmado como *rescalings não lineares de processo linear gaussiano*, fechando o argumento com Weiss |
+| **de la Fuente 2023 e Camassa 2024** — os precedentes animais | ✅ **Verificadas em 2026-08-13**; estimadores identificados em §5.5.1. Transferência classificada como **apenas conceitual** — não ancoram tamanho de efeito |
+| Demais referências externas (Schartner 2017, Toker 2022, Höhn 2024, Halder 2026, Berger 2017, Westfall & Yarkoni 2016) | ⚠️ Verificadas por agentes, **não reverificadas pelo autor** (Z8). Nenhuma entra em `capitulos/17_referencias.md` antes disso |
 | Atributos do ANPHY-Sleep e demais datasets (canais, tamanho, licença) | ⚠️ Reportados por agentes a partir de páginas oficiais; não reconferidos — condição 3 de §12.4 |
-| Estimador de irreversibilidade usado por de la Fuente 2023 e Camassa 2024 | ❌ Não verificado; limita o uso dessas referências como calibração de expectativa |
+| Estimador de irreversibilidade usado por de la Fuente 2023 e Camassa 2024 | ✅ **Verificado em 2026-08-13** (§5.5.1): CNN sobre componentes principais e assimetria de covariância defasada (INSIDEOUT), respectivamente. **Nenhum dos dois é da família ordinal deste protocolo** — as referências valem como evidência conceitual e direcional, não como calibração de expectativa |
 | Cobertura de 20 h dos hipnogramas do Sleep-EDF | ❌ Não verificada — é o objeto de Z12 (etapa 0.4) |
 | Tabela de escala n × dz da §10.2 | ⚠️ Álgebra da fórmula fechada já adotada pelo projeto, **não simulação**; substituída pela saída da etapa 0.6 |
 | Todos os limiares numéricos de §3.2, §5.1 e §6 | ⚠️ **Estipulações de desenho**, fixadas antes da execução; justificadas, não derivadas |
