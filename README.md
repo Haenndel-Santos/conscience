@@ -35,8 +35,9 @@ citing any result as confirmed.
   [0.425–0.577] for LZc and 0.547 for permutation entropy, nothing surviving FDR
   correction. (An earlier, anticonservative test reported ≈ 0.55–0.58; the calibrated
   test makes the null *cleaner*, not weaker.) This negative result has **independent
-  replication at much larger scale** — Maschke et al. 2025, 225 patients, 256 channels,
-  same collapse — so it is not an artefact of this dataset's two channels.
+  replication at much larger scale** — Maschke et al. 2025, 225 patients on high-density
+  EEG (256-channel net, up to 195 channels retained after preprocessing), same collapse —
+  so it is not an artefact of this dataset's two channels.
   **How much that null tells us is itself limited:** at n=36 the design reaches 80%
   power only for Cohen's *dz* ≥ 0.47, while the observed effect is *dz* ≈ −0.10. The
   null is decisive against a large effect, not against a small real one. It also does

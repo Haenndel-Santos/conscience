@@ -337,6 +337,13 @@ Rodada de 2026-08-13, posterior ao Bloco Z. Origem: uma revisão completa em mod
 
 ### Pendências que o Bloco AA deixa abertas
 
+> **O que cada uma bloqueia, e o que não bloqueia.** As três são bloqueantes de etapas
+> específicas, **não da entrada do protocolo no repositório**. AA7 bloqueia a Fase 1, por
+> sustentar a premissa matemática. AA8 bloqueia qualquer braço confirmatório. AA9 bloqueia
+> uma versão publicável do manuscrito. Nenhuma delas bloqueia congelar o protocolo — pelo
+> contrário: para que o congelamento funcione metodologicamente, ele tem de acontecer
+> **antes** de AA8 e antes de qualquer resultado. As três podem seguir abertas depois disso.
+
 - [ ] **AA7 — a premissa matemática central do VNext-01 não está reverificada.** Weiss (1975), reversibilidade temporal de processos lineares gaussianos estacionários, é hoje referência verificada por agente e não pelo autor. O protocolo a coloca como item **bloqueante** da Fase 0: se não confirmar, o argumento da §2.3 precisa de outra âncora antes de qualquer execução. 🧑
 - [ ] **AA8 — o poder do desenho novo não pode ser declarado sem simulação.** Nenhum braço confirmatório do VNext-01 roda sem 80% de poder no menor efeito de interesse, e esse número exige `poder_vnext01.py` (a escrever, e a rodar pelo autor). A tabela n × dz da §10.2 do protocolo é álgebra da fórmula fechada, explicitamente marcada como não-simulação e proibida de ser citada como resultado. 🤖 escreve · 🧑 roda
 - [~] **AA9 — Z8 e Z9 seguem abertas, com uma exceção.** As ~10 referências da `nota_estado_da_arte_1f.md` continuam verificadas só por agentes, **menos Maschke et al. (2025)**, conferida contra a página do periódico (Oxford Academic) em 2026-08-13: autores, `Cereb Cortex` 35(9):bhaf254, r(197)=0,86, a queda para r=0,24 sob surrogates de fase e o desaparecimento do efeito diagnóstico na parcial conferem **literalmente**. A verificação corrigiu duas imprecisões da leitura por agente — os 225 são a amostra da análise final (303 avaliados inicialmente) e os 256 canais são a rede de aquisição, restando no máximo 195 após pré-processamento —, nenhuma das quais altera o argumento. Segue faltando a reverificação pelo autor, e Maschke continua **ausente do manuscrito** (Z9): é a evidência externa mais forte a favor do resultado negativo do projeto e não é citada em nenhum capítulo. 🧑 (reverificação) → 🤖 (integração)

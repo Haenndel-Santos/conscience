@@ -1,6 +1,14 @@
 # Protocolo VNext-01 — Irreversibilidade temporal e normalização por surrogates de fase no EEG humano de sono
 
-**Estatuto:** protocolo pré-registrado, **não executado**. Escrito em 2026-08-13 por agente, sob a
+**Estatuto:** protocolo prospectivo congelado — *timestamped preregistration draft* —, **não
+executado**. A distinção é deliberada e vale ser mantida: este documento é congelado antes de
+qualquer análise e sua data fica registrada no histórico do repositório, o que é boa evidência
+temporal, mas **não é um pré-registro depositado**. Branches podem ser reescritas; um commit em
+`main` é bem mais forte que um em branch de trabalho, e ainda assim não equivale a um registro em
+plataforma própria. Antes de qualquer publicação derivada deste protocolo, depositar esta versão
+congelada em **OSF ou Zenodo**, com DOI permanente, e citar o DOI aqui. Onde o texto abaixo usa
+"pré-registrado" e "pré-registro", leia-se no sentido de disciplina metodológica — fixar decisões
+antes de ver o dado —, não no sentido de depósito formal já realizado. Escrito em 2026-08-13 por agente, sob a
 regra 0.1 do `PLANO_ESTRATEGICO_cientifico.md` (agentes escrevem cálculo, não executam cálculo).
 Nenhum número deste documento é resultado: os números citados vêm de arquivos do projeto, com a
 fonte indicada em cada caso, ou são **estipulações de desenho** explicitamente marcadas como tais.
@@ -79,6 +87,32 @@ pergunta que o impasse atual torna primeira: enquanto ela não for respondida, t
 de complexidade permanece sob a suspeita que Maschke et al. (2025) e Berger et al. (2017)
 levantaram, e nenhuma delas tem, na literatura publicada, demonstração de que sobrevive ao controle
 aperiódico (`nota_estado_da_arte_1f.md`, §4).
+
+### 2.1.1 O que um resultado positivo autoriza concluir — e o que não
+
+Esta restrição é vinculante para todo o documento e para qualquer relatório derivado dele. Um
+resultado positivo significa, exatamente:
+
+> **existe estrutura temporal incompatível com o nulo IAAFT — isto é, com a classe de descrições
+> lineares-gaussianas-estacionárias que esse nulo representa.**
+
+Não significa "encontramos não linearidade", e menos ainda "encontramos a não linearidade da
+consciência". A irreversibilidade temporal é **sensível a mais de uma causa**, e o nulo IAAFT é uma
+classe de hipóteses, não uma única. Um positivo é compatível com pelo menos quatro origens que este
+desenho não separa entre si: dinâmica genuinamente não linear; **não estacionariedade** dentro da
+época; **assimetria de forma de onda** (a onda lenta do sono profundo é o caso óbvio, e a §14.2 já a
+nomeia como a explicação alternativa mais provável de um resultado direcionalmente invertido); e
+dependências temporais de ordem superior que o nulo preserva mal. As duas primeiras já constam como
+ameaças pré-declaradas em §14 — a linguagem da conclusão precisa ser consistente com essa cautela,
+e não mais forte que ela.
+
+Consequência prática: nenhum relatório deste protocolo deve escrever "estrutura não linear" onde o
+que foi testado é "incompatibilidade com o nulo IAAFT". Separar as quatro origens acima é trabalho
+de um protocolo posterior, com nulos adicionais desenhados para discriminá-las — e é uma pergunta
+logicamente anterior a qualquer alegação sobre integração diferenciada, que por sua vez é anterior
+a qualquer alegação sobre consciência. A ordem é: existe excedente sobre o espectro → de que tipo é
+o excedente → ele é de rede → ele corresponde ao mecanismo que a teoria propõe. Este protocolo
+responde apenas ao primeiro elo.
 
 ### 2.2 O estimando primário
 
@@ -204,7 +238,7 @@ outras partições (`teste_auc_por_sujeito.py`; `integracao_diferenciada_1f.py`)
    e residualizados fora da amostra, para verificar que o pipeline novo reproduz a linha de base
    (§5.4, controle positivo).
 2. **Banda de ajuste inalterada:** 1–40 Hz (`FIT_FREQ_RANGE`), limitada pelo filtro de 0,5–40 Hz já
-   aplicado. Ver §13.1 sobre por que 30–45 Hz não é uma opção neste dataset.
+   aplicado. Ver §13.1 sobre por que 30–45 Hz não é uma opção sob o pipeline atual.
 3. **Convenção de ordem, documentada porque já custou uma conclusão errada:** filtrar o par de
    estados primeiro, residualizar depois. Residualizar sobre os cinco estágios antes de filtrar W/N3
    produziu uma AUC espúria de 0,648 que parecia reverter 1.2 (`nota_calibracao_teste.md`, §4).
@@ -334,21 +368,41 @@ participantes** acima de 0,5. As três condições são conjuntas. A terceira ex
 reporta `frac_sujeitos_acima_05` e porque um efeito carregado por poucos participantes não é o que a
 teoria afirma.
 
-**FALHA.** O IC 95% da AUC média contido inteiramente em **[0,45; 0,55]**. Isto é um nulo positivo,
-não uma ausência de resultado: significa que o efeito, se existe, é menor que o menor efeito de
-interesse declarado, e a leitura registrada será a de **redundância informacional** — o EEG de sono
-de 2 canais não contém estrutura não linear detectável além do que o espectro já descreve, e a
-alegação-assinatura da teoria perde mais uma operacionalização. Resultado negativo é dado.
-
-**INCONCLUSIVO.** p ≥ 0,05 mas o IC 95% se estendendo além de 0,55 — ou seja, o desenho não
-distinguiu "não há efeito" de "há efeito e faltou n". Neste caso, e **somente** neste, o registro
-declara o n necessário calculado pela análise de poder da Fase 0 e a decisão sobre o Braço B passa a
-depender dele. É o cenário mais provável se a variabilidade entre participantes da medida nova for
-parecida com a da LZc residualizada (desvio-padrão das AUCs ≈ 0,235, `resumo_teste_calibrado.md`).
+**EQUIVALÊNCIA (nulo informativo).** O IC 95% da AUC média contido inteiramente em **[0,45; 0,55]**.
+Isto é um nulo positivo, não uma ausência de resultado: significa que o efeito, se existe, é menor
+que o menor efeito de interesse declarado, e a leitura registrada será a de **redundância
+informacional** — o EEG de sono de 2 canais, tal como este pipeline o processa, não contém estrutura
+temporal incompatível com o nulo IAAFT, e a alegação-assinatura da teoria perde mais uma
+operacionalização. Resultado negativo é dado.
 
 **FALSIFICAÇÃO DIRECIONAL.** AUC ≤ 0,40 com p < 0,05 — sono profundo **mais** irreversível que
 vigília. Não é sucesso, é resultado contrário à predição, e a §14.2 já nomeia a explicação
 alternativa mais provável antes de o resultado existir.
+
+**INCONCLUSIVO.** **Todo o restante**, sem exceção. Esta é uma categoria residual por construção,
+para que nenhum resultado possível fique sem destino declarado antes da execução. Ela cobre dois
+cenários qualitativamente distintos, e o registro deve nomear qual ocorreu:
+
+- *Nulo não informativo.* p ≥ 0,05 com o IC 95% se estendendo além de 0,55 — o desenho não
+  distinguiu "não há efeito" de "há efeito e faltou n". É o cenário mais provável se a variabilidade
+  entre participantes da medida nova for parecida com a da LZc residualizada (desvio-padrão das AUCs
+  ≈ 0,235, `resumo_teste_calibrado.md`).
+- *Efeito significativo abaixo do limiar de suporte.* Direção prevista, p < 0,05, mas AUC entre 0,55
+  e 0,60, ou as três condições conjuntas de SUPORTE não satisfeitas simultaneamente (por exemplo,
+  AUC = 0,58 com p = 0,01 e 27 dos 36 participantes acima de 0,5). **Isto não conta como suporte** —
+  o limiar de 0,60 foi estipulado antes justamente para que um efeito pequeno e significativo não
+  fosse relido como confirmação depois de aparecer. Mas também não é falha, e tratá-lo como tal
+  descartaria informação real.
+
+Em qualquer dos dois, o registro declara o n necessário calculado pela análise de poder da Fase 0, e
+a decisão sobre o Braço B passa a depender dele. No segundo, o registro declara adicionalmente que
+o efeito observado fica **entre** o menor efeito de interesse e o limiar de detecção do desenho —
+uma região que este n não resolve e que só um n maior resolveria.
+
+**Exaustividade.** As quatro categorias acima particionam o espaço de resultados: SUPORTE exige as
+três condições conjuntas; EQUIVALÊNCIA e FALSIFICAÇÃO DIRECIONAL têm critérios numéricos disjuntos
+entre si e em relação a SUPORTE; INCONCLUSIVO absorve tudo o mais. Nenhum resultado possível fica
+sem veredito, e nenhum veredito depende de uma regra criada depois de ver o dado.
 
 ### 6.2 Comparadores
 
@@ -613,11 +667,20 @@ positivo disponível.
 
 Três razões, em ordem de força.
 
-**Primeira, e decisiva: a banda não existe neste dataset.** O Sleep-EDF é amostrado a 100 Hz e o
-pipeline aplica filtro passa-banda de 0,5–40 Hz (`analise_sono_v2.py`;
+**Primeira, e decisiva: a banda não está disponível no sinal tal como o pipeline atual o processa.**
+O pipeline aplica filtro passa-banda de 0,5–40 Hz (`analise_sono_v2.py`;
 `integracao_diferenciada_1f.py`). Um ajuste em 30–45 Hz ajustaria 30–40 Hz de sinal real mais 40–45 Hz
 de rolloff de filtro — não é a banda de Höhn et al. (2024), é uma versão truncada dela, e o que se
 mediria acima de 40 Hz seria a resposta do filtro. Qualquer reajuste possível aqui é 30–40 Hz, e isso
+
+> **Precisão sobre a causa.** É o filtro, não a taxa de amostragem. O Sleep-EDF é amostrado a 100 Hz,
+> o que põe a frequência de Nyquist em 50 Hz — 40–45 Hz é, em princípio, representável no sinal
+> bruto. Uma versão anterior desta seção atribuía a exclusão à amostragem e afirmava que "a banda não
+> existe neste dataset"; isso está errado e foi corrigido. A consequência prática não muda — sob este
+> pipeline a banda não está disponível —, mas a diferença importa para quem quiser retomar Z13: seria
+> preciso construir um pipeline com filtro mais alto e **verificar também o filtro anti-aliasing de
+> aquisição do próprio registro**, que pode ou não preservar 40–45 Hz de forma utilizável. Isso é
+> trabalho de protocolo separado, não uma variante deste.
 precisa ser dito com essas palavras se ele for feito.
 
 **Segunda: é exatamente a banda do artefato.** 30–40 Hz de EEG de escalpo é onde vive a contaminação
