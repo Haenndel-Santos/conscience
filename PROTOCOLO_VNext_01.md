@@ -287,7 +287,13 @@ detalhe.
 > *"nonlinear rescalings of a Gaussian linear process"* — processos lineares gaussianos **e suas
 > transformações não lineares estáticas**. Essa é exatamente a classe que a literatura sobre o
 > teorema de Weiss identifica como reversível no tempo. Os dois lados do argumento fecham por
-> verificação independente: o nulo do IAAFT **é** a classe reversível, e não uma aproximação dela.
+> verificação independente: o **nulo teórico** do IAAFT corresponde à classe reversível que este
+> protocolo quer testar. A distinção entre nulo teórico e realização computacional precisa ser
+> mantida — a hipótese nula formulada pelos autores corresponde àquela classe, mas o **surrogate
+> efetivamente gerado** continua sendo aproximado, porque o algoritmo iterativo termina com
+> discrepância residual nas restrições. Essa não é uma ressalva retórica: é exatamente a limitação
+> registrada no parágrafo seguinte, e ela vai passar a ter número quando o smoke test começar a
+> quantificar o erro espectral do ensemble.
 > É a justificativa mais forte disponível para a afirmação de que o controle aperiódico aqui é
 > propriedade da medida, e não teste estatístico.
 >
@@ -891,11 +897,11 @@ Convenção do `CHECKLIST_pendencias.md`: 🤖 = agente escreve · 🧑 = autor 
   próprios 36 participantes, não sobre expectativa importada. O que essas duas referências passam a
   sustentar está registrado em §5.5.1: direção, não magnitude — e um risco de escala temporal que a
   verificação expôs e que mudou a lista de sensibilidade de §5.5. ✅ 🤖
-- [ ] **0.3** Escrever `cobertura_hipnogramas.py` (Z12): distribuição das descrições de anotação por
+- [x] **0.3** ✅ **Escrito** (`scripts_para_rodar/vnext01_irreversibilidade/`, congelado antes da execução). Escrever `cobertura_hipnogramas.py` (Z12): distribuição das descrições de anotação por
   registro, duração total coberta, e quantas épocas de vigília existem fora da janela de ±30 min. 🤖
 - [ ] **0.4** Rodar 0.3 e registrar o resultado contra o critério de §3.2 — **antes** de qualquer
   métrica. 🧑
-- [ ] **0.5** Escrever `poder_vnext01.py` (§10.3), com réplicas genuinamente reamostradas e sobre o
+- [x] **0.5** ✅ **Escrito** (`scripts_para_rodar/vnext01_irreversibilidade/`, congelado antes da execução; varredura de dispersão com faixa empírica derivada mecanicamente, `reference_power_pass` e `robust_power_pass` separados). Escrever `poder_vnext01.py` (§10.3), com réplicas genuinamente reamostradas e sobre o
   teste calibrado. 🤖
 - [ ] **0.6** Rodar 0.5 (n_sim=2000) e registrar a curva poder × dz e a tradução para AUC. Se o
   limiar de §6.1 precisar de ajuste, ajustar **agora** e registrar na §16. 🧑
