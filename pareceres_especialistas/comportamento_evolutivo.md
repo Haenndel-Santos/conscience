@@ -1,5 +1,14 @@
 # Parecer especializado — Comportamento Evolutivo (Etologia, Ecologia Comportamental, Cognição Comparada)
 
+> ⚠️ **Origem deste documento: revisão adversarial por IA — não é peer review.**
+> Este parecer foi produzido por um agente de IA instruído a assumir a perspectiva de um
+> especialista da área, com leitura do manuscrito e dos arquivos do repositório.
+> **Não é parecer externo independente, não foi assinado por revisor humano identificável
+> e não passou por processo editorial algum.** Seu valor é o de uma crítica interna
+> estruturada — útil para achar erros e forçar precisão —, sem nenhuma das garantias que
+> a revisão por pares oferece. Não deve ser citado como validação externa.
+> Ver `README.md`, seção "AI assistance".
+
 **Manuscrito avaliado:** "Consciência como Regime Integrado" (`Versao atual.md`, versão de 2026-08-11)
 **Escopo deste parecer:** Cap. 11 (seção "Animais"), Cap. 4 ("Causalidade estratificada e comportamento") e Cap. 6 ("Automação inteligente e economia da consciência"), lidos no contexto do livro inteiro. Não cobre a lógica evolutiva profunda de seleção natural/replicadores (Cap. 1, Cap. 7), que fica a cargo de outro parecer.
 **Natureza da tarefa:** leitura e avaliação crítica. Nenhum arquivo do manuscrito foi editado.

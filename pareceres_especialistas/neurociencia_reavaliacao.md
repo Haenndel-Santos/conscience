@@ -1,5 +1,14 @@
 # Reavaliação técnica — parecer de neurociência da consciência (segunda leitura)
 
+> ⚠️ **Origem deste documento: revisão adversarial por IA — não é peer review.**
+> Este parecer foi produzido por um agente de IA instruído a assumir a perspectiva de um
+> especialista da área, com leitura do manuscrito e dos arquivos do repositório.
+> **Não é parecer externo independente, não foi assinado por revisor humano identificável
+> e não passou por processo editorial algum.** Seu valor é o de uma crítica interna
+> estruturada — útil para achar erros e forçar precisão —, sem nenhuma das garantias que
+> a revisão por pares oferece. Não deve ser citado como validação externa.
+> Ver `README.md`, seção "AI assistance".
+
 **Manuscrito:** *Consciência como Regime Integrado* (`Versao atual.md`; fontes em `capitulos/`)
 **Parecer original:** `pareceres_especialistas/neurociencia.md` (5 recomendações, priorizadas)
 **Escopo desta reavaliação:** as respostas às 5 recomendações originais — com foco na recomendação 3 (teste computacional de complexidade multivariada), a única que exigia computação nova sobre dado real. Leitura e verificação apenas; nenhum arquivo do manuscrito foi editado.

@@ -1,0 +1,71 @@
+# Licenças — projeto Conscience
+
+Este repositório é licenciado em duas partes, porque contém dois tipos de material.
+
+---
+
+## 1. Código — MIT License
+
+Aplica-se a todos os arquivos `.py` do repositório: modelos e simulações
+(`dados atuais/`), análises empíricas (`scripts_para_rodar/`,
+`recompute_empirico_sleepedf/`, `recompute_empirico_v2/`) e qualquer script auxiliar.
+
+Copyright (c) 2026 Haenndel Santos
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## 2. Texto, figuras e dados derivados — CC BY 4.0
+
+Aplica-se ao manuscrito (`capitulos/`, `Versao atual.md`), à documentação
+(`embasamento/`, `README*.md`, relatórios), às figuras geradas (`*.png`) e às
+tabelas de resultados produzidas por este projeto (`*.csv`).
+
+Copyright (c) 2026 Haenndel Santos
+
+Licenciado sob a **Creative Commons Atribuição 4.0 Internacional (CC BY 4.0)**.
+Você pode compartilhar e adaptar este material, para qualquer finalidade, inclusive
+comercial, desde que dê o crédito apropriado, forneça um link para a licença e
+indique se mudanças foram feitas.
+
+Texto completo: https://creativecommons.org/licenses/by/4.0/legalcode.pt
+Resumo legível: https://creativecommons.org/licenses/by/4.0/deed.pt
+
+Para citar, ver `CITATION.cff`.
+
+---
+
+## 3. O que NÃO é coberto por estas licenças
+
+**Os datasets de EEG não pertencem a este projeto e não são redistribuídos aqui.**
+Carregam seus próprios termos, que prevalecem:
+
+- **Sleep-EDF** (PhysioNet) — obtido sob demanda via `mne.datasets.sleep_physionet`;
+  sujeito aos termos do PhysioNet.
+- **Propofol sedation** (Chennu et al. 2016, repositório Apollo/Cambridge) —
+  **CC BY 2.0 UK**. Qualquer uso dos dados brutos, ou de resultados derivados deles,
+  exige atribuição aos autores originais:
+  Chennu S, O'Connor S, Adapa R, Menon DK, Bekinschtein TA. *Brain Connectivity
+  Dissociates Responsiveness from Drug Exposure during Propofol-Induced Transitions
+  of Consciousness*. PLOS Computational Biology, 2016.
+  DOI 10.1371/journal.pcbi.1004669
+
+**Referências bibliográficas** citadas no manuscrito permanecem sob os direitos de
+seus respectivos autores e editoras.

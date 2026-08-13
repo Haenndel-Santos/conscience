@@ -1,0 +1,54 @@
+cff-version: 1.2.0
+title: "Consciência como Regime Integrado: corpo, determinismo estratificado e coordenação intersubjetiva"
+message: >-
+  Se você usar este repositório — o manuscrito, as simulações ou as análises
+  empíricas —, por favor cite-o conforme os metadados abaixo.
+type: software
+authors:
+  - family-names: Santos
+    given-names: Haenndel
+    email: haenndel.santos@gmail.com
+repository-code: "https://github.com/Haenndel-Santos/conscience"
+abstract: >-
+  Programa teórico interdisciplinar que trata a consciência como um regime
+  dinâmico de integração — entre sinais neurais, corporais, mnêmicos,
+  valorativos e ambientais —, corporalmente situado e causalmente
+  estratificado, com uma extensão intersubjetiva no caso humano. O repositório
+  reúne o manuscrito, simulações sintéticas de prova de conceito (V2 a V5) e
+  reanálises empíricas de EEG em sono (Sleep-EDF) e anestesia por propofol
+  (Chennu et al. 2016), incluindo os resultados negativos e os controles que os
+  produziram.
+keywords:
+  - consciência
+  - integração diferenciada
+  - complexidade de Lempel-Ziv
+  - entropia de permutação
+  - inclinação espectral 1/f
+  - EEG
+  - filosofia da mente
+version: "0.5.0"
+date-released: "2026-08-11"
+license:
+  - MIT          # código (.py)
+  - CC-BY-4.0    # manuscrito, documentação, figuras e tabelas de resultados
+
+# NOTAS PARA QUEM CITA
+#
+# 1. Estatuto: trabalho não publicado e não revisado por pares. Os cinco
+#    "pareceres de especialistas" em `pareceres_especialistas/` foram produzidos
+#    por agentes de IA como revisão adversarial interna — não são peer review
+#    externo independente.
+#
+# 2. Escopo do que está demonstrado: a contribuição estabelecida hoje é a
+#    arquitetura conceitual e o aparato de teste, não uma assinatura empírica
+#    própria já demonstrada. A discriminação bruta entre estágios de sono é
+#    robusta (AUC≈0,99), mas não sobrevive ao controle pela inclinação espectral
+#    1/f. Ver `embasamento/registro_falsificabilidade.md` antes de citar
+#    qualquer resultado como confirmado.
+#
+# 3. A versão 0.5.0 corresponde ao fechamento da revisão V05
+#    (`MAPA_TRABALHO_Conscience_V05.md`, 2026-08-11). Não há release formal.
+#
+# 4. Licenciamento duplo: código sob MIT, texto e figuras sob CC BY 4.0. Os datasets
+#    de EEG NÃO são cobertos — carregam seus próprios termos (o de propofol é
+#    CC BY 2.0 UK e exige atribuição a Chennu et al. 2016). Ver `LICENSE`.

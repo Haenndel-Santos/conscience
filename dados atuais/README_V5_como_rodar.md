@@ -1,10 +1,23 @@
 # V5 — teste não-circular de common knowledge: como rodar
 
+> **A execução real já ocorreu (2026-08-10).** O documento abaixo foi escrito *antes* dela e
+> descreve a calibração e o procedimento — continua válido como guia de execução e como
+> registro de transparência sobre a origem dos parâmetros. Os **resultados finais** estão em
+> `social_v5_outputs/` (80 trials por cenário, seed=42): taxa de sucesso de coordenação
+> 0,000 (privado), 0,000 (compartilhado), **0,912 (ratificado)**; ablação sem feedback
+> derruba os três a 0,000. Cite esses números, não os do teste de fumaça reproduzido abaixo.
+>
+> Ressalva que permanece: como os parâmetros do jogo foram calibrados para separar os
+> cenários, o resultado é **verificação interna de mecanismo, não corroboração independente**
+> de common knowledge. Ver `social_v5_outputs/README.md`.
+
+## Contexto original (pré-execução)
+
 `consciousness_model_v5_social.py` foi **escrito por um agente e não executado por ele nos parâmetros reais** — mesma regra de governança das Frentes C/D/E/G (`PLANO_ESTRATEGICO_cientifico.md` §0.1). O agente verificou sintaxe (`python -m py_compile`, passou) e rodou um teste de fumaça com parâmetros bem reduzidos (`--n-trials 6 --n-trials-sweep 3 --n-trials-robustez 2`, poucos agentes/segundos) para (a) confirmar que a lógica não quebra e (b) **calibrar** três parâmetros do jogo de coordenação (ver seção própria abaixo) — os números finais citados em qualquer relatório devem vir da execução real com os parâmetros default (ou maiores), não desse teste de fumaça.
 
 ## O que este script testa
 
-Ver a docstring completa em `consciousness_model_v5_social.py` (leia antes de citar qualquer número deste script em qualquer lugar) e `PROMPT_claude_code_V5_social.md` (o prompt original que especificou esta Frente). Resumo: a V4 mostrou que S(t)/C_hum(t) discriminam cenários de common knowledge, mas de forma quase tautológica e desacoplada do comportamento dos agentes. A V5 corrige isso com três mudanças (feedback real na dinâmica individual; K_ck como indicador de limiar, não gradiente; e um jogo de coordenação tipo stag-hunt com risco real) e testa uma predição que **pode falhar**: que a coordenação comportamental arriscada só tem sucesso no cenário "ratificado" (common knowledge), não em "compartilhado" (informação ampla sem reconhecimento recíproco) nem em "privado".
+Ver a docstring completa em `consciousness_model_v5_social.py` (leia antes de citar qualquer número deste script em qualquer lugar) e `docs/historico/PROMPT_claude_code_V5_social.md` (o prompt original que especificou esta Frente). Resumo: a V4 mostrou que S(t)/C_hum(t) discriminam cenários de common knowledge, mas de forma quase tautológica e desacoplada do comportamento dos agentes. A V5 corrige isso com três mudanças (feedback real na dinâmica individual; K_ck como indicador de limiar, não gradiente; e um jogo de coordenação tipo stag-hunt com risco real) e testa uma predição que **pode falhar**: que a coordenação comportamental arriscada só tem sucesso no cenário "ratificado" (common knowledge), não em "compartilhado" (informação ampla sem reconhecimento recíproco) nem em "privado".
 
 ## Calibração dos parâmetros do jogo (documentado para transparência)
 
@@ -74,5 +87,5 @@ python consciousness_model_v5_social.py
 Devolva a pasta `social_v5_outputs/` inteira (ou pelo menos os `.csv` e o `README.md` gerado) para um agente interpretar. Ele deve, seguindo a mesma disciplina de honestidade das Frentes C/D:
 1. Conferir os três critérios centrais (ver "Leitura preliminar automática" no README gerado): o padrão privado<compartilhado<ratificado apareceu? "Compartilhado" ficou perto de "privado" apesar de P_u alto? A ablação (a) fez a coordenação de "ratificado" colapsar?
 2. Examinar o sweep de p_ack: há uma transição relativamente abrupta, ou uma rampa suave e gradual? (isso não invalida o teste principal, mas é uma predição adicional específica do prompt original — "transição de fase" — que também deve ser reportada honestamente, seja qual for o resultado).
-3. Se o teste passou nos três critérios: atualizar o Cap. 9 do manuscrito com um parágrafo comedido (nunca "confirma", nunca alegar consciência intersubjetiva real — ver seção "Texto do manuscrito" em `PROMPT_claude_code_V5_social.md`), `embasamento/registro_falsificabilidade.md` (predição 5.2, que hoje está ⭕ NÃO TESTADA), e `CHECKLIST_pendencias.md`.
+3. Se o teste passou nos três critérios: atualizar o Cap. 9 do manuscrito com um parágrafo comedido (nunca "confirma", nunca alegar consciência intersubjetiva real — ver seção "Texto do manuscrito" em `docs/historico/PROMPT_claude_code_V5_social.md`), `embasamento/registro_falsificabilidade.md` (predição 5.2, que hoje está ⭕ NÃO TESTADA), e `CHECKLIST_pendencias.md`.
 4. Se o teste falhou ou ficou ambíguo em algum critério: registrar isso tal como está, sem maquiar — é exatamente o resultado que o desenho anti-circularidade foi feito para poder revelar.

@@ -1,5 +1,14 @@
 # Reavaliação — Parecer de Biologia Evolutiva
 
+> ⚠️ **Origem deste documento: revisão adversarial por IA — não é peer review.**
+> Este parecer foi produzido por um agente de IA instruído a assumir a perspectiva de um
+> especialista da área, com leitura do manuscrito e dos arquivos do repositório.
+> **Não é parecer externo independente, não foi assinado por revisor humano identificável
+> e não passou por processo editorial algum.** Seu valor é o de uma crítica interna
+> estruturada — útil para achar erros e forçar precisão —, sem nenhuma das garantias que
+> a revisão por pares oferece. Não deve ser citado como validação externa.
+> Ver `README.md`, seção "AI assistance".
+
 **Manuscrito reavaliado:** *Consciência como Regime Integrado* (`Versao atual.md` / `capitulos/*.md`, estado em 2026-08-12), após incorporação das recomendações do parecer original (`pareceres_especialistas/biologia_evolutiva.md`).
 **Escopo desta reavaliação:** os trechos editados em resposta ao parecer original — Cap. 1 (`capitulos/02_capitulo_01.md`), Cap. 7 (`capitulos/08_capitulo_07.md`), nota metodológica (`capitulos/00_nota_metodologica.md`) e Cap. 13 (`capitulos/14_capitulo_13.md`) — mais uma checagem de consistência cruzada com a Introdução (`capitulos/01_introducao.md`), o Cap. 9 (`capitulos/10_capitulo_09.md`, para verificar a referência à simulação V5), o Cap. 5 (para verificar "agência integrada"), o Cap. 11 (para verificar se a seção "Animais" também foi conectada à nova bibliografia) e `embasamento/registro_falsificabilidade.md`.
 **Natureza da tarefa:** leitura e avaliação. Nenhum arquivo do manuscrito foi editado na produção desta reavaliação.

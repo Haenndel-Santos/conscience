@@ -1,5 +1,14 @@
 # Parecer de Revisão por Pares — Perspectiva Psicológica
 
+> ⚠️ **Origem deste documento: revisão adversarial por IA — não é peer review.**
+> Este parecer foi produzido por um agente de IA instruído a assumir a perspectiva de um
+> especialista da área, com leitura do manuscrito e dos arquivos do repositório.
+> **Não é parecer externo independente, não foi assinado por revisor humano identificável
+> e não passou por processo editorial algum.** Seu valor é o de uma crítica interna
+> estruturada — útil para achar erros e forçar precisão —, sem nenhuma das garantias que
+> a revisão por pares oferece. Não deve ser citado como validação externa.
+> Ver `README.md`, seção "AI assistance".
+
 **Manuscrito:** *Consciência como Regime Integrado* (`Versao atual.md`, reconstruído de `capitulos/*.md`)
 **Foco da avaliação:** Capítulo 3 ("Stress, alostase e deformação do campo consciente"), seção "Trauma" do Capítulo 11, e Capítulo 5 ("Agência integrada e crítica ao livre-arbítrio metafísico"), lidos no contexto do livro inteiro. Notas secundárias, sem aprofundamento, sobre o Capítulo 6 ("Automação inteligente e economia da consciência") e sobre a mentalização recursiva ($M_r$) no Capítulo 9.
 **Papel do parecerista:** psicólogo — professor universitário, formação ampla em psicologia clínica, cognitiva e da saúde.
