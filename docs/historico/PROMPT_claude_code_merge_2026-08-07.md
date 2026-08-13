@@ -2,7 +2,7 @@
 
 Você é o Claude Code no repositório local do projeto **Conscience**, na máquina "Haenndel Projects 2" (`C:\Haenndel Projects 2\conscience\conscience`). Objetivo: commitar todo o trabalho pendente da sessão de hoje (Frentes C, D, G, E e F), enviar a branch `revisao-2026-08` ao GitHub como backup, e depois fazer o merge na `main`.
 
-Este prompt segue o mesmo modelo de segurança de `PROMPT_claude_code_git_push.md` (já existente no repositório, de uma sessão anterior) — leia-o também se quiser contexto adicional, mas trate ESTE prompt como a fonte de verdade para a execução de hoje.
+Este prompt segue o mesmo modelo de segurança de `docs/historico/PROMPT_claude_code_git_push.md` (já existente no repositório, de uma sessão anterior) — leia-o também se quiser contexto adicional, mas trate ESTE prompt como a fonte de verdade para a execução de hoje.
 
 ## Contexto do que deve entrar no commit (para você escrever uma mensagem precisa, não para você conferir cegamente — confirme tudo com `git status`/`git diff` antes)
 

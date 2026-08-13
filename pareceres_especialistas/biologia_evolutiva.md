@@ -1,5 +1,14 @@
 # Parecer de revisão por pares — Biologia Evolutiva
 
+> ⚠️ **Origem deste documento: revisão adversarial por IA — não é peer review.**
+> Este parecer foi produzido por um agente de IA instruído a assumir a perspectiva de um
+> especialista da área, com leitura do manuscrito e dos arquivos do repositório.
+> **Não é parecer externo independente, não foi assinado por revisor humano identificável
+> e não passou por processo editorial algum.** Seu valor é o de uma crítica interna
+> estruturada — útil para achar erros e forçar precisão —, sem nenhuma das garantias que
+> a revisão por pares oferece. Não deve ser citado como validação externa.
+> Ver `README.md`, seção "AI assistance".
+
 **Manuscrito avaliado:** *Consciência como Regime Integrado* (arquivo `Versao atual.md`, versão reconstruída de `capitulos/*.md`, estado em 2026-08-11).
 **Escopo deste parecer:** leitura integral do livro para contexto; foco crítico no Capítulo 1 ("A origem integrativa da consciência") e no Capítulo 7 ("Evolução distal, replicadores e veículos"). Alegações sobre animais (Cap. 11) e automação/reflexo (Caps. 4 e 6) são apenas notadas de passagem, por estarem sob avaliação paralela de um especialista em comportamento evolutivo/etologia.
 **Papel simulado:** biólogo evolutivo (professor universitário; seleção natural, genética de populações, macroevolução, transições evolutivas maiores), lendo como faria para um parecer de periódico.

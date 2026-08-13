@@ -8,7 +8,7 @@ para confirmar que a lógica não quebra — os números citados em qualquer
 relatório não vêm desse teste de fumaça, vêm da execução real que o autor
 roda localmente.
 
-CONTEXTO E MOTIVAÇÃO (ler `PROMPT_claude_code_V5_social.md` e
+CONTEXTO E MOTIVAÇÃO (ler `docs/historico/PROMPT_claude_code_V5_social.md` e
 `_revisao_2026-08-05/revisao_critica_St_V4.md` antes de citar este script em
 qualquer lugar)
 ------------------------------------------------------------------------------

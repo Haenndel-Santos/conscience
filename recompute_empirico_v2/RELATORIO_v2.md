@@ -27,13 +27,24 @@ Data: 2026-08-05/06 · Protocolo: `_revisao_2026-08-05/confronto_empirico.md`, P
 
 | Estágio | LZc (média±dp) | PE (média±dp) | N épocas |
 |---|---|---|---|
-| **W** | **0,4531 ± 0,0801** | **0,7796 ± 0,0237** | 8.923 |
-| N1 | 0,4062 ± 0,0608 | 0,7576 ± 0,0205 | 3.264 |
-| REM | 0,3773 ± 0,0501 | 0,7517 ± 0,0193 | 6.155 |
-| N2 | 0,3372 ± 0,0527 | 0,7268 ± 0,0241 | 16.772 |
-| **N3** | **0,2326 ± 0,0391** | **0,6908 ± 0,0268** | 3.972 |
+| **W** | **0,6473 ± 0,1201** | **0,9614 ± 0,0355** | 8.923 |
+| N1 | 0,5772 ± 0,0908 | 0,9284 ± 0,0306 | 3.264 |
+| REM | 0,5337 ± 0,0748 | 0,9196 ± 0,0288 | 6.155 |
+| N2 | 0,4737 ± 0,0787 | 0,8823 ± 0,0360 | 16.772 |
+| **N3** | **0,3164 ± 0,0585** | **0,8282 ± 0,0403** | 3.972 |
 
-**Concordância excelente:** as duas métricas produzem a **mesma ordenação exata** por estágio (Spearman = **1,0000**): W > N1 > REM > N2 > N3. Correlação época-a-época (todas as 39.086 épocas): Spearman = **0,7235** — forte, mas não perfeita, indicando que as métricas capturam uma propriedade fortemente relacionada, porém não idêntica.
+> **Correção de valores absolutos (2026-08-12).** Esta tabela foi recalculada após a correção
+> do bug de canal EEG — um canal *Event marker* estava sendo inferido como EEG pelo MNE e
+> entrando na média das métricas. Os valores originalmente publicados aqui eram
+> LZc W=0,4531 / N1=0,4062 / REM=0,3773 / N2=0,3372 / N3=0,2326 e
+> PE W=0,7796 / N1=0,7576 / REM=0,7517 / N2=0,7268 / N3=0,6908.
+> **O que não mudou:** as AUCs W-vs-N3 (0,9919 e 0,9840), a ordenação por estágio, a
+> concordância Spearman entre ordenações (1,0000) e a contagem de épocas. O canal espúrio
+> deslocava a escala das métricas sem alterar a separação entre estágios — por isso nenhuma
+> conclusão desta seção muda, apenas os números absolutos.
+> Fonte dos valores atuais: `sleepedf_por_estagio.csv` e `sleepedf_resumo.txt`, nesta pasta.
+
+**Concordância excelente:** as duas métricas produzem a **mesma ordenação exata** por estágio (Spearman = **1,0000**): W > N1 > REM > N2 > N3. Correlação época-a-época (todas as 39.086 épocas): Spearman = **0,7226** — forte, mas não perfeita, indicando que as métricas capturam uma propriedade fortemente relacionada, porém não idêntica.
 
 **AUC W-vs-N3:** LZc = **0,9919**, PE = **0,9840** — ambas quase perfeitas, e **reforçam** (com amostra 3,6× maior e uma métrica totalmente independente) o resultado já robusto da v1 (LZc, AUC=0,9948, N=10).
 
@@ -79,7 +90,7 @@ O modelo (`consciousness_model_v3.py`) prevê a ordenação **wake > anxiety > d
 | Domínio | Extremo "alto" | Extremo "baixo" | Direção prevista pelo modelo confirmada? |
 |---|---|---|---|
 | Modelo (V3, sintético) | wake (𝒞≈0,60) | deep_sleep/reflex (𝒞≈0,30–0,38) | — (é a própria predição) |
-| Sono real (Sleep-EDF, N=36, LZc+PE) | W (LZc=0,453; PE=0,780) | N3 (LZc=0,233; PE=0,691) | ✅ **Sim** — AUC≈0,98–0,99, direção e magnitude de separação fortemente alinhadas |
+| Sono real (Sleep-EDF, N=36, LZc+PE) | W (LZc=0,647; PE=0,961) | N3 (LZc=0,316; PE=0,828) | ✅ **Sim** — AUC≈0,98–0,99, direção e magnitude de separação fortemente alinhadas |
 | Anestesia real (propofol, N=20, LZc+PE) | sedação leve/moderada (LZc mais alto) | basal (LZc=0,423, o mais baixo) | ❌ **Não** — a direção observada é oposta à esperada por analogia com o sono; efeito pequeno e inconsistente entre métricas |
 
 **Leitura honesta do confronto:** o eixo central da teoria (integração alta ≠ integração baixa, com separação grande e replicável) recebe **apoio forte e agora mais robusto** do lado do sono — replicado com quase 4× mais dados e uma segunda métrica totalmente independente, que concorda perfeitamente com a primeira. Do lado da anestesia, o recompute **não estende** esse padrão da forma simples que se antecipava; o resultado é honesto o suficiente para apontar que "vigília > sono profundo" e "vigília > sedação farmacológica parcial" **não são o mesmo tipo de comparação** — a segunda depende de confirmar perda de consciência real, não apenas dose nominal de droga, algo que este desenho específico (e esta análise) não capturam.

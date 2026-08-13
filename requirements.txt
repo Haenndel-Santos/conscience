@@ -1,6 +1,34 @@
-# Dependências das simulações do projeto Conscience
-# (versões testadas em 2026-08; use >= para flexibilidade)
-numpy>=1.24
-pandas>=2.0
-matplotlib>=3.7
-scikit-learn>=1.3
+# Dependências do projeto Conscience
+#
+# Versões fixadas exatamente nas que produziram os resultados registrados em
+# `recompute_empirico_v2/`, `recompute_empirico_sleepedf/` e `scripts_para_rodar/`.
+# Fixar exato é deliberado: as análises empíricas são o material científico do
+# projeto, e diferenças de versão em MNE, specparam ou scikit-learn podem mudar
+# valores absolutos sem erro visível. Para apenas explorar o código, `>=` basta.
+#
+# Instalação:  python -m venv .venv && .venv/Scripts/pip install -r requirements.txt
+
+# --- Núcleo: simulações (V2, V3, V4, V5) e todas as análises ---
+numpy==2.4.6
+pandas==3.0.5
+matplotlib==3.11.1
+scikit-learn==1.9.0
+
+# --- Análises empíricas (EEG: sono Sleep-EDF e anestesia propofol) ---
+scipy==1.18.0
+mne==1.12.1              # leitura de EDF/EEGLAB e epocagem
+antropy==0.2.2           # complexidade de Lempel-Ziv e entropia de permutação
+pymatreader==1.2.3       # leitura de datainfo.mat (dataset de propofol)
+
+# Expoente aperiódico 1/f — controle espectral central dos Caps. 11 e 13.
+# Os scripts tentam `specparam` primeiro e caem para `fooof` (nome anterior do
+# mesmo pacote) se ele não estiver presente; qualquer um dos dois resolve.
+# ATENÇÃO à reprodutibilidade: a versão usada é um release candidate.
+specparam==2.0.0rc7
+# fooof==1.1.1           # alternativa legada, caso specparam não esteja disponível
+
+# --- Não é dependência de pacote ---
+# Os datasets não são versionados neste repositório e precisam ser obtidos à parte:
+#   - Sleep-EDF: baixado sob demanda por mne.datasets.sleep_physionet (via --data-dir)
+#   - Propofol (Chennu et al. 2016): download manual do repositório Apollo/Cambridge,
+#     3,44 GB; passado aos scripts de anestesia via --data-dir

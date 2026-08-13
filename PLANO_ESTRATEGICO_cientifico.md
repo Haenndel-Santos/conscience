@@ -114,7 +114,7 @@ Cada tarefa deste plano declara: **responsável** (agente / autor), **tipo** (bu
 
 ### FRENTE F — Camada social: construir a V5 (teste de coordenação)  ·  MÉDIA
 **Tipo:** **escrita de script** (agente escreve; autor roda) + ancoragem em literatura.
-**Objetivo:** o teste não-circular já desenhado em `PROMPT_claude_code_V5_social.md` — jogo de coordenação com risco (stag-hunt), predição de que "compartilhado-não-ratificado" falha em coordenar. Ancorar em Thomas et al. e no email game de Rubinstein (busca do agente).
+**Objetivo:** o teste não-circular já desenhado em `docs/historico/PROMPT_claude_code_V5_social.md` — jogo de coordenação com risco (stag-hunt), predição de que "compartilhado-não-ratificado" falha em coordenar. Ancorar em Thomas et al. e no email game de Rubinstein (busca do agente).
 **Entregável:** `dados atuais/consciousness_model_v5_social.py` (o agente **escreve**; o autor **roda**) + README com o experimento e as ablações de controle. Interpretação após o autor rodar.
 **Critério:** script escrito com as salvaguardas anti-circularidade do prompt V5; saída esperada documentada.
 

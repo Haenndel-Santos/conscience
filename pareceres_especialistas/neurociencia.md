@@ -1,5 +1,14 @@
 # Parecer técnico — avaliação em neurociência da consciência
 
+> ⚠️ **Origem deste documento: revisão adversarial por IA — não é peer review.**
+> Este parecer foi produzido por um agente de IA instruído a assumir a perspectiva de um
+> especialista da área, com leitura do manuscrito e dos arquivos do repositório.
+> **Não é parecer externo independente, não foi assinado por revisor humano identificável
+> e não passou por processo editorial algum.** Seu valor é o de uma crítica interna
+> estruturada — útil para achar erros e forçar precisão —, sem nenhuma das garantias que
+> a revisão por pares oferece. Não deve ser citado como validação externa.
+> Ver `README.md`, seção "AI assistance".
+
 **Manuscrito:** *Consciência como Regime Integrado* (arquivo `Versao atual.md`, versão de 2026-08-11)
 **Foco solicitado:** Cap. 2 (corpo/interocepção), Cap. 11 (sono/anestesia — programa empírico de EEG), Cap. 13 (esboço formal), Cap. 14 (posicionamento frente a teorias rivais). Leitura integral do manuscrito realizada para contexto; nenhum arquivo do manuscrito foi editado.
 **Perspectiva do parecerista:** neurociência da consciência — EEG, complexidade neural, teorias formais.

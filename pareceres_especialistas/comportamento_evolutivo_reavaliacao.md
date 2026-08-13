@@ -1,5 +1,14 @@
 # Reavaliação — Comportamento Evolutivo (Etologia, Ecologia Comportamental, Cognição Comparada)
 
+> ⚠️ **Origem deste documento: revisão adversarial por IA — não é peer review.**
+> Este parecer foi produzido por um agente de IA instruído a assumir a perspectiva de um
+> especialista da área, com leitura do manuscrito e dos arquivos do repositório.
+> **Não é parecer externo independente, não foi assinado por revisor humano identificável
+> e não passou por processo editorial algum.** Seu valor é o de uma crítica interna
+> estruturada — útil para achar erros e forçar precisão —, sem nenhuma das garantias que
+> a revisão por pares oferece. Não deve ser citado como validação externa.
+> Ver `README.md`, seção "AI assistance".
+
 **Parecer original:** `pareceres_especialistas/comportamento_evolutivo.md`
 **Manuscrito reavaliado:** "Consciência como Regime Integrado" — estado atual do repositório (2026-08-12), arquivos-fonte em `capitulos/`
 **Escopo desta reavaliação:** idêntico ao parecer original — Cap. 11 (seção "Animais"), Cap. 4 (`05_capitulo_04.md`) e Cap. 6 (`07_capitulo_06.md`) —, mais o novo material do Cap. 1 (`02_capitulo_01.md`) na medida em que responde à Recomendação 5, e o Cap. 13 (`14_capitulo_13.md`) na medida em que a seção Animais agora se apoia formalmente em sua notação vetorial. Os parágrafos novos de Cap. 1 sobre Gould & Lewontin e sobre a datação filogenética de Ginsburg & Jablonka / Feinberg & Mallatt tocam a "lógica evolutiva profunda de seleção natural/replicadores", que o parecer original já excluía explicitamente do seu escopo ("fica a cargo de outro parecer") — são mencionados aqui apenas onde relevantes à Recomendação 5, não auditados em mérito próprio.
