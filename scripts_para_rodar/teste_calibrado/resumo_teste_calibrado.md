@@ -1,6 +1,6 @@
 # Teste calibrado (AUC por sujeito) — resultados
 
-Gerado por `teste_auc_por_sujeito.py` em 2026-08-13 09:24.
+Gerado por `teste_auc_por_sujeito.py` em 2026-08-13 12:30.
 `--n-folds 5`.
 
 Substitui o `cluster_bootstrap_auc` (AUC agrupada por época + bootstrap de sujeitos) no
@@ -58,6 +58,18 @@ sono-multi      todos          lzc_multivariado resid_1f_out_of_sample          
  anestesia     drowsy                        pe                  bruta           7          58              71   0.289510     0.369270 0.260177  0.120341   0.476067                0.142857 1.093750e-01 7.609964e-02 1.789773e-01              0.283               0.020
  anestesia     drowsy                        pe     resid_1f_in_sample           7          58              71   0.393405     0.441441 0.376793  0.144644   0.654795                0.428571 4.687500e-01 4.824657e-01 4.963235e-01                NaN                 NaN
  anestesia     drowsy                        pe resid_1f_out_of_sample           7          58              71   0.401770     0.441441 0.379700  0.157025   0.662341                0.428571 4.687500e-01 5.192286e-01 4.963235e-01              0.402               0.413
+       rem   REM vs W                   emg_rms                  bruta          36         162             363   0.661816     0.693313 0.204416  0.595429   0.726167                0.777778 4.721075e-05 3.409990e-05 1.133058e-04                NaN                 NaN
+       rem   REM vs W         eeg_emg_coherence                  bruta          36         162             363   0.545281     0.549647 0.040474  0.532247   0.558206                0.888889 1.448789e-07 9.003837e-08 4.346366e-07                NaN                 NaN
+       rem   REM vs W     indice_desacoplamento                  bruta          36         162             363   0.260198     0.269479 0.149905  0.210363   0.309333                0.083333 9.604264e-10 2.452222e-11 5.762558e-09                NaN                 NaN
+       rem  REM vs N1                   emg_rms                  bruta          36         102             257   0.528056     0.513721 0.198947  0.466707   0.593303                0.500000 5.290792e-01 4.032180e-01 6.341365e-01                NaN                 NaN
+       rem  REM vs N1         eeg_emg_coherence                  bruta          36         102             257   0.538287     0.533653 0.052429  0.522095   0.555302                0.833333 6.088233e-05 1.021623e-04 1.217647e-04                NaN                 NaN
+       rem  REM vs N1     indice_desacoplamento                  bruta          36         102             257   0.412429     0.382520 0.170586  0.356808   0.468321                0.305556 4.354625e-03 4.012292e-03 6.896363e-03                NaN                 NaN
+       rem  REM vs N2                   emg_rms                  bruta          36         285             646   0.505254     0.466576 0.143009  0.460912   0.553944                0.472222 9.938101e-01 8.268083e-01 9.938101e-01                NaN                 NaN
+       rem  REM vs N2         eeg_emg_coherence                  bruta          36         285             646   0.517901     0.514436 0.034320  0.507280   0.529461                0.666667 4.597575e-03 3.522031e-03 6.896363e-03                NaN                 NaN
+       rem  REM vs N2     indice_desacoplamento                  bruta          36         285             646   0.660026     0.680913 0.112993  0.621365   0.694360                0.916667 3.669993e-08 5.004183e-10 1.467997e-07                NaN                 NaN
+       rem  REM vs N3                   emg_rms                  bruta          36          56             270   0.503259     0.481502 0.177492  0.447474   0.560995                0.416667 5.812918e-01 9.129173e-01 6.341365e-01                NaN                 NaN
+       rem  REM vs N3         eeg_emg_coherence                  bruta          36          56             270   0.511918     0.518956 0.072594  0.486618   0.533415                0.694444 3.209542e-02 3.313785e-01 4.279390e-02                NaN                 NaN
+       rem  REM vs N3     indice_desacoplamento                  bruta          36          56             270   0.885894     0.896853 0.070969  0.861385   0.907060                1.000000 2.910383e-11 8.598259e-28 3.492460e-10                NaN                 NaN
 
 ## Onde a conclusão mudou em relação ao teste antigo
 
