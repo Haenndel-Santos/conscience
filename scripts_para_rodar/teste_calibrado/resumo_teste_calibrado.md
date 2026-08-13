@@ -11,10 +11,23 @@ desenho do sono, onde o desequilíbrio de épocas (2,25:1) o torna inválido.
 | desenho | AUC agrupada sob o nulo | teste ANTIGO | teste NOVO |
 |---|---|---|---|
 | Anestesia (épocas 1,01:1) | 0,4972 | 5,5% [3,1–9,6%] | 4,0% [2,0–7,7%] |
-| Sono (épocas 2,25:1) | 0,5828 | **100,0%** [98,1–100%] | 7,0% [4,2–11,4%] |
+| Sono (épocas 2,25:1) | ~~0,5828~~ **0,5510** | ~~**100,0%** [98,1–100%]~~ **10,5%** [7,0–15,5%] | 7,0% [4,2–11,4%] |
 
-O teste antigo é válido no desenho balanceado da anestesia e inválido no do sono.
-O teste novo é calibrado nos dois.
+> ⚠️ **Correção (2026-08-13).** Os dois valores tachados na linha do sono vieram da rodada
+> arquivada como `_INVALIDO_residualizou_todos_estagios`, que ajustava a residualização por
+> 1/f sobre os **cinco** estágios antes de filtrar o par W/N3 — contra a convenção do projeto,
+> que é filtrar o par primeiro e só então residualizar. Os valores corretos, em negrito, são
+> os de `varredura_desenhos.csv` (linha `SONO W vs N3 — LZc resid. 1/f`). Não citar 100,0%
+> nem 0,5828 em lugar nenhum.
+
+O teste antigo é válido no desenho balanceado da anestesia e **suspeito** — não inválido — no
+do sono: com erro tipo I de 10,5% contra 5% nominal, ele rejeita cerca de duas vezes mais do
+que deveria, o que não chega a explicar os p-valores obtidos e por isso não derruba nenhuma
+conclusão já registrada. (A varredura completa dos 15 desenhos, em `varredura_desenhos.md`,
+classifica este desenho como SUSPEITO e encontra 3 desenhos genuinamente inválidos, nenhum
+deles o do sono.) O teste novo é calibrado nos dois; a varredura reporta para ele 6,5%
+[3,8–10,8%] neste desenho, contra os 7,0% [4,2–11,4%] da rodada de permutação acima —
+diferença de ruído de simulação entre duas rodadas, sem efeito em veredito algum.
 
 ## Resultados
 

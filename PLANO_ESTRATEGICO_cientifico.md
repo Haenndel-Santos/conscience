@@ -1,9 +1,27 @@
+> ## ⚠️ DOCUMENTO CONGELADO — REGISTRO HISTÓRICO, NÃO É UM PLANO ATIVO
+>
+> Criado em **2026-08-05**. As frentes A a G que ele define foram executadas e encerradas entre **2026-08-06 e 2026-08-07** (registro granular em `CHECKLIST_pendencias.md`, Blocos L a R). Desde então o documento é preservado **na íntegra e sem atualização**, como registro de por que o projeto tomou o rumo que tomou. Nenhum agente deve tratá-lo como instrução vigente.
+>
+> **Os números, diagnósticos e prioridades abaixo refletem 2026-08-05 e não descrevem o estado atual do projeto.** Vários foram superados pelos resultados das próprias frentes que este plano encomendou — o diagnóstico da §1, em particular, descreve a discriminação de sono *antes* do controle por inclinação espectral 1/f que a Frente C viria a impor e que derrubou a leitura mecanística.
+>
+> **Onde está o estado atual:**
+> - `README.md` (raiz) — visão geral do que está e do que não está demonstrado;
+> - `CHECKLIST_pendencias.md` — histórico granular, bloco a bloco, de tudo que foi executado;
+> - `embasamento/registro_falsificabilidade.md` — estatuto empírico de cada predição, uma a uma.
+>
+> **Regras específicas deste documento que estão revogadas — não seguir:**
+> - **§0.2, "Git: branch, commits pequenos e descritivos, sem push."** Revogada como proibição. O repositório hoje tem remote `origin` no GitHub; `main` e `revisao-2026-08` rastreiam origin, estão ambos publicados, e há merges regulares de `revisao-2026-08` para `main`. A convenção vigente é a do `AGENTS.md`: não fazer push sem pedido explícito do autor — o que é diferente de nunca fazer.
+> - **§8, "PRÓXIMO PASSO IMEDIATO".** Revogada. Manda começar pela Frente A, concluída em 2026-08-06 (`embasamento/mapa_evidencias_pilares.md` e `embasamento/SINTESE_pilares.md`). Não há próximo passo a extrair deste documento.
+> - **§0.1, separação entre escrever e executar cálculo.** Não revogada, mas flexibilizada pelo autor: vale para cálculos pesados o bastante para justificar, não como regra geral (`CHECKLIST_pendencias.md`, seção "O que agora depende de você", item 11).
+>
+> As regras de honestidade científica (§2 e §7 — verificar toda referência, declarar contra-evidência, reportar resultados negativos, não apresentar simulação sintética como validação empírica) continuam vigentes como cultura do projeto.
+
 # Plano Estratégico — Fortalecimento do Embasamento Científico
 ## Projeto *Conscience* ("Consciência como Regime Integrado")
 
 Documento de estratégia para as próximas fases. Público-alvo: **Claude Code e Codex** (e o autor). Vive na raiz do repositório para que qualquer agente o leia antes de trabalhar.
 
-Data de criação: 2026-08-05 · Branch de trabalho: `revisao-2026-08` (sem push).
+Data de criação: 2026-08-05 · Branch de trabalho: `revisao-2026-08` (sem push). — **⚠️ "sem push" revogado, mesma correção da §0.2 abaixo: `revisao-2026-08` e `main` estão publicados em `origin`.**
 
 ---
 
@@ -24,7 +42,7 @@ Data de criação: 2026-08-05 · Branch de trabalho: `revisao-2026-08` (sem push
 - Distinguir sempre hipótese / proxy operacional / variável provisória / evidência. Simulação sintética **não** é validação empírica.
 - Preservar a voz autoral; não reescrever prosa além do necessário.
 - **Resultados negativos são dados, não fracassos** — reportar, nunca maquiar.
-- Git: branch, commits pequenos e descritivos, **sem push**.
+- Git: branch, commits pequenos e descritivos, **sem push**. — **⚠️ REGRA REVOGADA: o repositório tem remote `origin` no GitHub, `main` e `revisao-2026-08` rastreiam origin e são publicados, com merges regulares para `main`. A convenção vigente é a do `AGENTS.md` (não fazer push sem pedido explícito do autor), não a proibição registrada aqui.**
 
 ### 0.3 Formato de cada tarefa
 Cada tarefa deste plano declara: **responsável** (agente / autor), **tipo** (busca · script · redação · revisão · execução), **entregável** e **critério de conclusão**.
@@ -180,4 +198,7 @@ Cada pasta de `scripts_para_rodar/` traz seu próprio `README_como_rodar.md` (de
 ---
 
 ## 8. PRÓXIMO PASSO IMEDIATO (recomendado)
+
+> **⚠️ SEÇÃO REVOGADA — não executar.** A Frente A foi concluída em 2026-08-06 (`embasamento/mapa_evidencias_pilares.md`, `embasamento/SINTESE_pilares.md`) e a Frente C foi escrita, executada pelo autor e interpretada, com **resultado negativo** para a assinatura de integração diferenciada (`CHECKLIST_pendencias.md`, Blocos N e Z; `embasamento/registro_falsificabilidade.md`, entradas 1.2, 1.3 e 1.3b). O texto abaixo é preservado como registro da recomendação feita em 2026-08-05.
+
 Começar pela **Frente A** com busca multi-agente ampla (é a de maior valor e 100% executável por agentes, sem depender de execução local). Em paralelo, **escrever** (não rodar) os scripts da Frente C — o teste de "integração diferenciada" —, que é o experimento mais específico e decisivo para esta teoria.
