@@ -98,16 +98,20 @@ resultado positivo significa, exatamente:
 
 Não significa "encontramos não linearidade", e menos ainda "encontramos a não linearidade da
 consciência". A irreversibilidade temporal é **sensível a mais de uma causa**, e o nulo IAAFT é uma
-classe de hipóteses, não uma única. Um positivo é compatível com pelo menos quatro origens que este
-desenho não separa entre si: dinâmica genuinamente não linear; **não estacionariedade** dentro da
+classe de hipóteses, não uma única. Um positivo é compatível com pelo menos cinco origens que este
+desenho não separa entre si: dinâmica genuinamente não linear; **processo linear não gaussiano** — a
+literatura sobre o teorema de Weiss é explícita em que a irreversibilidade implica dinâmica não
+linear *ou* distribuição não gaussiana, e a segunda alternativa não exige não linearidade alguma;
+**não estacionariedade** dentro da
 época; **assimetria de forma de onda** (a onda lenta do sono profundo é o caso óbvio, e a §14.2 já a
 nomeia como a explicação alternativa mais provável de um resultado direcionalmente invertido); e
-dependências temporais de ordem superior que o nulo preserva mal. As duas primeiras já constam como
-ameaças pré-declaradas em §14 — a linguagem da conclusão precisa ser consistente com essa cautela,
-e não mais forte que ela.
+dependências temporais de ordem superior que o nulo preserva mal. A primeira, a terceira e a quarta
+já constam como ameaças pré-declaradas em §14 — a linguagem da conclusão precisa ser consistente com
+essa cautela, e não mais forte que ela. A segunda merece registro à parte, porque é a origem que mais
+facilmente seria relatada como "achamos não linearidade" sem que houvesse não linearidade nenhuma.
 
 Consequência prática: nenhum relatório deste protocolo deve escrever "estrutura não linear" onde o
-que foi testado é "incompatibilidade com o nulo IAAFT". Separar as quatro origens acima é trabalho
+que foi testado é "incompatibilidade com o nulo IAAFT". Separar as cinco origens acima é trabalho
 de um protocolo posterior, com nulos adicionais desenhados para discriminá-las — e é uma pergunta
 logicamente anterior a qualquer alegação sobre integração diferenciada, que por sua vez é anterior
 a qualquer alegação sobre consciência. A ordem é: existe excedente sobre o espectro → de que tipo é
@@ -131,10 +135,33 @@ disponível para ele antes de ele acontecer.
 ### 2.3 Por que irreversibilidade, e por que ela resolve o que a residualização não resolve
 
 O argumento é matemático antes de ser empírico. Processos lineares gaussianos estacionários são
-reversíveis no tempo (Weiss 1975, *J Appl Probab* 12:831 — referência ainda **não reverificada pelo
-autor**, ver §15, Fase 0). Um surrogate que preserva o espectro de potência e a distribuição de
-amplitudes preserva, portanto, tudo que uma descrição linear-gaussiana pode conter, e tem
-irreversibilidade nula em expectativa. Segue que:
+reversíveis no tempo (Weiss 1975, *J Appl Probab* 12(4):831–836, DOI 10.2307/3212735). Um surrogate
+que preserva o espectro de potência e a distribuição de amplitudes preserva, portanto, tudo que uma
+descrição linear-gaussiana pode conter, e tem irreversibilidade nula em expectativa. Segue que:
+
+> ✅ **Premissa verificada (2026-08-13), com um reforço e uma correção.** A referência foi conferida
+> contra o registro do Cambridge Core: Gideon Weiss (Tel-Aviv University), *Journal of Applied
+> Probability* 12(4), dezembro de 1975, pp. 831–836, DOI 10.2307/3212735. A direção de que este
+> protocolo depende está confirmada — processos lineares gaussianos são reversíveis —, e a recíproca
+> também: entre processos ARMA discretos, a reversibilidade **caracteriza unicamente** os gaussianos.
+> A definição de reversibilidade usada é a igualdade das distribuições conjuntas de
+> $\{X(t_1),\dots,X(t_n)\}$ e $\{X(-t_1),\dots,X(-t_n)\}$.
+>
+> **Reforço.** A literatura metodológica registra que não só os processos lineares gaussianos, mas
+> também **transformações não lineares estáticas** deles são reversíveis. Isso é precisamente o nulo
+> que o IAAFT constrói — o alinhamento entre a medida e o nulo é, portanto, mais estreito do que a
+> formulação original desta seção afirmava, e é a razão adicional para o estimador de padrões
+> ordinais, invariante a transformação monótona da amplitude, ser a companheira natural do IAAFT.
+>
+> **Correção.** Pela mesma fonte, a irreversibilidade implica "dinâmica não linear **ou** (linear ou
+> não linear) **não gaussiana**". Um processo **linear não gaussiano** também produz positivo. Essa
+> origem foi acrescentada à lista da §2.1.1, que antes tinha quatro e agora tem cinco.
+>
+> **Limite desta verificação.** O acesso ao texto integral estava indisponível no momento da consulta;
+> foram lidos abstract, metadados e a definição formal, não o corpo do artigo. As condições técnicas
+> exatas — estacionariedade, causalidade, inovações iid — **não foram conferidas na fonte primária**.
+> A direção necessária está corroborada por duas vias independentes, mas a leitura integral segue
+> recomendada antes de qualquer publicação derivada.
 
 **O controle aperiódico deixa de ser um teste estatístico e passa a ser uma propriedade da medida.**
 Não se residualiza nada. Não se condiciona a nada. Não se pergunta se o expoente é mediador ou
@@ -784,12 +811,18 @@ Convenção do `CHECKLIST_pendencias.md`: 🤖 = agente escreve · 🧑 = autor 
 ### Fase 0 — Pré-execução (nada aqui produz teste de hipótese)
 
 - [ ] **0.1** Congelar este protocolo em commit próprio, antes de qualquer script. 🤖
-- [ ] **0.2** **Verificação bloqueante de referências.** Weiss (1975), Schreiber & Schmitz (1996),
-  de la Fuente et al. (2023) e Camassa et al. (2024) contra Crossref/PubMed. **A premissa central do
-  protocolo — reversibilidade de processos lineares gaussianos estacionários — está hoje apoiada em
-  referência verificada por agente e não reverificada pelo autor** (Z8). Se Weiss (1975) não
-  confirmar, o argumento do §2.3 precisa de outra âncora antes de a Fase 1 começar. Verificar também,
-  na mesma passada, **qual estimador** de irreversibilidade de la Fuente e Camassa usaram (§5.5). 🧑
+- [~] **0.2** **Verificação bloqueante de referências.** **Weiss (1975) está verificado** — conferido
+  contra o registro do Cambridge Core em 2026-08-13: *J Appl Probab* 12(4):831–836, DOI
+  10.2307/3212735, com a direção necessária confirmada e a recíproca também (ver a caixa em §2.3). A
+  premissa central do protocolo, portanto, **se sustenta**, e a Fase 1 não está mais bloqueada por
+  ela. Duas ressalvas ficam registradas: o texto integral não estava acessível na consulta, então as
+  condições técnicas exatas (estacionariedade, causalidade, inovações iid) não foram lidas na fonte
+  primária; e a verificação obrigou a acrescentar uma quinta origem possível de um positivo à §2.1.1
+  (processo linear não gaussiano). Seguem pendentes, e ainda bloqueantes para os itens que dependem
+  delas: Schreiber & Schmitz (1996), de la Fuente et al. (2023) e Camassa et al. (2024) contra
+  Crossref/PubMed, mais **qual estimador** de irreversibilidade de la Fuente e Camassa usaram (§5.5)
+  — sem isso, a transferência de plausibilidade dos estudos animais não é transferência de tamanho de
+  efeito. 🧑
 - [ ] **0.3** Escrever `cobertura_hipnogramas.py` (Z12): distribuição das descrições de anotação por
   registro, duração total coberta, e quantas épocas de vigília existem fora da janela de ±30 min. 🤖
 - [ ] **0.4** Rodar 0.3 e registrar o resultado contra o critério de §3.2 — **antes** de qualquer
@@ -837,7 +870,15 @@ Convenção do `CHECKLIST_pendencias.md`: 🤖 = agente escreve · 🧑 = autor 
 
 | Data | Item alterado | Antes / depois de ver resultado da fase? | Motivo |
 |---|---|---|---|
-| — | (nenhuma até o congelamento) | — | — |
+| 2026-08-13 | §6.1 (critérios de decisão), §13.1 (justificativa de Z13), §2.1.1 (nova), estatuto do cabeçalho | **Antes** — nenhuma fase executada | Revisão da PR #2. Os critérios não eram exaustivos (um efeito significativo abaixo do limiar de suporte ficava sem veredito); a exclusão de Z13 era atribuída à amostragem quando a causa é o filtro do pipeline (Nyquist a 100 Hz é 50 Hz); a linguagem de inferência deslizava de "incompatível com o nulo IAAFT" para "não linearidade"; e o estatuto de "pré-registrado" foi rebaixado a protocolo prospectivo congelado |
+| 2026-08-13 | §2.3 (caixa de verificação), §2.1.1 (quarta → quinta origem), §15 etapa 0.2, §17 (tabela) | **Antes** — nenhuma fase executada | Etapa 0.2 (AA7) executada em parte. Weiss (1975) verificado contra o Cambridge Core, DOI 10.2307/3212735: a premissa se sustenta e a Fase 1 deixa de estar bloqueada por ela. A verificação obrigou a **acrescentar uma origem possível de um positivo** — processo linear não gaussiano —, que faltava na §2.1.1; e permitiu registrar que transformações não lineares estáticas de processos lineares gaussianos também são reversíveis, o que estreita o alinhamento entre a medida e o nulo IAAFT |
+
+> **Nota sobre estas duas emendas.** Ambas são anteriores a qualquer execução e a qualquer resultado,
+> e portanto **não rebaixam nenhuma análise de confirmatória a exploratória** — a cláusula da regra de
+> congelamento que produziria esse rebaixamento se aplica a emendas posteriores à visualização de
+> resultados. A segunda é o caso que a própria regra existe para tornar visível: uma verificação
+> bloqueante da Fase 0 mudou o conteúdo do protocolo, e a mudança está registrada com data e motivo
+> em vez de silenciosamente incorporada.
 
 ---
 
@@ -848,7 +889,9 @@ Convenção do `CHECKLIST_pendencias.md`: 🤖 = agente escreve · 🧑 = autor 
 | Números da linha de base (AUC 0,991 / 0,500; dz −0,099; poder 16,7%; n=36; 8.923 vs 3.972 épocas; desvio-padrão 0,2346; erro tipo I 7,0%) | ✅ Lidos de arquivos do projeto, com fonte citada em cada caso |
 | Convenções de pipeline (2 canais, 100 Hz, 30 s, filtro 0,5–40 Hz, `FIT_FREQ_RANGE` 1–40 Hz, corte ±30 min) | ✅ Conferidos no código |
 | Inclusão/exclusão que leva 41 → 39 → 36 | ✅ Documentada no `CHECKLIST_pendencias.md` |
-| Referências externas (Weiss 1975, Schreiber & Schmitz 1996, Maschke 2025, Schartner 2017, Toker 2022, Höhn 2024, Halder 2026, de la Fuente 2023, Camassa 2024, Berger 2017, Westfall & Yarkoni 2016) | ⚠️ Verificadas por agentes, **não reverificadas pelo autor** (Z8). Nenhuma entra em `capitulos/17_referencias.md` antes disso |
+| **Weiss 1975** — a premissa matemática de §2.3 | ✅ **Verificada em 2026-08-13** contra o registro do Cambridge Core: *J Appl Probab* 12(4):831–836, DOI 10.2307/3212735. Direção necessária e recíproca confirmadas. Ressalva: texto integral inacessível na consulta, condições técnicas exatas não lidas na fonte primária |
+| **Maschke 2025** — a replicação independente | ✅ **Verificada em 2026-08-13** contra a página do periódico (Oxford Academic); ver `nota_estado_da_arte_1f.md`, §1 |
+| Demais referências externas (Schreiber & Schmitz 1996, Schartner 2017, Toker 2022, Höhn 2024, Halder 2026, de la Fuente 2023, Camassa 2024, Berger 2017, Westfall & Yarkoni 2016) | ⚠️ Verificadas por agentes, **não reverificadas pelo autor** (Z8). Nenhuma entra em `capitulos/17_referencias.md` antes disso |
 | Atributos do ANPHY-Sleep e demais datasets (canais, tamanho, licença) | ⚠️ Reportados por agentes a partir de páginas oficiais; não reconferidos — condição 3 de §12.4 |
 | Estimador de irreversibilidade usado por de la Fuente 2023 e Camassa 2024 | ❌ Não verificado; limita o uso dessas referências como calibração de expectativa |
 | Cobertura de 20 h dos hipnogramas do Sleep-EDF | ❌ Não verificada — é o objeto de Z12 (etapa 0.4) |
