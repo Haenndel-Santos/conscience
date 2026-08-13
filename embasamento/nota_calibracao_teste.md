@@ -69,7 +69,16 @@ observado dz = −0,0994.
 
 **Ressalva importante:** essa curva de poder foi calculada com o teste antigo, que a seção
 3 mostra ser inválido no desenho do sono. Ela descreve o poder de um teste que não deve
-mais ser usado. Refazê-la com o teste calibrado é trabalho pendente.
+mais ser usado.
+
+> **Resolvido (v3).** A curva foi refeita com o teste calibrado (n_sim=2000): 80% de poder
+> exige dz entre 0,4 e 0,5, convergindo com a fórmula fechada para teste pareado
+> (dz≥0,4669); no efeito observado (dz=−0,099) o poder é de **16,7%**, e em dz≥0,5 sobe
+> para 91%. Os números da v2 acima (28,3% em dz=0, 52,7% em dz=0,1, 79,3% em dz=0,3)
+> descrevem o teste descalibrado e **não devem ser citados**. A leitura que vale é a da
+> v3, já incorporada a `registro_falsificabilidade.md` (entrada 1.2): o nulo é decisivo
+> contra um mecanismo de efeito grande e não é informativo contra um efeito pequeno da
+> magnitude do observado.
 
 ### ⚠️ Texto a reescrever
 
@@ -103,6 +112,13 @@ marginal de cada um e força AUC=0,5 por construção. α nominal 0,05.
 | Sono W-N3 · LZc resid. | 2,25 | 0,551 | 10,5% | suspeito | 0,296 | 0,495 | 0,981 |
 | Sono W-N3 · LZc multiv. | 2,25 | 0,547 | 6,0% | válido | 0,332 | 0,494 | 0,920 |
 | Anestesia · LZc resid. | 1,01 | 0,499 | 3,0% | válido | 0,000 | 0,891 | 0,0002 |
+
+> **Nota de leitura (acrescentada 2026-08-13).** A última linha traz **0,891**, que é o valor
+> *dentro da amostra* (`resid_1f_in_sample`); o valor *fora da amostra* — o desenho mais
+> rigoroso, e o que a seção 1 desta nota reporta — é **0,885** [0,796–0,951]. Os dois
+> arredondam para o mesmo p (0,0002) e não mudam veredito algum, mas ao citar a anestesia
+> use o de fora da amostra, para manter a mesma convenção do resto do projeto. Ambos em
+> `scripts_para_rodar/teste_calibrado/resultados_por_sujeito.csv`.
 
 **A conclusão que importa: nenhuma linha muda de veredito substantivo.** O teste antigo é
 inválido em 3 dos 15 desenhos e suspeito em 2, mas nos três inválidos os efeitos reais são

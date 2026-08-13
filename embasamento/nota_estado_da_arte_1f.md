@@ -32,6 +32,16 @@ DOI 10.1093/cercor/bhaf254** (PMID 40972153; preprint medRxiv 10.1101/2024.03.20
 225 pacientes com distúrbio de consciência, EEG de **256 canais**, 250 Hz. Fizeram o mesmo
 teste do projeto, por duas vias:
 
+> ✅ **Verificada contra a página do periódico (Oxford Academic) em 2026-08-13.** Autores,
+> periódico, volume/número/artigo e os três números abaixo conferem literalmente. Duas
+> precisões que a leitura por agente não trouxe: os 225 são a amostra **da análise final**
+> (303 pacientes não responsivos foram avaliados inicialmente), e os 256 canais são a rede
+> de aquisição (GSN-HydroCel-257) — após pré-processamento restam **no máximo 195**. O
+> título completo é "The role of etiology in the identification of clinical markers of
+> consciousness: comparing EEG alpha power, complexity, and spectral exponent". Nada disso
+> altera o argumento: 195 canais analisados continuam sendo cerca de cem vezes os 2 do
+> Sleep-EDF. Falta ainda a reverificação pelo autor, na convenção do projeto.
+
 - expoente espectral (1–40 Hz) × LZc normalizada por shuffle: **r(197) = 0,86**;
 - correlação parcial controlando o expoente: **o valor diagnóstico da LZc desaparece**;
 - normalização por surrogates de fase aleatorizada: r cai para **0,24**, e "todos os efeitos
