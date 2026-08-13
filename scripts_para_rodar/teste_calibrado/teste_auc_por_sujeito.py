@@ -62,6 +62,7 @@ BASE = HERE.parent
 SONO_INTEG = BASE / "integracao_diferenciada" / "integracao_diferenciada_por_epoca.csv"
 SONO_MULTI = BASE / "complexidade_multivariada" / "lzc_multivariado_por_epoca.csv"
 ANESTESIA = BASE / "anestesia_1f" / "propofol_1f_por_epoca.csv"
+REM = BASE / "rem_desacoplamento" / "rem_desacoplamento_por_epoca.csv"
 
 
 # ----------------------------------------------------------------------------------
@@ -211,7 +212,8 @@ TIPOS = ["bruta", "resid_1f_in_sample", "resid_1f_out_of_sample"]
 
 
 def rodar_bloco(nome, df, subject_col, state_col, estado_neg, estado_pos, metricas,
-                grupos, n_folds, rng):
+                grupos, n_folds, rng, tipos=None, aplicar_fdr=True):
+    tipos = TIPOS if tipos is None else tipos
     linhas = []
     for grupo_nome, gdf in grupos:
         # IMPORTANTE: filtrar ao PAR de estados ANTES de residualizar. Essa e a convencao
@@ -222,7 +224,7 @@ def rodar_bloco(nome, df, subject_col, state_col, estado_neg, estado_pos, metric
         # reais. Nao alterar sem refazer a comparacao com os numeros publicados.
         gdf = gdf[gdf[state_col].isin([estado_neg, estado_pos])]
         for metrica in metricas:
-            for tipo in TIPOS:
+            for tipo in tipos:
                 prep = preparar(gdf, metrica, "exponent_1f", subject_col, tipo, n_folds, rng)
                 prep = prep.dropna(subset=["_score"])
                 if prep.empty:
@@ -240,7 +242,7 @@ def rodar_bloco(nome, df, subject_col, state_col, estado_neg, estado_pos, metric
                             "p_antigo_bootstrap": antigo[1] if antigo else np.nan})
                 linhas.append(res)
     df_out = pd.DataFrame(linhas)
-    if not df_out.empty:
+    if aplicar_fdr and not df_out.empty:
         df_out["q_fdr_bloco"] = benjamini_hochberg(df_out["p_wilcoxon"].values)
     return df_out
 
@@ -288,6 +290,32 @@ def main():
         blocos.append(b)
         print(b[["grupo", "metrica", "tipo", "n_sujeitos", "auc_media", "ic95_low",
                  "ic95_high", "p_wilcoxon", "q_fdr_bloco"]].to_string(index=False), flush=True)
+
+    # ---- REM: desacoplamento cortico-muscular (predicao 11.1) ----
+    if REM.exists():
+        print("\n=== REM vs cada outro estagio (rem_desacoplamento) ===", flush=True)
+        rem = pd.read_csv(REM)
+        # indice_desacoplamento = rank percentil de LZc menos o de EMG, DENTRO do sujeito,
+        # calculado sobre a noite toda (reproduz rem_complexidade_vs_emg.py:243-245: os
+        # ranks sao computados antes de filtrar o par de estagios -- e da definicao da
+        # metrica, nao uma escolha de residualizacao).
+        rem["lzc_rank"] = rem.groupby("subject")["lzc"].rank(pct=True)
+        rem["emg_rank"] = rem.groupby("subject")["emg_rms"].rank(pct=True)
+        rem["indice_desacoplamento"] = rem["lzc_rank"] - rem["emg_rank"]
+        parciais = []
+        for outro in ["W", "N1", "N2", "N3"]:
+            parciais.append(
+                rodar_bloco("rem", rem, "subject", "stage", outro, "REM",
+                            ["emg_rms", "eeg_emg_coherence", "indice_desacoplamento"],
+                            [(f"REM vs {outro}", rem)], args.n_folds, rng,
+                            tipos=["bruta"], aplicar_fdr=False))
+        b = pd.concat(parciais, ignore_index=True)
+        # FDR sobre as 12 comparacoes da familia REM de uma vez
+        b["q_fdr_bloco"] = benjamini_hochberg(b["p_wilcoxon"].values)
+        blocos.append(b)
+        print(b[["grupo", "metrica", "n_sujeitos", "auc_media", "ic95_low", "ic95_high",
+                 "frac_sujeitos_acima_05", "p_wilcoxon", "q_fdr_bloco"]].to_string(index=False),
+              flush=True)
 
     res = pd.concat(blocos, ignore_index=True)
     colunas = ["bloco", "grupo", "metrica", "tipo", "n_sujeitos", "epocas_min",
