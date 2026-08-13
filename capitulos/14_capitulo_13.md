@@ -17,7 +17,7 @@ Os oito postulados a seguir resumem o núcleo da teoria; cada um é marcado com 
 
 ### Esboço formal revisado
 
-A estrutura formal básica pode ser mantida, com esclarecimentos importantes. As equações a seguir devem ser lidas como **esquemáticas**: expõem a lógica conceitual do modelo, enquanto a implementação computacional — na versão **V3** (`consciousness_model_v3.py`) — acrescenta parâmetros de regime, interceptos e uma transformação de saturação que a notação de corpo do texto omitia até esta revisão. A V3 é tratada aqui como **baseline heurístico**: a versão adotada como referência em relação às versões toy e V2, no sentido de convenção notacional e comparativa, não de parâmetros validados contra dado externo — distinção retomada adiante. Cada um deles é declarado explicitamente abaixo, para que nenhum proxy operacional seja lido como evidência.
+A estrutura formal básica pode ser mantida, com esclarecimentos importantes. As equações a seguir devem ser lidas como **esquemáticas**: expõem a lógica conceitual do modelo, enquanto a implementação computacional — na versão **V3** (`consciousness_model_v3.py`) — acrescenta parâmetros de regime, interceptos e uma transformação de saturação que a notação esquemática do corpo do texto omite. A V3 é tratada aqui como **baseline heurístico**: a versão adotada como referência em relação às versões toy e V2, no sentido de convenção notacional e comparativa, não de parâmetros validados contra dado externo — distinção retomada adiante. Cada um deles é declarado explicitamente abaixo, para que nenhum proxy operacional seja lido como evidência.
 
 O estado do sistema é:
 

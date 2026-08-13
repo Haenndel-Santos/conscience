@@ -2,7 +2,7 @@
 
 ### Causalidade estratificada e comportamento
 
-Uma das contribuições mais fortes de *Behave* é a recusa da ideia de que se possa explicar comportamento por “baldes” separados. Biologia, psicologia, contexto, cultura e evolução não são recipientes independentes; cada nível já pressupõe os demais. 
+Uma das teses centrais de *Behave* é a recusa da ideia de que se possa explicar comportamento por “baldes” separados: biologia, psicologia, contexto, cultura e evolução não seriam recipientes independentes, já que cada nível pressupõe os demais. É uma tese de forte poder organizador — e é como tese organizadora, não como resultado que a obra teria estabelecido, que ela entra aqui.
 
 A teoria adota isso como **Princípio da Estratificação Temporal da Causa**: nenhum comportamento é adequadamente explicado por um único nível causal. Um ato momentâneo já contém, condensadas, múltiplas profundidades temporais — o estado corporal e neural do instante, a história recente de aprendizagem, a organização de hábitos já consolidados, o desenvolvimento individual que moldou disposições de longo prazo, a moldura social e cultural que torna certas ações significativas ou impensáveis, e a história evolutiva da espécie que preparou os circuitos de base sobre os quais tudo isso opera.
 
