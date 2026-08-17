@@ -177,11 +177,20 @@ def teste_portao_ancora_no_efeito_declarado() -> None:
     checa(r["passa"] is False,
           "poder alto em AUC=0,75 NAO faz o portao passar (o defeito F1)",
           f"(poder na ancora {r['poder_na_ancora']})")
-    checa(abs(r["poder_na_ancora"] - 0.04) < 1e-12, "le o poder na celula da ancora")
+    checa(abs(r["poder_na_ancora"] - 0.20) < 1e-12, "le o poder na celula da ancora")
     checa(r["monotonia_ok"] is True, "monotonia reconhecida quando o poder cresce")
 
+    # F2: o portao le o TESTE PRIMARIO, nao a regra de classificacao. As duas colunas desta
+    # grade sao deliberadamente diferentes, para que trocar o criterio quebre este teste.
+    checa(r["criterio"] == pv.CRITERIO_PORTAO_A == "poder_wilcoxon",
+          "o portao A e o poder do Wilcoxon, nao a regra conjuntiva (F2)",
+          f"(criterio={r['criterio']})")
+    checa(abs(pv.avalia_portao(grade, auc_ancora=0.55,
+                               criterio="poder_regra_suporte")["poder_na_ancora"] - 0.04) < 1e-12,
+          "a caracteristica operacional da regra segue calculavel, em campo proprio")
+
     forte = grade.copy()
-    forte["poder_regra_suporte"] = [0.85, 0.90, 0.95, 0.99]
+    forte["poder_wilcoxon"] = [0.85, 0.90, 0.95, 0.99]
     checa(pv.avalia_portao(forte, auc_ancora=0.55)["passa"] is True,
           "portao passa quando o poder na ancora atinge o alvo")
 
@@ -192,12 +201,59 @@ def teste_portao_ancora_no_efeito_declarado() -> None:
 
     # e a monotonia e verificada, nao assumida
     quebrada = grade.copy()
-    quebrada["poder_regra_suporte"] = [0.85, 0.90, 0.40, 0.99]
+    quebrada["poder_wilcoxon"] = [0.85, 0.90, 0.40, 0.99]
     checa(pv.avalia_portao(quebrada, auc_ancora=0.55)["monotonia_ok"] is False,
           "queda grande de poder com efeito crescente e detectada")
 
     checa(pv.AUC_ANCORA_PODER in pv.AUC_GRADE,
           "a ancora declarada esta na grade que o script simula")
+
+
+def teste_portao_b_equivalencia() -> None:
+    """F8: o portao de nulo informativo mede o que §6.1 declara, e nao passa em n=36.
+
+    Tres propriedades sao fixadas aqui. A primeira e de CORRETUDE: TOST a alfa e o IC de
+    (1 - 2*alfa), e nao o de (1 - alfa) — trocar um pelo outro e o erro classico de
+    equivalencia, e mudaria o n necessario de ~190 para ~232. A segunda e a inacessibilidade
+    em si, que e a razao de F8 existir. A terceira e que o portao ATINGE o alvo com n
+    suficiente, para que "nao passa" seja um fato sobre o n e nao um bug que reprova sempre.
+    """
+    print("\nteste_portao_b_equivalencia")
+
+    checa(pv.EQ_MARGEM_INF == 0.45 and pv.EQ_MARGEM_SUP == 0.55,
+          "as margens sao as de §6.1 e §6.4, inalteradas")
+
+    # TOST a 0,05 <=> IC 90%. Uma amostra cuja semi-amplitude de IC 90% cabe nas margens mas a
+    # de IC 95% nao cabe tem de ser aceita — e o que distingue as duas formulacoes.
+    n = 36
+    meia_90 = float(stats.t.ppf(0.95, n - 1)) / np.sqrt(n)
+    alvo_dp = 0.049 / meia_90          # semi-amplitude de IC 90% = 0,049 < 0,05
+    x = np.full(n, 0.50)
+    x[: n // 2] += alvo_dp
+    x[n // 2:] -= alvo_dp
+    x = 0.50 + (x - x.mean())
+    aceita_90 = pv.testa_equivalencia(x)
+    meia_real_95 = float(stats.t.ppf(0.975, n - 1)) * float(x.std(ddof=1)) / np.sqrt(n)
+    checa(aceita_90 and meia_real_95 > 0.05,
+          "TOST a 0,05 usa o IC 90%, nao o 95% (o erro classico de equivalencia)",
+          f"(semi-IC95={meia_real_95:.4f})")
+
+    # uma amostra visivelmente dispersa nao pode ser declarada equivalente
+    rng = np.random.default_rng(11)
+    checa(pv.testa_equivalencia(np.clip(rng.normal(0.5, 0.30, n), 1e-9, 1 - 1e-9)) is False,
+          "dispersao larga NAO e declarada equivalente")
+
+    # F8: inacessivel em n=36 na dispersao de referencia, mesmo sob o nulo exato
+    p36 = pv.poder_equivalencia(np.random.default_rng(5), pv.DP_REFERENCIA, 400)
+    checa(p36 < 0.05,
+          "P(EQUIVALENCIA | nulo exato) e ~0 em n=36 na dispersao de referencia (F8)",
+          f"(p={p36:.4f})")
+
+    # e o portao nao e um teste que reprova sempre: com n suficiente ele atinge o alvo
+    p_grande = pv.poder_equivalencia(np.random.default_rng(5), pv.DP_REFERENCIA, 400, n=260)
+    checa(p_grande >= pv.PODER_ALVO,
+          "com n suficiente o portao B atinge o alvo — nao reprova por construcao",
+          f"(n=260 -> p={p_grande:.3f})")
 
 
 def teste_grade_de_dispersao_e_uniao() -> None:
@@ -320,6 +376,7 @@ def main() -> int:
     teste_regra_de_regime_seleciona_o_esperado()
     teste_grade_de_dispersao_e_uniao()
     teste_portao_ancora_no_efeito_declarado()
+    teste_portao_b_equivalencia()
     teste_nao_busca_dp_que_faz_passar()
 
     print("\n" + "=" * 70)

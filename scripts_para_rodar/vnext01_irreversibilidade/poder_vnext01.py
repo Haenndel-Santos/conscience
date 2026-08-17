@@ -39,13 +39,30 @@ script nunca rodou sobre nada.
 
   F5/F6 em `cobertura_hipnogramas.py`.
 
-  F2 SEGUE ABERTA, e e do autor. §6.4 fixa o menor efeito de interesse em AUC=0,55; §10.2
-      deriva o limiar de suporte 0,60 do dz que JA da 80% de poder em n=36, isto e, 0,60 e
-      aproximadamente o efeito minimo detectavel; e §10.3 exige 80% de poder no menor efeito
-      de interesse. Os tres nao podem valer juntos. Este script nao resolve a tensao: ele a
-      MEDE e a reporta em campos separados. AUC_ANCORA_PODER carrega hoje o valor que §10.3
-      declara literalmente (0,55); mudar essa constante e emenda de protocolo e exige
-      registro na §16, nao ajuste de codigo.
+  F2 RESOLVIDA em 2026-08-17, por emenda registrada na §16. §6.4 fixa o menor efeito de
+      interesse em AUC=0,55; §10.2 deriva o limiar de suporte 0,60 do dz que JA da 80% de
+      poder em n=36, isto e, 0,60 e aproximadamente o efeito minimo detectavel; e §10.3 exigia
+      80% de poder no menor efeito de interesse. Os tres nao podiam valer juntos.
+      A resolucao NAO move nenhum limiar cientifico — subir o SESOI porque 0,55 exige mais
+      participantes seria adaptar o efeito relevante ao n disponivel, e foi rejeitado. O erro
+      estava na GRANDEZA: uma unica coisa chamada "poder" fazia o trabalho de tres objetos.
+      Passam a ter nomes proprios:
+        portao (§10.3.1 A)  P(Wilcoxon rejeita | AUC=0,55)  — poder amostral, e o portao;
+        caract. operacional P(as tres condicoes de §6.1)     — classificacao, NAO e poder;
+        MDE                 menor efeito com 80%            — independe de escolher ancora.
+      `CRITERIO_PORTAO_A` fixa qual delas decide. Mudar AUC_ANCORA_PODER ou os limiares segue
+      sendo emenda de protocolo, nao ajuste de codigo.
+
+  F8 NOVA, registrada na mesma emenda. O ramo de EQUIVALENCIA de §6.1 e OPERACIONALMENTE
+      INACESSIVEL em n=36. Simulado sob o caso mais favoravel possivel — AUC verdadeira
+      exatamente 0,500 —, P(EQUIVALENCIA) e 0,395 para dp=0,1173; 0,004 para dp=0,1760; e ~0
+      para dp >= 0,2346, que e o cenario de referencia. A semi-amplitude do IC em n=36 e
+      ~0,077 na dispersao de referencia, contra margens de +-0,05. Consequencia: um efeito
+      genuinamente nulo sai classificado como INCONCLUSIVO POR CONSTRUCAO, e a frase de §6.1
+      "resultado negativo e dado" nao era realizavel neste n. §6.1 passou a definir
+      equivalencia por TOST/IC 90%, que e a formulacao convencional — as margens [0,45; 0,55]
+      NAO mudaram, e a troca nao torna o ramo alcancavel (n ~ 190 contra n ~ 232).
+      Este script passou a MEDIR isso, no PORTAO B, em vez de deixa-lo implicito.
 
 --------------------------------------------------------------------------------------
 O QUE ESTE SCRIPT RESPONDE, E O QUE ELE DELIBERADAMENTE NAO FAZ
@@ -138,15 +155,24 @@ relatar so o primeiro seria otimista de um modo que o protocolo nao autoriza.
 DECISAO AUTOMATICA — ANCORADA NUM EFEITO DECLARADO, NAO NO MELHOR CASO
 --------------------------------------------------------------------------------------
 
-Todo campo de decisao e avaliado EM AUC_ANCORA_PODER, o menor efeito de interesse de §6.4,
-que e o efeito que §10.3 nomeia no portao. Nao "em algum efeito da grade", nao "no melhor
-caso". Como o poder cresce monotonicamente com o efeito, avaliar na ancora e a leitura mais
-exigente compativel com o texto do protocolo, e a monotonia e verificada em tempo de execucao
-em vez de assumida.
+Todo campo de decisao do PORTAO A e avaliado EM AUC_ANCORA_PODER, o menor efeito de interesse
+de §6.4, que e o efeito que §10.3.1 nomeia no portao. Nao "em algum efeito da grade", nao "no
+melhor caso". Como o poder cresce monotonicamente com o efeito, avaliar na ancora e a leitura
+mais exigente compativel com o texto do protocolo, e a monotonia e verificada em tempo de
+execucao em vez de assumida.
 
   reference_power_pass — PODER_ALVO satisfeito na ancora, no CENARIO DE REFERENCIA
-                         (dp = 0,2346), sob a regra CONJUNTIVA de §6.1.
+                         (dp = 0,2346), sob o TESTE PRIMARIO (CRITERIO_PORTAO_A).
   robust_power_pass    — o mesmo, em TODA a faixa varrida.
+
+O PORTAO B nao usa a grade de efeitos: ele e avaliado em AUC verdadeira = 0,500, porque a
+pergunta e sobre a LARGURA do IC e nao sobre deslocamento da media, e porque o nulo exato e o
+caso mais favoravel ao ramo de equivalencia.
+
+  portao_b_equivalencia.passa_na_referencia   — PODER_ALVO satisfeito no cenario de referencia.
+  portao_b_equivalencia.passa_em_toda_a_faixa — o mesmo, em toda a faixa varrida.
+  desenho_confirmatorio_ok                    — A e B, conjuntamente. Este e o campo que diz se
+                                                o desenho responde a pergunta NOS DOIS SENTIDOS.
 
 E ao lado deles, porque uma decisao booleana esconde a informacao que interessa:
 
@@ -157,9 +183,13 @@ E ao lado deles, porque uma decisao booleana esconde a informacao que interessa:
                             <= 50% por construcao — a media amostral fica acima do limiar em
                             metade das replicas. Nao existe leitura desse campo que seja
                             simultaneamente 80% e ancorada em 0,60.
-  mde_por_dispersao       — o menor efeito da grade que atinge PODER_ALVO. E a saida
-                            metodologicamente informativa, e sobrevive a qualquer resolucao
-                            de F2, porque nao depende de escolher uma ancora.
+  mde_por_dispersao       — o menor efeito da grade que atinge PODER_ALVO sob o TESTE PRIMARIO
+                            (CRITERIO_PORTAO_A). E a saida metodologicamente informativa, e
+                            sobreviveu a resolucao de F2 justamente porque nao depende de
+                            escolher uma ancora.
+  mde_por_dispersao_regra_suporte — o mesmo sob a regra conjuntiva. Reportado ao lado para que
+                            a diferenca entre as duas grandezas fique visivel no CSV, e nao
+                            apenas afirmada aqui.
 
 Se `reference_power_pass` passar e `robust_power_pass` nao, isso NAO e falha da simulacao. E
 um resultado metodologico com conteudo proprio: a adequacao de n=36 depende de uma suposicao
@@ -217,6 +247,26 @@ DP_REFERENCIA = 0.2346        # LZc residualizada fora da amostra, resultados_po
 # confirmatoria a exploratoria pela regra de congelamento. A tensao entre §6.4, §10.2 e §10.3
 # esta descrita no cabecalho (F2) e nao e resolvida aqui.
 AUC_ANCORA_PODER = 0.55
+
+# CRITERIO DO PORTAO A (resolucao de F2, emenda de 2026-08-17 na §16). O portao de §10.3.1 e o
+# poder do TESTE PRIMARIO no SESOI — P(Wilcoxon rejeita | AUC = 0,55) —, e nao a probabilidade de
+# satisfazer a regra conjuntiva de SUPORTE. As duas continuam sendo calculadas e reportadas; o que
+# a emenda fixou foi QUAL delas carrega o portao, e o nome de cada uma. A probabilidade da regra
+# conjuntiva e caracteristica operacional da classificacao, nao poder amostral, e nao existe n que
+# a leve a 80% ancorada em 0,55.
+CRITERIO_PORTAO_A = "poder_wilcoxon"
+
+# PORTAO B — capacidade de nulo informativo (F8, mesma emenda). §6.1 passou a definir EQUIVALENCIA
+# por TOST a alfa=0,05 contra [0,45; 0,55], o que equivale ao IC 90% contido nas margens. O portao
+# pergunta se o desenho consegue DECLARAR ausencia de efeito quando nao ha efeito nenhum, e por isso
+# e avaliado no caso mais favoravel possivel: AUC verdadeira exatamente 0,500.
+#
+# As margens sao as de §6.1 e §6.4 e NAO sao ajustaveis aqui. A troca de IC 95% por TOST/IC 90% foi
+# feita por ser a formulacao convencional de equivalencia, e nao torna o ramo alcancavel em n=36.
+EQ_MARGEM_INF = 0.45
+EQ_MARGEM_SUP = 0.55
+EQ_ALFA_TOST = 0.05           # TOST a 0,05 <=> IC de 1 - 2*alfa = 90%
+AUC_NULO_VERDADEIRO = 0.50    # o caso mais favoravel ao ramo de equivalencia
 
 # Regra mecanica de selecao da faixa empirica de dispersao (ver docstring)
 AUC_MIN_REGIME = 0.35
@@ -365,6 +415,44 @@ def poder_para(rng, auc_media: float, dp: float, n_sim: int) -> dict:
     }
 
 
+def testa_equivalencia(aucs: np.ndarray) -> bool:
+    """A regra de EQUIVALENCIA de §6.1: TOST a EQ_ALFA_TOST contra [EQ_MARGEM_INF, EQ_MARGEM_SUP].
+
+    Implementada pela forma equivalente e mais legivel do intervalo de confianca: TOST a alfa
+    rejeita as duas hipoteses unilaterais se e somente se o IC de (1 - 2*alfa) esta inteiramente
+    contido nas margens. Com alfa = 0,05, o IC e o de 90%.
+    """
+    n = aucs.size
+    if n < 2:
+        return False
+    media = float(aucs.mean())
+    se = float(aucs.std(ddof=1)) / np.sqrt(n)
+    if se == 0.0:
+        return bool(EQ_MARGEM_INF <= media <= EQ_MARGEM_SUP)
+    h = float(stats.t.ppf(1.0 - EQ_ALFA_TOST, n - 1)) * se
+    return bool((media - h) >= EQ_MARGEM_INF and (media + h) <= EQ_MARGEM_SUP)
+
+
+def poder_equivalencia(rng, dp: float, n_sim: int, n: int = N_PARTICIPANTES,
+                       auc_verdadeira: float = AUC_NULO_VERDADEIRO) -> float:
+    """PORTAO B: P(EQUIVALENCIA | efeito verdadeiro nulo), para uma dispersao (F8).
+
+    Avaliado em AUC verdadeira = 0,500, que e o caso MAIS FAVORAVEL ao ramo — qualquer efeito
+    verdadeiro diferente de 0,5 desloca o IC e so pode reduzir esta probabilidade. Se o portao
+    falha aqui, ele falha em todo lugar, e o ramo de EQUIVALENCIA de §6.1 e inacessivel neste n:
+    um nulo genuino sai classificado como INCONCLUSIVO por construcao, nao por ambiguidade do
+    dado. Essa e a assimetria que §6.1 passou a declarar.
+    """
+    a, b, viavel = parametros_beta(auc_verdadeira, dp)
+    if not viavel:
+        return float("nan")
+    n_ok = 0
+    for _ in range(n_sim):
+        if testa_equivalencia(rng.beta(a, b, size=n)):
+            n_ok += 1
+    return n_ok / n_sim
+
+
 # ======================================================================================
 # FAIXA DE DISPERSAO
 # ======================================================================================
@@ -444,12 +532,17 @@ def poder_no_efeito(sub: pd.DataFrame, auc: float, criterio: str) -> float:
 
 
 def avalia_portao(sub: pd.DataFrame, auc_ancora: float = AUC_ANCORA_PODER,
-                  criterio: str = "poder_regra_suporte") -> dict:
-    """O portao de §10.3, avaliado NA ANCORA declarada (correcao F1).
+                  criterio: str = CRITERIO_PORTAO_A) -> dict:
+    """O PORTAO A de §10.3.1, avaliado NA ANCORA declarada (correcoes F1 e F2).
 
     O defeito que esta funcao substitui usava `.any()` sobre todos os efeitos >= AUC_SUPORTE,
     de modo que o maior efeito da grade decidia e o resultado era True por construcao. Aqui o
     poder e lido na celula da ancora, e mais nada.
+
+    O criterio default mudou de `poder_regra_suporte` para `poder_wilcoxon` na emenda de
+    2026-08-17 (resolucao de F2): o portao e o poder do TESTE PRIMARIO no SESOI. A probabilidade
+    da regra conjuntiva continua sendo calculada e reportada em campo proprio, com o estatuto de
+    caracteristica operacional da classificacao. Chamar a segunda de "poder" era o erro.
 
     `monotonia_ok` verifica, em vez de assumir, que o poder nao cai quando o efeito cresce
     acima da ancora — que e a premissa que torna "avaliar na ancora" equivalente a "avaliar no
@@ -616,12 +709,31 @@ def main() -> int:
         "wilcoxon": por_dp(AUC_SUPORTE, "poder_wilcoxon"),
     }
 
-    # menor AUC detectavel com PODER_ALVO, por dispersao
+    # menor AUC detectavel com PODER_ALVO, por dispersao — sob os dois criterios, porque a
+    # emenda de 2026-08-17 separou as grandezas e o MDE de cada uma responde a coisas diferentes
     mde = {}
+    mde_regra = {}
     for dp in dps:
-        sub = df[(df["dp_auc_por_participante"] == dp) &
-                 (df["poder_regra_suporte"] >= PODER_ALVO)]
-        mde[dp] = float(sub["auc_media_verdadeira"].min()) if not sub.empty else None
+        base = df[df["dp_auc_por_participante"] == dp]
+        s_wil = base[base[CRITERIO_PORTAO_A] >= PODER_ALVO]
+        s_reg = base[base["poder_regra_suporte"] >= PODER_ALVO]
+        mde[dp] = float(s_wil["auc_media_verdadeira"].min()) if not s_wil.empty else None
+        mde_regra[dp] = float(s_reg["auc_media_verdadeira"].min()) if not s_reg.empty else None
+
+    # ---- PORTAO B: capacidade de nulo informativo, por dispersao (F8) ----
+    # Avaliado em AUC verdadeira = 0,500, o caso mais favoravel possivel ao ramo. Nao depende da
+    # grade de efeitos: a pergunta e sobre a LARGURA do IC, nao sobre deslocamento da media.
+    # UM stream para toda a varredura, como na grade de efeitos (linha do `rng` acima). Recriar
+    # `default_rng(seed)` dentro do laco daria a cada dispersao o MESMO fluxo de uniformes, o que
+    # nao produz numero errado — os parametros Beta diferem — mas acopla os pontos da curva: um
+    # fluxo azarado desloca todos na mesma direcao, e a varredura parece mais lisa do que e.
+    rng_equiv = np.random.default_rng(args.seed + 7919)
+    poder_equiv = {}
+    for dp in dps:
+        poder_equiv[dp] = poder_equivalencia(rng_equiv, dp, args.n_sim)
+    equiv_ref = poder_equiv.get(round(DP_REFERENCIA, 4), float("nan"))
+    portao_b_ref = bool(np.isfinite(equiv_ref) and equiv_ref >= PODER_ALVO)
+    portao_b_robusto = all(np.isfinite(v) and v >= PODER_ALVO for v in poder_equiv.values())
 
     # ---- ruido de Monte Carlo: mesmas celulas, sementes independentes ----
     mc = {}
@@ -665,20 +777,40 @@ def main() -> int:
         # ---- o portao, e o efeito em que ele foi avaliado ----
         "ancora_da_decisao": {
             "auc": AUC_ANCORA_PODER,
-            "origem": "menor efeito de interesse de §6.4, que §10.3 nomeia no portao",
-            "criterio": "poder_regra_suporte (a regra conjuntiva de §6.1)",
+            "origem": "menor efeito de interesse de §6.4, que §10.3.1 nomeia no Portao A",
+            "criterio": f"{CRITERIO_PORTAO_A} (o teste primario de §5.2), apos a resolucao de F2",
         },
         "reference_power_pass": reference_power_pass,
         "robust_power_pass": robust_power_pass,
         "portao_na_referencia": portao_ref,
         "portao_por_dispersao": {str(k): v for k, v in portoes_por_dp.items()},
         "monotonia_do_poder_ok": monotonia_ok,
+        # ---- PORTAO B: capacidade de nulo informativo (F8) ----
+        "portao_b_equivalencia": {
+            "regra": (f"TOST alfa={EQ_ALFA_TOST} contra [{EQ_MARGEM_INF}; {EQ_MARGEM_SUP}], "
+                      f"equivalente ao IC {int(round((1 - 2 * EQ_ALFA_TOST) * 100))}% contido "
+                      f"nas margens (§6.1)"),
+            "auc_verdadeira_avaliada": AUC_NULO_VERDADEIRO,
+            "por_dispersao": {str(k): v for k, v in poder_equiv.items()},
+            "na_referencia": equiv_ref,
+            "passa_na_referencia": portao_b_ref,
+            "passa_em_toda_a_faixa": portao_b_robusto,
+            "leitura": ("Avaliado no caso MAIS FAVORAVEL (efeito verdadeiro exatamente nulo). "
+                        "Se falha aqui, o ramo de EQUIVALENCIA de §6.1 e inacessivel neste n e "
+                        "um nulo genuino sai como INCONCLUSIVO por construcao."),
+        },
+        # Nome com o escopo explicito: os dois portoes AVALIADOS NO CENARIO DE REFERENCIA. A
+        # versao robusta (toda a faixa) e a conjuncao dos dois campos `*_em_toda_a_faixa`, e nao
+        # e resumida num booleano proprio para nao dar a uma conjuncao de 17 cenarios a mesma
+        # aparencia de veredito unico que F1 tornou perigosa.
+        "desenho_confirmatorio_ok_na_referencia": bool(reference_power_pass and portao_b_ref),
         # ---- o que uma decisao booleana esconde ----
         "poder_na_ancora": {k: {str(dp): v for dp, v in d.items()}
                             for k, d in poder_na_ancora.items()},
         "poder_no_limiar_de_suporte": {k: {str(dp): v for dp, v in d.items()}
                                        for k, d in poder_no_suporte.items()},
         "mde_por_dispersao": {str(k): v for k, v in mde.items()},
+        "mde_por_dispersao_regra_suporte": {str(k): v for k, v in mde_regra.items()},
         # ---- fidelidade do gerador, verificada nesta rodada ----
         "fidelidade_gerador": {
             "desvio_max_media": erro_media,
@@ -694,10 +826,14 @@ def main() -> int:
         },
         "mc_ruido": mc,
         "correcoes_aplicadas": ["F1 ancora da decisao", "F3 gerador Beta e momentos"
-                                " realizados", "F4 uniao das faixas de dispersao"],
-        "f2_em_aberto": ("§6.4 (interesse 0,55), §10.2 (0,60 ~ MDE) e §10.3 (80% no menor "
-                         "efeito de interesse) nao podem valer juntos em n=36. Decisao de "
-                         "desenho do autor, a registrar na §16."),
+                                " realizados", "F4 uniao das faixas de dispersao",
+                                "F2 resolvida: portao = poder do Wilcoxon no SESOI",
+                                "F8 registrada: Portao B de equivalencia"],
+        "f2_resolvida": ("Emenda de 2026-08-17 (§16). Os limiares NAO mudaram: 0,55 segue sendo "
+                         "o SESOI de §6.4 e 0,60 o limiar de classificacao de §6.1. O que mudou "
+                         "foi a grandeza que carrega o portao — agora o poder do Wilcoxon no "
+                         "SESOI. A probabilidade da regra conjuntiva permanece reportada como "
+                         "caracteristica operacional da classificacao, nao como poder."),
         "versoes": {"python": platform.python_version(),
                     "numpy": np.__version__, "pandas": pd.__version__,
                     "scipy": __import__("scipy").__version__},
@@ -706,35 +842,57 @@ def main() -> int:
         json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8")
 
     p_anc = portao_ref["poder_na_ancora"]
+    p_reg = poder_na_ancora["regra_suporte"].get(round(DP_REFERENCIA, 4), float("nan"))
     p_sup = poder_no_suporte["regra_suporte"].get(round(DP_REFERENCIA, 4), float("nan"))
     print("\n" + "=" * 78)
-    print(f"Portao de §10.3, avaliado em AUC = {AUC_ANCORA_PODER} (menor efeito de interesse):")
-    print(f"  poder na ancora, cenario de referencia (dp={DP_REFERENCIA}): {p_anc:.3f}")
-    print(f"  poder no limiar de suporte AUC={AUC_SUPORTE}, mesmo cenario:  {p_sup:.3f}")
-    print(f"  MDE no cenario de referencia: {mde.get(round(DP_REFERENCIA, 4))}")
-    print(f"reference_power_pass = {reference_power_pass}")
-    print(f"robust_power_pass    = {robust_power_pass}")
+    print(f"OS DOIS PORTOES DE §10.3.1, no cenario de referencia (dp={DP_REFERENCIA})")
+    print("-" * 78)
+    print(f"PORTAO A — sensibilidade: P(Wilcoxon rejeita | AUC = {AUC_ANCORA_PODER})")
+    print(f"  poder no SESOI: {p_anc:.3f}   (alvo {PODER_ALVO})   -> passa = {reference_power_pass}")
+    print(f"  em toda a faixa de dispersao -> passa = {robust_power_pass}")
+    print(f"  MDE (Wilcoxon) no cenario de referencia: {mde.get(round(DP_REFERENCIA, 4))}")
+    print(f"PORTAO B — nulo informativo: P(EQUIVALENCIA | AUC = {AUC_NULO_VERDADEIRO})")
+    print(f"  TOST alfa={EQ_ALFA_TOST} contra [{EQ_MARGEM_INF}; {EQ_MARGEM_SUP}] "
+          f"(IC {int(round((1 - 2 * EQ_ALFA_TOST) * 100))}%)")
+    print(f"  poder de equivalencia: {equiv_ref:.3f}   (alvo {PODER_ALVO})   "
+          f"-> passa = {portao_b_ref}")
+    print(f"  em toda a faixa de dispersao -> passa = {portao_b_robusto}")
+    print("-" * 78)
+    print(f"DESENHO CONFIRMATORIO NA REFERENCIA (A e B) = "
+          f"{bool(reference_power_pass and portao_b_ref)}")
     print("=" * 78)
-    if reference_power_pass and not robust_power_pass:
+    print("\nCaracteristica operacional da regra de SUPORTE (NAO e poder amostral — F2):")
+    print(f"  P(as tres condicoes de §6.1 | AUC verdadeira = {AUC_ANCORA_PODER}): {p_reg:.3f}")
+    print(f"  P(as tres condicoes de §6.1 | AUC verdadeira = {AUC_SUPORTE}):  {p_sup:.3f}")
+    print("  A segunda e <= 0,50 por construcao: a regra compara a AUC AMOSTRAL contra 0,60.")
+
+    if not (reference_power_pass and portao_b_ref):
+        falhou = []
+        if not reference_power_pass:
+            falhou.append("A (sensibilidade)")
+        if not portao_b_ref:
+            falhou.append("B (nulo informativo)")
+        print(
+            f"\nLeitura pre-declarada: o(s) portao(oes) {' e '.join(falhou)} NAO e(sao)\n"
+            "satisfeito(s) neste n. Isso nao e falha da simulacao nem resultado sobre a teoria,\n"
+            "e NAO e uma questao em aberto: a emenda de 2026-08-17 ja decidiu que os limiares\n"
+            "0,55 e 0,60 nao se movem, e que a conclusao correta da Fase 0 e que n=36 nao e\n"
+            "amostra confirmatoria para este desfecho. Os dois portoes convergem para n ~ 180-190.\n"
+            "O braco NAO e cancelado: o Sleep-EDF segue adequado para desenvolver e validar o\n"
+            "IAAFT, calibrar o estimador, estudar a escala temporal, verificar W(ativo), obter a\n"
+            "PRIMEIRA estimativa da dispersao por participante da irreversibilidade — que e o\n"
+            "insumo que falta a todo este calculo — e produzir um efeito PILOTO. O que muda e o\n"
+            "estatuto do braco, nao sua execucao.\n"
+            "O que nao pode acontecer e esta saida ser lida como 'a irreversibilidade nao\n"
+            "funciona': ela nao e sobre a metrica, e sobre o n."
+        )
+    elif reference_power_pass and not robust_power_pass:
         print(
             "\nLeitura pre-declarada deste caso: nao e falha da simulacao. E um resultado\n"
             "metodologico — a adequacao de n=36 depende de uma suposicao ainda desconhecida\n"
             "sobre a dispersao da irreversibilidade por participante. Qualquer relatorio deve\n"
             "dizer 'tem poder suficiente SE a metrica nova tiver dispersao proxima a da LZc\n"
             "residualizada', nunca 'o estudo tem 80% de poder'."
-        )
-    elif not reference_power_pass:
-        print(
-            "\nLeitura pre-declarada deste caso: o portao de §10.3 NAO e satisfeito neste n,\n"
-            "nem no cenario de dispersao mais favoravel entre os congelados. Isso nao e falha\n"
-            "da simulacao nem resultado sobre a teoria — e a constatacao de que o desenho, como\n"
-            "esta, nao tem poder para o menor efeito que o proprio protocolo declara de\n"
-            "interesse. A decisao que se segue e de DESENHO (F2: reformular o portao, rebaixar o\n"
-            "braco a estimativa com IC pre-declarado, ou aceitar e registrar a subpotencia), e\n"
-            "precisa ser tomada e registrada na §16 ANTES da Fase 1. O que nao pode acontecer e\n"
-            "esta saida ser lida como 'a irreversibilidade nao funciona': ela nao e sobre a\n"
-            "metrica, e sobre o n.\n"
-            "Consulte `mde_por_dispersao`: e o objeto que sobrevive a qualquer resolucao de F2."
         )
     print(f"\nSaidas: {out / 'poder_vnext01.csv'}\n         {out / 'poder_vnext01_meta.json'}")
     return 0
