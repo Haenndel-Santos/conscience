@@ -345,6 +345,26 @@ Rodada de 2026-08-13, posterior ao Bloco Z. Origem: uma revisão completa em mod
 > amostra disponível; a álgebra independente de §10.2 já apontava n ≈ 197. Três cálculos separados
 > chegando ao mesmo lugar é o que torna esse número não-arbitrário.
 >
+> ⚠️ **Mas "180–190" vale para o cenário de referência, e não é propriedade universal do
+> VNext-01.** O n exigido escala com o quadrado da dispersão, e a dispersão da métrica nova é
+> **desconhecida** — é justamente o que a Fase 1 vai estimar pela primeira vez. Ao longo dos
+> extremos da faixa varrida:
+>
+> | dp | procedência | n para Portão A | n para Portão B |
+> |---|---|---|---|
+> | 0,1173 | 0,5× referência | 48 | 48 |
+> | 0,2248 | menor empírica | 168 | 173 |
+> | **0,2346** | **referência (LZc residualizada)** | **≈ 180** | **≈ 190** |
+> | 0,2845 | maior empírica | 258 | 280 |
+> | 0,3519 | 1,5× referência | 364 | 413 |
+>
+> Oito vezes de amplitude entre os extremos. O que **é** robusto na faixa inteira é a ordem
+> — o Portão B sempre exige mais que o A, porque declarar ausência dentro de ±0,05 é mais caro
+> que detectar presença em 0,55 — e não a magnitude. Citar "≈ 180–190" sem dizer "sob a dispersão
+> de referência" transformaria um cenário numa propriedade do desenho. (Os números da tabela vêm
+> de bisseção com 1.200 réplicas por passo; a linha de referência reproduz os valores congelados
+> dentro do ruído de Monte Carlo — 175 e 192 nessa rodada.)
+>
 > **Isso não cancela a Fase 1, e não é resultado sobre a teoria.** O Sleep-EDF segue adequado para
 > desenvolver e validar o gerador IAAFT (AA8c), calibrar o estimador, estudar a escala temporal de
 > §5.5.1, verificar W(ativo), produzir um efeito **piloto**, e — o mais importante para este

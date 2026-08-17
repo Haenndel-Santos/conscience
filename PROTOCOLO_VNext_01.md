@@ -741,7 +741,17 @@ dp = 0,2346, Beta parametrizada em (média, dp)):
 **Nenhum dos dois é satisfeito em n = 36, e a conclusão registrada da Fase 0 é essa.** Os dois portões
 são independentes — um mede sensibilidade, o outro capacidade de nulo — e convergem para
 n ≈ 180–190, cerca de cinco vezes a amostra disponível. A convergência é informativa: o tamanho
-amostral necessário deixa de ser produto de um cálculo isolado. (A álgebra de §10.2 dava n ≈ 197 para
+amostral necessário deixa de ser produto de um cálculo isolado.
+
+**O escopo dessa faixa, que não pode ser perdido na citação.** Os números acima são **do cenário de
+referência**. O n exigido escala com o quadrado da dispersão, e a dispersão por participante da
+irreversibilidade é desconhecida — estimá-la pela primeira vez é uma das funções que restam ao
+Braço A. Ao longo dos extremos da faixa varrida o n vai de **48** (dp = 0,1173, metade da
+referência) a **413** (dp = 0,3519, uma vez e meia a referência): oito vezes de amplitude. O que é
+robusto em toda a faixa é a **ordem** — o Portão B sempre exige mais que o A, porque declarar
+ausência dentro de ±0,05 é mais caro do que detectar presença em 0,55 —, não a magnitude. "≈ 180–190"
+citado sem "sob a dispersão de referência" converteria um cenário numa propriedade do desenho, que é
+o mesmo erro de categoria que F2 corrigiu em outro lugar. (A álgebra de §10.2 dava n ≈ 197 para
 o Portão A; a simulação do Wilcoxon real dá ≈ 180, e a diferença é o conservadorismo da aproximação
 fechada, não discordância — a mesma aproximação cuja tradução dz↔AUC está corrigida ao fim de §6.4.)
 
