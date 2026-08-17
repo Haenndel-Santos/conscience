@@ -8,6 +8,15 @@ teste primario bate com o original do projeto, que a regra mecanica de selecao d
 seleciona o que deveria, que o poder se comporta monotonicamente, que a regra de suporte e
 de fato conjuntiva, e que o gerador respeita o suporte [0,1] da AUC.
 
+ACRESCENTADOS EM 2026-08-17 (correcao F8, e a razao dela): a revisao pre-merge encontrou dois
+defeitos — um portao de decisao vacuo (F1) e um gerador que nao entregava os momentos
+declarados (F3) — e nenhum dos dois foi pego por este arquivo. Nao por acaso: o portao era
+funcao aninhada em `main()`, inalcancavel por teste, e a fidelidade do gerador nunca era
+comparada com o alvo, so o suporte. As duas lacunas eram exatamente onde os defeitos estavam.
+Os testes `teste_portao_ancora_no_efeito_declarado`, `teste_gerador_entrega_os_momentos_
+declarados` e `teste_grade_de_dispersao_e_uniao` fecham as tres, e cada um fixa a propriedade
+que o defeito violava — nao apenas o comportamento novo.
+
 O que estes testes NAO fazem: nao produzem nenhum numero cientifico, nao tocam dado de EEG,
 e nao substituem a execucao das etapas 0.4 e 0.6, que continuam sendo do autor.
 
@@ -21,6 +30,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 from scipy import stats
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -90,13 +100,127 @@ def teste_regra_suporte_e_conjuntiva() -> None:
 
 
 def teste_gerador_respeita_suporte() -> None:
-    """AUC vive em [0,1]; o gerador nao pode devolver valor fora."""
+    """AUC vive em [0,1]; o gerador nao pode devolver valor fora, nem NaN.
+
+    O suporte e FECHADO de proposito. AUC = 1,0 e AUC = 0,0 sao valores legitimos de uma AUC —
+    separacao perfeita em um dos dois sentidos — e a versao anterior os proibia por efeito
+    colateral do `np.clip(x, 1e-9, 1-1e-9)` final, que existia para consertar a truncagem e
+    nao por uma razao sobre a AUC. Com a Beta os valores de borda aparecem apenas quando um dos
+    parametros e minusculo (media muito excentrica com dp grande), caso em que o ponto flutuante
+    satura; sao poucos, sao validos, e nada a jusante quebra com eles.
+    """
     print("\nteste_gerador_respeita_suporte")
     rng = np.random.default_rng(11)
-    for media, dp in [(0.5, 0.35), (0.95, 0.30), (0.05, 0.30)]:
+    for media, dp in [(0.5, 0.20), (0.95, 0.15), (0.05, 0.15)]:
         x = pv.simula_aucs(rng, media, dp, 500)
-        checa(bool((x > 0).all() and (x < 1).all()),
+        checa(bool(np.isfinite(x).all() and (x >= 0).all() and (x <= 1).all()),
               f"suporte respeitado (media={media}, dp={dp})")
+
+    # e o suporte fechado nao envenena o teste primario
+    x = np.concatenate([np.full(18, 1.0), np.full(18, 0.0)])
+    checa(np.isfinite(pv.p_wilcoxon_contra_meio(x)),
+          "AUCs exatamente em 0 e 1 nao quebram o Wilcoxon")
+
+
+def teste_gerador_entrega_os_momentos_declarados() -> None:
+    """O teste que faltava, e que deixou passar F3.
+
+    O antecessor deste arquivo checava apenas que o gerador nao saia do suporte — o que era
+    verdade por construcao, porque a versao anterior clipava no fim. Nada comparava media e dp
+    REALIZADOS contra os alvos, e por isso ninguem viu que a celula rotulada AUC=0,60 simulava
+    media 0,582 e dp 11% abaixo do pedido.
+    """
+    print("\nteste_gerador_entrega_os_momentos_declarados")
+    rng = np.random.default_rng(2026)
+    casos = [(0.50, 0.1173), (0.55, 0.2346), (0.60, 0.2346), (0.65, 0.2845),
+             (0.75, 0.2346), (0.75, 0.3519), (0.50, 0.3519)]
+    piores = (0.0, 0.0)
+    for media, dp in casos:
+        x = pv.simula_aucs(rng, media, dp, 200_000)
+        e_m, e_d = abs(x.mean() - media), abs(x.std() - dp)
+        piores = (max(piores[0], e_m), max(piores[1], e_d))
+        if e_m > 0.005 or e_d > 0.005:
+            checa(False, f"momentos realizados == alvos (media={media}, dp={dp})",
+                  f"(erros {e_m:.4f}, {e_d:.4f})")
+            return
+    checa(True, f"momentos realizados == alvos em {len(casos)} celulas",
+          f"(pior erro: media {piores[0]:.4f}, dp {piores[1]:.4f})")
+
+    # a viabilidade e um limite universal do suporte, nao uma limitacao da Beta escolhida
+    _, _, viavel = pv.parametros_beta(0.75, 0.44)
+    checa(not viavel, "par com dp^2 >= media*(1-media) e marcado inviavel")
+    _, _, viavel = pv.parametros_beta(0.75, 0.2845)
+    checa(viavel, "par viavel e aceito")
+
+    # e uma celula inviavel nao produz poder aproximado: produz NaN e a marca
+    r = pv.poder_para(np.random.default_rng(1), 0.75, 0.44, 10)
+    checa(r["alvo_viavel"] is False and np.isnan(r["poder_regra_suporte"]),
+          "celula inviavel sai sem poder, nao com poder aproximado")
+
+
+def teste_portao_ancora_no_efeito_declarado() -> None:
+    """O teste que faltava para F1: a decisao nao pode ser vacua.
+
+    `passa()` era funcao aninhada em `main()` e portanto inalcancavel por teste — a unica parte
+    do script sem cobertura era a que carregava a decisao. Agora e `avalia_portao`, no nivel do
+    modulo, e este teste fixa a propriedade que o defeito violava: um poder alto num efeito
+    GRANDE nao pode fazer o portao passar quando o poder na ANCORA e baixo.
+    """
+    print("\nteste_portao_ancora_no_efeito_declarado")
+
+    grade = pd.DataFrame({
+        "auc_media_verdadeira": [0.55, 0.60, 0.70, 0.75],
+        "poder_regra_suporte": [0.04, 0.23, 0.93, 0.99],
+        "poder_wilcoxon": [0.20, 0.63, 0.99, 1.00],
+    })
+    r = pv.avalia_portao(grade, auc_ancora=0.55)
+    checa(r["passa"] is False,
+          "poder alto em AUC=0,75 NAO faz o portao passar (o defeito F1)",
+          f"(poder na ancora {r['poder_na_ancora']})")
+    checa(abs(r["poder_na_ancora"] - 0.04) < 1e-12, "le o poder na celula da ancora")
+    checa(r["monotonia_ok"] is True, "monotonia reconhecida quando o poder cresce")
+
+    forte = grade.copy()
+    forte["poder_regra_suporte"] = [0.85, 0.90, 0.95, 0.99]
+    checa(pv.avalia_portao(forte, auc_ancora=0.55)["passa"] is True,
+          "portao passa quando o poder na ancora atinge o alvo")
+
+    # ancora fora da grade nao pode passar por omissao
+    r = pv.avalia_portao(grade, auc_ancora=0.52)
+    checa(r["passa"] is False and np.isnan(r["poder_na_ancora"]),
+          "ancora ausente da grade -> NaN e nao passa")
+
+    # e a monotonia e verificada, nao assumida
+    quebrada = grade.copy()
+    quebrada["poder_regra_suporte"] = [0.85, 0.90, 0.40, 0.99]
+    checa(pv.avalia_portao(quebrada, auc_ancora=0.55)["monotonia_ok"] is False,
+          "queda grande de poder com efeito crescente e detectada")
+
+    checa(pv.AUC_ANCORA_PODER in pv.AUC_GRADE,
+          "a ancora declarada esta na grade que o script simula")
+
+
+def teste_grade_de_dispersao_e_uniao() -> None:
+    """F4: a grade varrida contem as duas familias, e nenhuma sobrepoe a outra."""
+    print("\nteste_grade_de_dispersao_e_uniao")
+    empiricas, _, origem = pv.carrega_faixa_dispersao(pv.CSV_DP)
+    dps, proc = pv.monta_grade_dispersao(empiricas)
+
+    mult = [round(m * pv.DP_REFERENCIA, 4) for m in pv.FALLBACK_MULTIPLICADORES]
+    checa(all(m in dps for m in mult), "a familia de multiplicadores esta na grade")
+    checa(round(pv.DP_REFERENCIA, 4) in dps, "o cenario de referencia esta na grade")
+    checa(dps == sorted(set(dps)), "grade ordenada e sem duplicatas")
+
+    if origem == "empirica":
+        emp = [round(float(x), 4) for x in empiricas["auc_dp"]]
+        checa(all(e in dps for e in emp), "todas as dispersoes empiricas estao na grade")
+        checa(min(dps) < min(emp) and max(dps) > max(emp),
+              "a uniao e estritamente mais larga que a faixa empirica sozinha",
+              f"(empirica [{min(emp)}; {max(emp)}] -> uniao [{min(dps)}; {max(dps)}])")
+        checa(len(proc) == len(empiricas) + len(pv.FALLBACK_MULTIPLICADORES),
+              "a procedencia de cada cenario e rastreavel")
+    else:
+        print("  (CSV congelado indisponivel; uniao com a faixa empirica nao testada aqui)")
 
 
 def teste_poder_monotono_no_efeito() -> None:
@@ -127,9 +251,10 @@ def teste_regra_de_regime_seleciona_o_esperado() -> None:
     print("\nteste_regra_de_regime_seleciona_o_esperado")
     inc, exc, origem = pv.carrega_faixa_dispersao(pv.CSV_DP)
 
-    if origem == "fallback":
-        checa(len(inc) == len(pv.FALLBACK_MULTIPLICADORES),
-              "fallback com o numero certo de cenarios")
+    if origem == "indisponivel":
+        checa(inc.empty, "faixa empirica vazia quando o CSV nao esta disponivel")
+        checa(len(pv.familia_multiplicadores()) == len(pv.FALLBACK_MULTIPLICADORES),
+              "familia de multiplicadores com o numero certo de cenarios")
         print("  (CSV congelado indisponivel; regra empirica nao testada nesta maquina)")
         return
 
@@ -168,9 +293,15 @@ def teste_nao_busca_dp_que_faz_passar() -> None:
         return nomes
 
     proibidos = {"PODER_ALVO", "poder_para", "poder_wilcoxon", "poder_regra_suporte",
-                 "AUC_GRADE", "aplica_regra_suporte", "p_wilcoxon_contra_meio"}
+                 "AUC_GRADE", "aplica_regra_suporte", "p_wilcoxon_contra_meio",
+                 "avalia_portao", "poder_no_efeito", "AUC_ANCORA_PODER"}
     achados = sorted(nomes_referenciados(pv.carrega_faixa_dispersao) & proibidos)
     checa(not achados, "selecao de dispersao nao referencia nada de poder", f"achou {achados}")
+
+    # a uniao das faixas (F4) tambem nao pode consultar poder — e o mesmo risco, um passo depois
+    achados = sorted(nomes_referenciados(pv.monta_grade_dispersao) & proibidos)
+    checa(not achados, "uniao das faixas de dispersao nao referencia nada de poder",
+          f"achou {achados}")
 
     # e a reciproca: a grade de efeitos nao pode depender da dispersao observada
     checa(isinstance(pv.AUC_GRADE, tuple) and all(isinstance(x, float) for x in pv.AUC_GRADE),
@@ -183,9 +314,12 @@ def main() -> int:
     teste_wilcoxon_identico_ao_original()
     teste_regra_suporte_e_conjuntiva()
     teste_gerador_respeita_suporte()
+    teste_gerador_entrega_os_momentos_declarados()
     teste_poder_monotono_no_efeito()
     teste_poder_decresce_com_dispersao()
     teste_regra_de_regime_seleciona_o_esperado()
+    teste_grade_de_dispersao_e_uniao()
+    teste_portao_ancora_no_efeito_declarado()
     teste_nao_busca_dp_que_faz_passar()
 
     print("\n" + "=" * 70)

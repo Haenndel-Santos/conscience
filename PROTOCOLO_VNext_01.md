@@ -649,6 +649,24 @@ poder mostre que ele detecta o menor efeito de interesse (§6.4) com pelo menos 
 tornou o teste de 1.2 não informativo não foi o resultado, foi o poder; repetir isso num dataset novo
 e maior seria repetir o mesmo erro com mais gigabytes.
 
+> ⚠️ **Tensão interna registrada em 2026-08-17, e ainda não resolvida.** A revisão pré-merge da
+> instrumentação (`embasamento/revisao_fase0_pre_merge.md`, F2) mostrou que três afirmações deste
+> protocolo não podem valer simultaneamente em n=36:
+>
+> - §6.4 fixa o menor efeito de interesse em **AUC = 0,55**;
+> - §10.2 deriva o limiar de suporte **0,60** de dz = 0,4669, que é o dz que **já** dá 80% de poder
+>   em n=36 — isto é, 0,60 é aproximadamente o efeito **mínimo detectável**, não o menor efeito de
+>   interesse;
+> - a regra acima exige 80% de poder no menor efeito de interesse.
+>
+> Se 0,60 é o MDE, 0,55 está abaixo dele por definição, e o portão não pode ser satisfeito. A
+> resolução é **decisão de desenho do autor** — reformular o portão, rebaixar o braço a estimativa
+> com IC pré-declarado em vez de teste, ou aceitar e registrar a subpotência —, tem de ser tomada
+> **antes** da Fase 1 e registrada na §16. Enquanto não for, `poder_vnext01.py` não escolhe por
+> ninguém: ele avalia o portão na âncora que este parágrafo declara literalmente (0,55) e reporta
+> em campos separados o poder na âncora, o poder no limiar de suporte e o MDE por dispersão. O MDE
+> é o objeto que sobrevive a qualquer resolução, porque não depende de escolher uma âncora.
+
 ---
 
 ## 11. Mediador ou confundidor: como este protocolo se posiciona
@@ -944,6 +962,7 @@ Convenção do `CHECKLIST_pendencias.md`: 🤖 = agente escreve · 🧑 = autor 
 
 | Data | Item alterado | Antes / depois de ver resultado da fase? | Motivo |
 |---|---|---|---|
+| 2026-08-17 | Instrumentação da Fase 0 (`poder_vnext01.py`, `cobertura_hipnogramas.py`, `testes_instrumentacao.py`); nenhuma seção do protocolo alterada | **Antes** — nenhuma etapa 0.4 ou 0.6 executada | Revisão pré-merge da `fase0-instrumentacao`, registrada em `embasamento/revisao_fase0_pre_merge.md`. Dois defeitos que teriam invertido a leitura da etapa 0.6: **(F1)** o campo de decisão usava `.any()` sobre todos os efeitos ≥ 0,60, de modo que o maior efeito da grade decidia e `reference_power_pass`/`robust_power_pass` saíam `True` para qualquer dispersão — passou a ser avaliado na âncora declarada de §6.4, que é o efeito que §10.3 nomeia; **(F3)** o gerador truncava uma normal por reamostragem e não entregava os momentos declarados (a célula rotulada AUC=0,60 simulava média 0,582; dp 11–24% abaixo do alvo), e para boa parte da grade o par (média, dp) é inviável para **qualquer** normal truncada em [0,1] — trocado por Beta parametrizada em (média, dp), com momentos realizados reportados e viabilidade checada. Mais três: **(F4)** a faixa "empírica" de dispersão era mais estreita que o próprio fallback pré-declarado e passou a ser a união das duas famílias já congeladas, sem número novo; **(F5)** a checagem de Z12 contava os 39 registros do cache contra o critério "30 dos 36" e agora deriva a coorte pela mesma regra de exclusão do projeto, sem emitir veredito se o tamanho não conferir; **(F6)** o indicador de cobertura do hipnograma usava a duração anotada, que inclui `Sleep stage ?` e o tornava verdadeiro por construção. Nenhuma correção foi motivada por uma saída observada, porque nenhum dos dois scripts havia rodado sobre os dados-alvo |
 | 2026-08-13 | §6.1 (critérios de decisão), §13.1 (justificativa de Z13), §2.1.1 (nova), estatuto do cabeçalho | **Antes** — nenhuma fase executada | Revisão da PR #2. Os critérios não eram exaustivos (um efeito significativo abaixo do limiar de suporte ficava sem veredito); a exclusão de Z13 era atribuída à amostragem quando a causa é o filtro do pipeline (Nyquist a 100 Hz é 50 Hz); a linguagem de inferência deslizava de "incompatível com o nulo IAAFT" para "não linearidade"; e o estatuto de "pré-registrado" foi rebaixado a protocolo prospectivo congelado |
 | 2026-08-13 | §4 (caixa IAAFT), §5.5 (faixa de τ estendida), §5.5.1 (nova), §15 etapa 0.2, §17 (tabela) | **Antes** — nenhuma fase executada | Etapa 0.2 concluída (AA7b). Os estimadores de de la Fuente e Camassa foram identificados e **não são da família ordinal deste protocolo**: a transferência caiu para evidência conceitual, e as duas referências deixaram de bloquear a etapa 0.6. A verificação expôs um risco de escala temporal não registrado — Camassa mede com Δt=0,75 s, o primário aqui usa τ=0,01 s —, e por isso a lista de sensibilidade de §5.5 foi estendida para τ ∈ {25, 50, 75} |
 | 2026-08-13 | §2.3 (caixa de verificação), §2.1.1 (quarta → quinta origem), §15 etapa 0.2, §17 (tabela) | **Antes** — nenhuma fase executada | Etapa 0.2 (AA7) executada em parte. Weiss (1975) verificado contra o Cambridge Core, DOI 10.2307/3212735: a premissa se sustenta e a Fase 1 deixa de estar bloqueada por ela. A verificação obrigou a **acrescentar uma origem possível de um positivo** — processo linear não gaussiano —, que faltava na §2.1.1; e permitiu registrar que transformações não lineares estáticas de processos lineares gaussianos também são reversíveis, o que estreita o alinhamento entre a medida e o nulo IAAFT |
@@ -968,9 +987,10 @@ Convenção do `CHECKLIST_pendencias.md`: 🤖 = agente escreve · 🧑 = autor 
 | **Maschke 2025** — a replicação independente | ✅ **Verificada em 2026-08-13** contra a página do periódico (Oxford Academic); ver `nota_estado_da_arte_1f.md`, §1 |
 | **Schreiber & Schmitz 1996** — o nulo IAAFT de §4 | ✅ **Verificada em 2026-08-13** no PubMed (PMID 10062864): *Phys Rev Lett* 77(4):635–638. Nulo confirmado como *rescalings não lineares de processo linear gaussiano*, fechando o argumento com Weiss |
 | **de la Fuente 2023 e Camassa 2024** — os precedentes animais | ✅ **Verificadas em 2026-08-13**; estimadores identificados em §5.5.1. Transferência classificada como **apenas conceitual** — não ancoram tamanho de efeito |
-| Demais referências externas (Schartner 2017, Toker 2022, Höhn 2024, Halder 2026, Berger 2017, Westfall & Yarkoni 2016) | ⚠️ Verificadas por agentes, **não reverificadas pelo autor** (Z8). Nenhuma entra em `capitulos/17_referencias.md` antes disso |
+| **Maschke 2025, Westfall & Yarkoni 2016, Berger 2017, Widmann 2024/2025, Halder 2026, Helfrich 2026** | ✅ **Verificadas em 2026-08-17** contra PubMed/PMC e a página do periódico, identificador por identificador (`embasamento/revisao_fase0_pre_merge.md`, §3). Nenhuma autoria errada, nenhum DOI quebrado, nenhum número inventado. Maschke conferida contra o **texto integral** (PMC12448740): *r*(197)=0,86 e *r*(197)=0,24 sob surrogates de fase estão no corpo. Precisões que a verificação acrescentou: Halder tem **n=6** voluntários; Maschke retém **185,09 ± 8,77** canais (não "no máximo 195"); Widmann 134(2) é de **fevereiro de 2025** (online 2024-11-28); Helfrich é **PNAS 123(21):e2514098123** e o primeiro autor é **Janna D.** Helfrich. Duas cláusulas são inferência do projeto e ficam marcadas como tal: o comportamento **conjunto** de inclinação e LZc em Halder, e "enfraquece o expoente como marcador puro" em Helfrich. **Segue faltando a reverificação pelo autor** (Z8), e nenhuma entra em `capitulos/17_referencias.md` antes disso |
+| Demais referências externas (Schartner 2017, Toker 2022, Höhn 2024) | ⚠️ Verificadas por agentes, **não reverificadas pelo autor** (Z8). Nenhuma entra em `capitulos/17_referencias.md` antes disso |
 | Atributos do ANPHY-Sleep e demais datasets (canais, tamanho, licença) | ⚠️ Reportados por agentes a partir de páginas oficiais; não reconferidos — condição 3 de §12.4 |
 | Estimador de irreversibilidade usado por de la Fuente 2023 e Camassa 2024 | ✅ **Verificado em 2026-08-13** (§5.5.1): CNN sobre componentes principais e assimetria de covariância defasada (INSIDEOUT), respectivamente. **Nenhum dos dois é da família ordinal deste protocolo** — as referências valem como evidência conceitual e direcional, não como calibração de expectativa |
-| Cobertura de 20 h dos hipnogramas do Sleep-EDF | ❌ Não verificada — é o objeto de Z12 (etapa 0.4) |
+| Cobertura de ~20 h dos hipnogramas do Sleep-EDF | ✅ **Medida em 2026-08-17**, e a resposta é positiva com folga: a duração **pontuada** iguala a duração do PSG (mediana 100%, mínimo 96,4% dos 39 registros), a primeira anotação pontuada é um bloco de vigília de 7,5–8,8 h, e há **923 a 2052 épocas** de W anotadas fora da janela de corte (mediana 1669) contra um critério de §3.2 de ≥30. O corte atual usa 38,5% do registro (mediana). ⚠️ A medição foi feita por agente como **smoke test do código**, sem rejeição de artefato: é um limite superior, e a **etapa 0.4 continua sendo do autor** — o artefato de registro é o que ele rodar |
 | Tabela de escala n × dz da §10.2 | ⚠️ Álgebra da fórmula fechada já adotada pelo projeto, **não simulação**; substituída pela saída da etapa 0.6 |
 | Todos os limiares numéricos de §3.2, §5.1 e §6 | ⚠️ **Estipulações de desenho**, fixadas antes da execução; justificadas, não derivadas |

@@ -7,6 +7,35 @@ ESTATUTO: codigo congelado antes da execucao. Escrito por agente; executado pelo
 Nenhum numero deste arquivo e resultado.
 
 --------------------------------------------------------------------------------------
+CORRECOES DE 2026-08-17, ANTES DO MERGE E ANTES DE QUALQUER EXECUCAO
+--------------------------------------------------------------------------------------
+
+Registradas em `embasamento/revisao_fase0_pre_merge.md` e na §16 do protocolo.
+
+  F5  O DENOMINADOR DE §3.2 NAO ERA IMPOSTO. A versao anterior contava sobre TODOS os pares
+      PSG/hipnograma encontrados no cache — 39 — e comparava contra MIN_PARTICIPANTES=30, mas
+      §3.2 diz "30 dos 36 participantes", e os 36 sao os que sobreviveram as exclusoes (3 sem
+      N3, 2 indices ausentes do dataset). Os 3 sem N3 nao eram identificados nem removidos.
+      Cenario concreto em que o veredito invertia: se os 3 sem N3 satisfizessem o minimo de
+      vigilia e exatamente 30 dos 39 satisfizessem, o script imprimia SATISFEITO enquanto
+      apenas 27 dos 36 analisados satisfaziam. Agora a coorte e derivada pela mesma regra de
+      exclusao (ausencia de N3 anotado DENTRO da janela de corte, que e onde o pipeline
+      epoca), a contagem e feita sobre ela, e se o tamanho derivado nao for exatamente
+      N_PARTICIPANTES_ALVO o script REPORTA MAS NAO EMITE VEREDITO — porque nesse caso ele
+      nao esta contando a coorte de §3.2, e um veredito seria sobre outra amostra.
+      `--coorte` aceita uma lista explicita de registros, que tem precedencia sobre a
+      derivacao, para o caso de a regra derivada nao reproduzir os 3 exatos.
+
+  F6  A COBERTURA DO HIPNOGRAMA ERA VERDADEIRA POR CONSTRUCAO. O booleano usava a duracao
+      ANOTADA total, que inclui `Sleep stage ?`; medido nestes arquivos, a anotacao `?` final
+      estende o total a 24,00 h contra 21,8-23,4 h de sinal, de modo que o indicador seria
+      verdadeiro mesmo num hipnograma que nao pontuasse nada. Passou a usar a duracao
+      PONTUADA, que e a quantidade que responde a pergunta, e as duas saem no CSV.
+
+  F9  `--permitir-download` era aceito e nunca usado, em nenhum caminho. Removido: o script
+      nao baixa nada, e uma flag que promete comportamento inexistente e pior que nenhuma.
+
+--------------------------------------------------------------------------------------
 A PERGUNTA
 --------------------------------------------------------------------------------------
 
@@ -63,9 +92,13 @@ SAIDAS
 
 Uso:
     python cobertura_hipnogramas.py --data-dir <pasta_cache> --out-dir saida_vnext01
+    python cobertura_hipnogramas.py --data-dir <pasta_cache> --out-dir saida --coorte os36.txt
 
 `--data-dir` e a pasta onde `mne.datasets.sleep_physionet` ja baixou os arquivos. O script
-NAO baixa nada por conta propria a menos que --permitir-download seja passado.
+NAO baixa nada, em nenhum caminho.
+
+Codigos de saida: 0 = veredito emitido; 2 = erro de entrada; 3 = rodou, mas a coorte contada
+nao tem o tamanho da coorte de §3.2 e nenhum veredito foi emitido (ver F5 acima).
 
 Dependencias: numpy, pandas, mne (versoes de requirements.txt).
 """
@@ -94,6 +127,11 @@ N_PARTICIPANTES_ALVO = 36
 
 DESC_IGNORAR = "Sleep stage ?"
 DESC_W = "Sleep stage W"
+
+# Estagios que o pipeline mapeia para N3 (`analise_sono_v2.py::ANNOTATION_TO_EVENT`). A
+# exclusao que leva 39 -> 36 e "sem epocas de N3", e e reproduzida aqui sobre anotacao, para
+# que a contagem de §3.2 caia sobre a coorte de §3.2 e nao sobre o cache inteiro (F5).
+DESC_N3 = ("Sleep stage 3", "Sleep stage 4")
 
 
 def carrega_anotacoes(hyp_path: Path):
@@ -155,10 +193,14 @@ def analisa_registro(psg_path: Path, hyp_path: Path) -> dict:
     w_antes_s = 0.0
     w_depois_s = 0.0
     w_dentro_s = 0.0
+    n3_dentro_s = 0.0
     for onset, dur, desc in todas:
+        ini, fim = onset, onset + dur
+        if desc in DESC_N3:
+            n3_dentro_s += max(0.0, min(fim, crop_end) - max(ini, crop_start))
+            continue
         if desc != DESC_W:
             continue
-        ini, fim = onset, onset + dur
         dentro = max(0.0, min(fim, crop_end) - max(ini, crop_start))
         w_dentro_s += dentro
         antes = max(0.0, min(fim, crop_start) - ini)
@@ -174,8 +216,18 @@ def analisa_registro(psg_path: Path, hyp_path: Path) -> dict:
         "w_fora_depois_s": w_depois_s,
         "epocas_w_fora": int(w_fora_s // DURACAO_EPOCA_S),
         "epocas_w_dentro": int(w_dentro_s // DURACAO_EPOCA_S),
-        "hipnograma_cobre_registro": bool(
-            linha["duracao_anotada_total_s"] >= 0.95 * dur_total_s),
+        "n3_dentro_do_corte_s": n3_dentro_s,
+        "epocas_n3_dentro": int(n3_dentro_s // DURACAO_EPOCA_S),
+        # Reproduz a exclusao 39 -> 36 sobre anotacao (F5): sem N3 dentro do corte, o registro
+        # nao entra na amostra de n=36 e nao pode contar para o criterio de §3.2.
+        "tem_n3_no_corte": bool(n3_dentro_s > 0.0),
+        # F6: a pergunta e se o hipnograma PONTUA o registro, e `duracao_anotada_total_s`
+        # inclui `Sleep stage ?`, que sozinho pode cobrir mais que o proprio sinal. As duas
+        # saem no CSV; o booleano usa a pontuada, que e a que responde.
+        "hipnograma_pontua_registro": bool(
+            linha["duracao_pontuada_total_s"] >= 0.95 * dur_total_s),
+        "fracao_do_registro_pontuada": (
+            linha["duracao_pontuada_total_s"] / dur_total_s if dur_total_s else np.nan),
     })
     linha["satisfaz_min_epocas_w_fora"] = bool(
         linha["epocas_w_fora"] >= MIN_EPOCAS_W_FORA)
@@ -208,8 +260,11 @@ def main() -> int:
     ap.add_argument("--data-dir", type=str, required=True,
                     help="pasta onde os arquivos do Sleep-EDF ja estao em cache")
     ap.add_argument("--out-dir", type=str, required=True)
-    ap.add_argument("--permitir-download", action="store_true",
-                    help="autoriza mne.datasets a baixar o que faltar (default: nao)")
+    ap.add_argument("--coorte", type=str, default=None,
+                    help="arquivo de texto com um nome de registro PSG por linha, delimitando "
+                         "a coorte de 36 de §3.2. Tem precedencia sobre a derivacao automatica "
+                         "pela ausencia de N3. Use se a regra derivada nao reproduzir "
+                         "exatamente os 3 registros excluidos do projeto.")
     args = ap.parse_args()
 
     data_dir = Path(args.data_dir)
@@ -242,9 +297,28 @@ def main() -> int:
     df = pd.DataFrame(linhas)
     df.to_csv(out / "cobertura_hipnogramas.csv", index=False)
 
-    ok = df[df["erro"] == ""] if "erro" in df.columns else df
+    lidos = df[df["erro"] == ""] if "erro" in df.columns else df
+
+    # ---- coorte de §3.2: os 36, nao o cache inteiro (correcao F5) ----
+    if args.coorte:
+        nomes = {ln.strip() for ln in Path(args.coorte).read_text(encoding="utf-8").splitlines()
+                 if ln.strip() and not ln.strip().startswith("#")}
+        ok = lidos[lidos["psg"].isin(nomes)].copy()
+        origem_coorte = f"lista explicita ({args.coorte})"
+        fora_da_coorte = lidos[~lidos["psg"].isin(nomes)].copy()
+    else:
+        ok = lidos[lidos.get("tem_n3_no_corte", False).astype(bool)].copy() \
+            if "tem_n3_no_corte" in lidos.columns else lidos.copy()
+        origem_coorte = "derivada: registros com N3 anotado dentro da janela de corte"
+        fora_da_coorte = lidos[~lidos.get("tem_n3_no_corte", False).astype(bool)].copy() \
+            if "tem_n3_no_corte" in lidos.columns else pd.DataFrame()
+
+    coorte_confere = bool(len(ok) == N_PARTICIPANTES_ALVO)
     n_satisfazem = int(ok.get("satisfaz_min_epocas_w_fora", pd.Series(dtype=bool)).sum())
-    criterio = bool(n_satisfazem >= MIN_PARTICIPANTES)
+
+    # O veredito so e emitido se a coorte contada FOR a coorte de §3.2. Contar 30 de 39 e
+    # responder a outra pergunta, e nao ha leitura em que isso seja conservador.
+    criterio = bool(n_satisfazem >= MIN_PARTICIPANTES) if coorte_confere else None
 
     nao_satisfazem = ok[~ok.get("satisfaz_min_epocas_w_fora", False).astype(bool)] \
         if "satisfaz_min_epocas_w_fora" in ok.columns else pd.DataFrame()
@@ -255,12 +329,25 @@ def main() -> int:
             "min_participantes": MIN_PARTICIPANTES,
             "n_participantes_alvo": N_PARTICIPANTES_ALVO,
         },
-        "n_registros_analisados": int(len(df)),
+        "n_registros_encontrados": int(len(df)),
         "n_registros_com_erro": int((df["erro"] != "").sum()) if "erro" in df.columns else 0,
+        "coorte": {
+            "origem": origem_coorte,
+            "n": int(len(ok)),
+            "confere_com_n_alvo": coorte_confere,
+            "registros": ok["psg"].tolist() if "psg" in ok.columns else [],
+            "fora_da_coorte": (fora_da_coorte["psg"].tolist()
+                               if "psg" in fora_da_coorte.columns else []),
+        },
         "n_satisfazem_min_epocas": n_satisfazem,
         "criterio_satisfeito_antes_de_artefato": criterio,
+        "veredito_emitido": coorte_confere,
         "ressalva": ("Contagem sobre anotacao, SEM rejeicao de artefato. E um LIMITE SUPERIOR "
                      "do que restara apos a passada de artefato exigida por §3.2."),
+        "ressalva_coorte": (
+            "O criterio de §3.2 e sobre os 36 participantes que sobreviveram as exclusoes do "
+            "projeto. Se a coorte derivada aqui nao tiver exatamente esse tamanho, nenhum "
+            "veredito e emitido: passe --coorte com a lista dos 36."),
         "janela_corte_s": JANELA_CORTE_S,
         "duracao_epoca_s": DURACAO_EPOCA_S,
         "versoes": {"python": platform.python_version(), "numpy": np.__version__,
@@ -276,7 +363,14 @@ def main() -> int:
 
     dur_med = ok["duracao_registro_h"].median() if "duracao_registro_h" in ok.columns else float("nan")
     usada_med = ok["fracao_do_registro_usada"].median() if "fracao_do_registro_usada" in ok.columns else float("nan")
-    cobre = int(ok.get("hipnograma_cobre_registro", pd.Series(dtype=bool)).sum())
+    pont_med = ok["fracao_do_registro_pontuada"].median() if "fracao_do_registro_pontuada" in ok.columns else float("nan")
+    pontua = int(ok.get("hipnograma_pontua_registro", pd.Series(dtype=bool)).sum())
+
+    if criterio is None:
+        veredito = (f"**NAO EMITIDO** — a coorte contada tem {len(ok)} registros, e o criterio "
+                    f"de §3.2 e sobre {N_PARTICIPANTES_ALVO}")
+    else:
+        veredito = f"**{'SATISFEITO' if criterio else 'NAO SATISFEITO'}**"
 
     md = [
         "# Cobertura dos hipnogramas do Sleep-EDF — checagem Z12",
@@ -291,17 +385,33 @@ def main() -> int:
         f"{N_PARTICIPANTES_ALVO} participantes**, existirem **>= {MIN_EPOCAS_W_FORA} epocas** "
         f"anotadas como vigilia fora da janela de +-30 min do corte atual.",
         "",
+        "## Coorte contada",
+        "",
+        f"- Registros encontrados no cache: **{len(df)}** (com erro: {meta['n_registros_com_erro']})",
+        f"- Coorte de §3.2: **{len(ok)}** registros — origem: {origem_coorte}",
+        f"- Confere com os {N_PARTICIPANTES_ALVO} do projeto: "
+        f"**{'sim' if coorte_confere else 'NAO'}**",
+        "",
         "## Resultado",
         "",
-        f"- Registros analisados: **{len(df)}** (com erro: {meta['n_registros_com_erro']})",
-        f"- Satisfazem o minimo de epocas: **{n_satisfazem}**",
-        f"- Criterio de §3.2 (antes de artefato): **{'SATISFEITO' if criterio else 'NAO SATISFEITO'}**",
+        f"- Satisfazem o minimo de epocas, dentro da coorte: **{n_satisfazem}** de {len(ok)}",
+        f"- Criterio de §3.2 (antes de artefato): {veredito}",
         "",
         f"- Duracao mediana do registro: **{dur_med:.1f} h**",
         f"- Fracao mediana do registro efetivamente usada pelo corte atual: **{usada_med:.1%}**",
-        f"- Registros cujo hipnograma cobre >=95% do sinal: **{cobre}** de {len(ok)}",
+        f"- Fracao mediana do registro **pontuada** pelo hipnograma: **{pont_med:.1%}**",
+        f"- Registros cujo hipnograma pontua >=95% do sinal: **{pontua}** de {len(ok)}",
         "",
     ]
+    if not coorte_confere:
+        md += [
+            "> ⚠️ **Nenhum veredito foi emitido.** A coorte derivada aqui nao tem o tamanho da",
+            f"> coorte de §3.2 ({len(ok)} contra {N_PARTICIPANTES_ALVO}). Contar 30 de um",
+            "> denominador diferente responde a outra pergunta, e nao ha leitura em que isso",
+            "> seja conservador: passe `--coorte` com a lista dos 36 registros do projeto e",
+            "> rode de novo.",
+            "",
+        ]
     if not nao_satisfazem.empty:
         md += ["## Registros que NAO satisfazem, nominalmente", "",
                "| registro | epocas W fora | duracao (h) |", "|---|---|---|"]
@@ -326,11 +436,17 @@ def main() -> int:
     (out / "cobertura_hipnogramas.md").write_text("\n".join(md), encoding="utf-8")
 
     print("\n" + "=" * 78)
+    print(f"Coorte contada: {len(ok)} ({origem_coorte})")
     print(f"Satisfazem o minimo: {n_satisfazem} / {len(ok)}")
-    print(f"Criterio §3.2 (antes de artefato): {'SATISFEITO' if criterio else 'NAO SATISFEITO'}")
+    if criterio is None:
+        print(f"Criterio §3.2: VEREDITO NAO EMITIDO — a coorte tem {len(ok)} registros, e o "
+              f"criterio e sobre {N_PARTICIPANTES_ALVO}. Passe --coorte com a lista dos 36.")
+    else:
+        print(f"Criterio §3.2 (antes de artefato): "
+              f"{'SATISFEITO' if criterio else 'NAO SATISFEITO'}")
     print("=" * 78)
     print(f"\nSaidas em {out}/")
-    return 0
+    return 0 if criterio is not None else 3
 
 
 if __name__ == "__main__":
