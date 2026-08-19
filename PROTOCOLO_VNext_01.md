@@ -287,7 +287,13 @@ detalhe.
 > *"nonlinear rescalings of a Gaussian linear process"* — processos lineares gaussianos **e suas
 > transformações não lineares estáticas**. Essa é exatamente a classe que a literatura sobre o
 > teorema de Weiss identifica como reversível no tempo. Os dois lados do argumento fecham por
-> verificação independente: o nulo do IAAFT **é** a classe reversível, e não uma aproximação dela.
+> verificação independente: o **nulo teórico** do IAAFT corresponde à classe reversível que este
+> protocolo quer testar. A distinção entre nulo teórico e realização computacional precisa ser
+> mantida — a hipótese nula formulada pelos autores corresponde àquela classe, mas o **surrogate
+> efetivamente gerado** continua sendo aproximado, porque o algoritmo iterativo termina com
+> discrepância residual nas restrições. Essa não é uma ressalva retórica: é exatamente a limitação
+> registrada no parágrafo seguinte, e ela vai passar a ter número quando o smoke test começar a
+> quantificar o erro espectral do ensemble.
 > É a justificativa mais forte disponível para a afirmação de que o controle aperiódico aqui é
 > propriedade da medida, e não teste estatístico.
 >
@@ -450,12 +456,33 @@ participantes** acima de 0,5. As três condições são conjuntas. A terceira ex
 reporta `frac_sujeitos_acima_05` e porque um efeito carregado por poucos participantes não é o que a
 teoria afirma.
 
-**EQUIVALÊNCIA (nulo informativo).** O IC 95% da AUC média contido inteiramente em **[0,45; 0,55]**.
-Isto é um nulo positivo, não uma ausência de resultado: significa que o efeito, se existe, é menor
-que o menor efeito de interesse declarado, e a leitura registrada será a de **redundância
-informacional** — o EEG de sono de 2 canais, tal como este pipeline o processa, não contém estrutura
-temporal incompatível com o nulo IAAFT, e a alegação-assinatura da teoria perde mais uma
-operacionalização. Resultado negativo é dado.
+**EQUIVALÊNCIA (nulo informativo).** Teste formal de equivalência por **TOST** (*two one-sided
+tests*) a α = 0,05 contra as margens **[0,45; 0,55]**, o que equivale a exigir o **IC 90%** da AUC
+média contido inteiramente nessas margens. Isto é um nulo positivo, não uma ausência de resultado:
+significa que o efeito, se existe, é menor que o menor efeito de interesse declarado, e a leitura
+registrada será a de **redundância informacional** — o EEG de sono de 2 canais, tal como este
+pipeline o processa, não contém estrutura temporal incompatível com o nulo IAAFT, e a
+alegação-assinatura da teoria perde mais uma operacionalização. Resultado negativo é dado.
+
+> ⚠️ **Este ramo é inacessível em n = 36, e a frase acima não é operacionalmente realizável neste n.**
+> Registrado como F8 em 2026-08-17, antes de qualquer execução do desfecho. Simulada sob o caso mais
+> favorável possível — AUC verdadeira **exatamente** 0,500 —, a probabilidade de satisfazer a regra
+> é ≈ 0 para toda dispersão a partir de dp = 0,2346, que é o cenário de referência. Ela só deixa de
+> ser desprezível no extremo inferior da faixa varrida (0,395 em dp = 0,1173; 0,004 em dp = 0,1760),
+> isto é, sob uma dispersão metade da observada para a LZc residualizada. A regra só passa
+> a ser alcançável com 80% de probabilidade em **n ≈ 190** (TOST/IC 90%) ou **n ≈ 232** (a formulação
+> anterior, por IC 95%). A margem de ±0,05 em torno de 0,5 é mais estreita que a própria
+> semi-amplitude do IC em n = 36, que é ≈ 0,077 na dispersão de referência.
+>
+> A troca de IC 95% por TOST/IC 90% foi feita **por ser a formulação convencional de equivalência**,
+> não para tornar o ramo alcançável — ela não o torna. As margens [0,45; 0,55] permanecem inalteradas,
+> e são as mesmas de §6.4.
+>
+> **Consequência que o desenho passa a declarar explicitamente:** neste n, um efeito genuinamente nulo
+> é classificado como INCONCLUSIVO *por construção*, e não por o dado ser ambíguo. O desenho é capaz
+> de encontrar um efeito suficientemente grande e **não** é capaz de estabelecer que um efeito é
+> suficientemente pequeno. Essa assimetria é propriedade do desenho, não achado científico, e o
+> registro do desfecho deve nomeá-la sempre que o veredito cair em INCONCLUSIVO pela primeira via.
 
 **FALSIFICAÇÃO DIRECIONAL.** AUC ≤ 0,40 com p < 0,05 — sono profundo **mais** irreversível que
 vigília. Não é sucesso, é resultado contrário à predição, e a §14.2 já nomeia a explicação
@@ -465,10 +492,15 @@ alternativa mais provável antes de o resultado existir.
 para que nenhum resultado possível fique sem destino declarado antes da execução. Ela cobre dois
 cenários qualitativamente distintos, e o registro deve nomear qual ocorreu:
 
-- *Nulo não informativo.* p ≥ 0,05 com o IC 95% se estendendo além de 0,55 — o desenho não
-  distinguiu "não há efeito" de "há efeito e faltou n". É o cenário mais provável se a variabilidade
-  entre participantes da medida nova for parecida com a da LZc residualizada (desvio-padrão das AUCs
-  ≈ 0,235, `resumo_teste_calibrado.md`).
+- *Nulo não informativo.* p ≥ 0,05 com o IC 90% se estendendo além das margens de equivalência — o
+  desenho não distinguiu "não há efeito" de "há efeito e faltou n". É o cenário
+  **esperado, não meramente provável**, se a variabilidade entre participantes da medida nova for
+  parecida com a da LZc residualizada (desvio-padrão das AUCs ≈ 0,235,
+  `resumo_teste_calibrado.md`): simulado sob efeito verdadeiro **exatamente nulo**, este é o
+  destino de **94,7%** das réplicas em n = 36 — praticamente todo o complemento do erro tipo I,
+  já que a equivalência é declarada em ≈ 0,04% dos casos e o resto é a rejeição espúria a 5%.
+  Cair aqui, portanto, **não** é evidência de que o dado seja ambíguo — é o comportamento
+  pré-declarado do desenho neste n.
 - *Efeito significativo abaixo do limiar de suporte.* Direção prevista, p < 0,05, mas AUC entre 0,55
   e 0,60, ou as três condições conjuntas de SUPORTE não satisfeitas simultaneamente (por exemplo,
   AUC = 0,58 com p = 0,01 e 27 dos 36 participantes acima de 0,5). **Isto não conta como suporte** —
@@ -506,6 +538,31 @@ recalibração posterior mostrou que elas eram, de fato, 0,500. Declarar 0,55 co
 interessa é apenas tornar explícito o critério que o projeto já aplicava implicitamente à sua própria
 leitura. E o limiar de suporte em 0,60 é o que a §10 mostra ser detectável neste n sob a aproximação
 adotada pelo próprio projeto — não um número escolhido por ser alcançável.
+
+**Os dois números permanecem, e fazem trabalhos diferentes (resolução de F2, 2026-08-17).** A revisão
+pré-merge mostrou que 0,55 e 0,60 haviam sido postos a carregar, juntos, uma única grandeza chamada
+"poder", e que nessa leitura eles são incompatíveis. A resolução **não** altera nenhum dos dois:
+
+| Número | Papel | Onde é usado |
+|---|---|---|
+| **AUC = 0,55** | Menor efeito **cientificamente** relevante (SESOI) | Âncora do Portão A de §10.3.1 e margem superior de equivalência de §6.1 |
+| **AUC = 0,60** | Limiar exigido para **classificar** o resultado como SUPORTE | Condição 1 da regra conjuntiva de §6.1 |
+
+Subir o SESOI de 0,55 para 0,60 porque 0,55 exige mais participantes seria adaptar o efeito
+cientificamente relevante ao tamanho da amostra disponível — exatamente a inversão que este protocolo
+existe para impedir. A decisão registrada é **preservar os dois limiares e corrigir a grandeza que os
+lia**, o que está feito em §10.3.1.
+
+**Correção de fato ao parágrafo acima, aplicada na mesma emenda.** A frase "o limiar de suporte em
+0,60 é o que a §10 mostra ser detectável neste n" **não se sustenta contra a simulação**, e é
+justo registrá-lo em vez de deixar os dois números lado a lado sem reconciliação. §10.2 derivou 0,60
+de dz = 0,4669, mas com o desvio-padrão de referência dp = 0,2346 o dz correspondente a AUC = 0,60 é
+(0,60 − 0,50)/0,2346 = **0,4263**, não 0,4669 — a tradução de §10.2 embute implicitamente uma
+dispersão menor (≈ 0,214). Simulado com o Wilcoxon real em n = 36 e dp = 0,2346, o poder em
+AUC = 0,60 é **0,67**, e o menor efeito da grade que alcança 80% é **AUC ≈ 0,62**. Isso **não muda
+nenhuma decisão**: 0,60 permanece limiar de *classificação*, papel que não depende de ser detectável,
+e o portão de poder passou a ser ancorado em 0,55 (§10.3.1). O que muda é a justificativa — 0,60 não
+deve mais ser descrito como "o efeito detectável neste n", porque não é.
 
 ---
 
@@ -639,9 +696,74 @@ tradução para AUC computada na mesma rodada. Enquanto ela não existir, **os n
 §10.2 são orientação de ordem de grandeza e não devem ser citados em nenhum texto do projeto.**
 
 **Regra de decisão que amarra tudo:** nenhum braço confirmatório é executado sem que a análise de
-poder mostre que ele detecta o menor efeito de interesse (§6.4) com pelo menos 80% de poder. O que
-tornou o teste de 1.2 não informativo não foi o resultado, foi o poder; repetir isso num dataset novo
-e maior seria repetir o mesmo erro com mais gigabytes.
+poder mostre que ele responde à pergunta **nos dois sentidos** — que detecta o menor efeito de
+interesse se ele existir, e que é capaz de declarar sua ausência se ele não existir. O que tornou o
+teste de 1.2 não informativo não foi o resultado, foi o poder; repetir isso num dataset novo e maior
+seria repetir o mesmo erro com mais gigabytes.
+
+#### 10.3.1 Os dois portões (resolução de F2 e F8, 2026-08-17)
+
+A revisão pré-merge mostrou que uma única grandeza chamada "poder" vinha fazendo o trabalho de três
+objetos distintos. Eles passam a ser separados, com nomes próprios, e **nenhum limiar científico
+muda** (ver a tabela em §6.4):
+
+**Portão A — sensibilidade.** Probabilidade de o **teste primário pré-declarado** (Wilcoxon bilateral
+de §5.2) rejeitar H₀ quando a AUC verdadeira é o SESOI de §6.4:
+
+> P(p < 0,05 | AUC_verdadeira = 0,55) ≥ 0,80
+
+**Portão B — capacidade de nulo informativo.** Probabilidade de satisfazer a regra de EQUIVALÊNCIA de
+§6.1 (TOST a α = 0,05 contra [0,45; 0,55]) quando o efeito verdadeiro é exatamente nulo:
+
+> P(EQUIVALÊNCIA | AUC_verdadeira = 0,50) ≥ 0,80
+
+Um desenho só é confirmatório para esta pergunta se **os dois** forem satisfeitos. O Portão B é o que
+a análise de poder convencional não captura, e é precisamente o que faltava: sem ele, um efeito
+enorme poderia ser celebrado como suporte enquanto um nulo verdadeiro seria automaticamente relido
+como "inconclusivo".
+
+**O que deixa de ser chamado de poder.** A probabilidade de satisfazer as três condições conjuntas de
+SUPORTE (AUC observada ≥ 0,60 **e** p < 0,05 **e** ≥ 25/36) continua sendo calculada e reportada, mas
+com o estatuto correto de **característica operacional da regra de classificação** — não poder
+amostral. A confusão entre as duas é o conteúdo de F2. Ela não é um defeito de estimativa: como a
+regra compara a AUC *amostral* contra 0,60, essa probabilidade é ≤ 50% por construção quando a AUC
+verdadeira é exatamente 0,60, e não existe n que a leve a 80% ancorada em 0,55.
+
+**Estado dos dois portões em n = 36** (simulado antes da execução, dispersão de referência
+dp = 0,2346, Beta parametrizada em (média, dp)):
+
+| Portão | n = 36 | n para 80% |
+|---|---|---|
+| A — detecção em AUC = 0,55 | **0,24** | **≈ 180** |
+| B — equivalência em AUC = 0,50, TOST/IC 90% | **≈ 0,00** | **≈ 190** |
+| B — equivalência, formulação anterior por IC 95% | **≈ 0,00** | ≈ 232 |
+
+**Nenhum dos dois é satisfeito em n = 36, e a conclusão registrada da Fase 0 é essa.** Os dois portões
+são independentes — um mede sensibilidade, o outro capacidade de nulo — e convergem para
+n ≈ 180–190, cerca de cinco vezes a amostra disponível. A convergência é informativa: o tamanho
+amostral necessário deixa de ser produto de um cálculo isolado.
+
+**O escopo dessa faixa, que não pode ser perdido na citação.** Os números acima são **do cenário de
+referência**. O n exigido escala com o quadrado da dispersão, e a dispersão por participante da
+irreversibilidade é desconhecida — estimá-la pela primeira vez é uma das funções que restam ao
+Braço A. Ao longo dos extremos da faixa varrida o n vai de **48** (dp = 0,1173, metade da
+referência) a **413** (dp = 0,3519, uma vez e meia a referência): oito vezes de amplitude. O que é
+robusto em toda a faixa é a **ordem** — o Portão B sempre exige mais que o A, porque declarar
+ausência dentro de ±0,05 é mais caro do que detectar presença em 0,55 —, não a magnitude. "≈ 180–190"
+citado sem "sob a dispersão de referência" converteria um cenário numa propriedade do desenho, que é
+o mesmo erro de categoria que F2 corrigiu em outro lugar. (A álgebra de §10.2 dava n ≈ 197 para
+o Portão A; a simulação do Wilcoxon real dá ≈ 180, e a diferença é o conservadorismo da aproximação
+fechada, não discordância — a mesma aproximação cuja tradução dz↔AUC está corrigida ao fim de §6.4.)
+
+**Consequência para o Braço A.** O Sleep-EDF com n = 36 **não** é amostra confirmatória para as
+perguntas "há efeito ≥ 0,55?" nem "podemos excluir efeitos ≥ 0,55?". Isso não o torna inútil e não
+cancela a Fase 1: ele permanece adequado para desenvolvimento e validação do gerador IAAFT, smoke
+tests, calibração do estimador, o estudo de escala temporal de §5.5.1, a verificação de W(ativo) de
+§3.2, a **primeira estimativa da dispersão por participante da irreversibilidade** — que hoje é
+desconhecida e é o insumo que falta a todo este cálculo — e um efeito **piloto**. O que muda é o
+estatuto do braço, não sua execução. A etapa 0.6 deixa de ser uma tentativa de descobrir se n = 36
+passa, e passa a cumprir a função correta: quantificar formalmente quanto n = 36 não alcança, e qual
+n seria necessário para um teste bilateralmente informativo.
 
 ---
 
@@ -891,14 +1013,19 @@ Convenção do `CHECKLIST_pendencias.md`: 🤖 = agente escreve · 🧑 = autor 
   próprios 36 participantes, não sobre expectativa importada. O que essas duas referências passam a
   sustentar está registrado em §5.5.1: direção, não magnitude — e um risco de escala temporal que a
   verificação expôs e que mudou a lista de sensibilidade de §5.5. ✅ 🤖
-- [ ] **0.3** Escrever `cobertura_hipnogramas.py` (Z12): distribuição das descrições de anotação por
+- [x] **0.3** ✅ **Escrito** (`scripts_para_rodar/vnext01_irreversibilidade/`, congelado antes da execução). Escrever `cobertura_hipnogramas.py` (Z12): distribuição das descrições de anotação por
   registro, duração total coberta, e quantas épocas de vigília existem fora da janela de ±30 min. 🤖
 - [ ] **0.4** Rodar 0.3 e registrar o resultado contra o critério de §3.2 — **antes** de qualquer
   métrica. 🧑
-- [ ] **0.5** Escrever `poder_vnext01.py` (§10.3), com réplicas genuinamente reamostradas e sobre o
+- [x] **0.5** ✅ **Escrito** (`scripts_para_rodar/vnext01_irreversibilidade/`, congelado antes da execução; varredura de dispersão com faixa empírica derivada mecanicamente, `reference_power_pass` e `robust_power_pass` separados). Escrever `poder_vnext01.py` (§10.3), com réplicas genuinamente reamostradas e sobre o
   teste calibrado. 🤖
-- [ ] **0.6** Rodar 0.5 (n_sim=2000) e registrar a curva poder × dz e a tradução para AUC. Se o
-  limiar de §6.1 precisar de ajuste, ajustar **agora** e registrar na §16. 🧑
+- [ ] **0.6** Rodar 0.5 (n_sim=2000) e registrar a curva poder × dz, a tradução para AUC e os **dois
+  portões de §10.3.1** — Portão A (detecção no SESOI) e Portão B (equivalência sob nulo) — cada um
+  com o n necessário para 80%. Os limiares de §6.1 e §6.4 **já foram decididos e não se reabrem**
+  aqui: a emenda de 2026-08-17 preservou 0,55 e 0,60 e resolveu F2 pela separação das grandezas, e a
+  regra de equivalência já é TOST/IC 90%. A função desta etapa passa a ser **quantificar o quanto
+  n=36 não alcança**, não descobrir se passa — a resposta pré-simulada é que não passa em nenhum dos
+  dois portões, e a etapa a confirma com a instrumentação congelada e a documenta. 🧑
 
 ### Fase 1 — Braço A, Sleep-EDF (Z10 + Z11)
 
@@ -938,6 +1065,8 @@ Convenção do `CHECKLIST_pendencias.md`: 🤖 = agente escreve · 🧑 = autor 
 
 | Data | Item alterado | Antes / depois de ver resultado da fase? | Motivo |
 |---|---|---|---|
+| 2026-08-17 | §6.1 (regra de EQUIVALÊNCIA e primeiro cenário de INCONCLUSIVO), §6.4 (tabela dos dois números), §10.3 (nova §10.3.1, dois portões), §15 etapa 0.6 | **Antes** — nenhuma etapa 0.4 ou 0.6 executada, nenhum desfecho calculado | **F2 resolvida e F8 registrada.** **F2 — a grandeza estava errada, não os limiares.** §6.4 fixa o SESOI em AUC = 0,55, §10.2 deriva o limiar de suporte 0,60 do dz que já dá 80% de poder em n=36 (isto é, 0,60 é aproximadamente o MDE), e §10.3 exigia 80% de poder no SESOI: os três não podiam valer juntos porque uma única grandeza chamada "poder" fazia o trabalho de três objetos. **Decisão: preservar 0,55 e preservar 0,60**, que cumprem funções diferentes (§6.4), e separar as grandezas. O portão de poder passa a ser P(Wilcoxon rejeita \| AUC = 0,55) ≥ 0,80 — o teste primário real, no SESOI. A probabilidade de satisfazer as três condições conjuntas de SUPORTE continua reportada, com o estatuto de **característica operacional da regra de classificação**, não de poder amostral. Subir o SESOI para 0,60 porque 0,55 exige mais participantes seria adaptar o efeito cientificamente relevante ao n disponível, e foi explicitamente rejeitado. **F8 — o ramo de EQUIVALÊNCIA é operacionalmente inacessível em n=36.** Simulada antes da execução sob o caso mais favorável (AUC verdadeira = 0,500), a probabilidade de satisfazer a regra pré-declarada — IC 95% inteiramente contido em [0,45; 0,55] — é 0,395 para dp = 0,1173; 0,004 para dp = 0,1760; e ≈ 0 para dp ≥ 0,2346, incluindo o cenário de referência. Um efeito genuinamente nulo seria classificado como INCONCLUSIVO **por construção**, e a frase de §6.1 "resultado negativo é dado" não era realizável neste n. A regra passou a **TOST a α = 0,05 / IC 90%**, que é a formulação convencional de equivalência — as margens [0,45; 0,55] **não** mudaram, e a troca não torna o ramo alcançável (n ≈ 190 contra n ≈ 232). **Consequência conjunta:** os dois portões são independentes e convergem para **n ≈ 180–190**, ~5× a amostra disponível; n=36 não é amostra confirmatória para este desfecho, e a etapa 0.6 passa a quantificar o quanto falta em vez de testar se passa. Achados obtidos antes de qualquer execução do desfecho: são propriedade do desenho, não resultado científico |
+| 2026-08-17 | Instrumentação da Fase 0 (`poder_vnext01.py`, `cobertura_hipnogramas.py`, `testes_instrumentacao.py`); nenhuma seção do protocolo alterada | **Antes** — nenhuma etapa 0.4 ou 0.6 executada | Revisão pré-merge da `fase0-instrumentacao`, registrada em `embasamento/revisao_fase0_pre_merge.md`. Dois defeitos que teriam invertido a leitura da etapa 0.6: **(F1)** o campo de decisão usava `.any()` sobre todos os efeitos ≥ 0,60, de modo que o maior efeito da grade decidia e `reference_power_pass`/`robust_power_pass` saíam `True` para qualquer dispersão — passou a ser avaliado na âncora declarada de §6.4, que é o efeito que §10.3 nomeia; **(F3)** o gerador truncava uma normal por reamostragem e não entregava os momentos declarados (a célula rotulada AUC=0,60 simulava média 0,582; dp 11–24% abaixo do alvo), e para boa parte da grade o par (média, dp) é inviável para **qualquer** normal truncada em [0,1] — trocado por Beta parametrizada em (média, dp), com momentos realizados reportados e viabilidade checada. Mais três: **(F4)** a faixa "empírica" de dispersão era mais estreita que o próprio fallback pré-declarado e passou a ser a união das duas famílias já congeladas, sem número novo; **(F5)** a checagem de Z12 contava os 39 registros do cache contra o critério "30 dos 36" e agora deriva a coorte pela mesma regra de exclusão do projeto, sem emitir veredito se o tamanho não conferir; **(F6)** o indicador de cobertura do hipnograma usava a duração anotada, que inclui `Sleep stage ?` e o tornava verdadeiro por construção. Nenhuma correção foi motivada por uma saída observada, porque nenhum dos dois scripts havia rodado sobre os dados-alvo |
 | 2026-08-13 | §6.1 (critérios de decisão), §13.1 (justificativa de Z13), §2.1.1 (nova), estatuto do cabeçalho | **Antes** — nenhuma fase executada | Revisão da PR #2. Os critérios não eram exaustivos (um efeito significativo abaixo do limiar de suporte ficava sem veredito); a exclusão de Z13 era atribuída à amostragem quando a causa é o filtro do pipeline (Nyquist a 100 Hz é 50 Hz); a linguagem de inferência deslizava de "incompatível com o nulo IAAFT" para "não linearidade"; e o estatuto de "pré-registrado" foi rebaixado a protocolo prospectivo congelado |
 | 2026-08-13 | §4 (caixa IAAFT), §5.5 (faixa de τ estendida), §5.5.1 (nova), §15 etapa 0.2, §17 (tabela) | **Antes** — nenhuma fase executada | Etapa 0.2 concluída (AA7b). Os estimadores de de la Fuente e Camassa foram identificados e **não são da família ordinal deste protocolo**: a transferência caiu para evidência conceitual, e as duas referências deixaram de bloquear a etapa 0.6. A verificação expôs um risco de escala temporal não registrado — Camassa mede com Δt=0,75 s, o primário aqui usa τ=0,01 s —, e por isso a lista de sensibilidade de §5.5 foi estendida para τ ∈ {25, 50, 75} |
 | 2026-08-13 | §2.3 (caixa de verificação), §2.1.1 (quarta → quinta origem), §15 etapa 0.2, §17 (tabela) | **Antes** — nenhuma fase executada | Etapa 0.2 (AA7) executada em parte. Weiss (1975) verificado contra o Cambridge Core, DOI 10.2307/3212735: a premissa se sustenta e a Fase 1 deixa de estar bloqueada por ela. A verificação obrigou a **acrescentar uma origem possível de um positivo** — processo linear não gaussiano —, que faltava na §2.1.1; e permitiu registrar que transformações não lineares estáticas de processos lineares gaussianos também são reversíveis, o que estreita o alinhamento entre a medida e o nulo IAAFT |
@@ -962,9 +1091,10 @@ Convenção do `CHECKLIST_pendencias.md`: 🤖 = agente escreve · 🧑 = autor 
 | **Maschke 2025** — a replicação independente | ✅ **Verificada em 2026-08-13** contra a página do periódico (Oxford Academic); ver `nota_estado_da_arte_1f.md`, §1 |
 | **Schreiber & Schmitz 1996** — o nulo IAAFT de §4 | ✅ **Verificada em 2026-08-13** no PubMed (PMID 10062864): *Phys Rev Lett* 77(4):635–638. Nulo confirmado como *rescalings não lineares de processo linear gaussiano*, fechando o argumento com Weiss |
 | **de la Fuente 2023 e Camassa 2024** — os precedentes animais | ✅ **Verificadas em 2026-08-13**; estimadores identificados em §5.5.1. Transferência classificada como **apenas conceitual** — não ancoram tamanho de efeito |
-| Demais referências externas (Schartner 2017, Toker 2022, Höhn 2024, Halder 2026, Berger 2017, Westfall & Yarkoni 2016) | ⚠️ Verificadas por agentes, **não reverificadas pelo autor** (Z8). Nenhuma entra em `capitulos/17_referencias.md` antes disso |
+| **Maschke 2025, Westfall & Yarkoni 2016, Berger 2017, Widmann 2024/2025, Halder 2026, Helfrich 2026** | ✅ **Verificadas em 2026-08-17** contra PubMed/PMC e a página do periódico, identificador por identificador (`embasamento/revisao_fase0_pre_merge.md`, §3). Nenhuma autoria errada, nenhum DOI quebrado, nenhum número inventado. Maschke conferida contra o **texto integral** (PMC12448740): *r*(197)=0,86 e *r*(197)=0,24 sob surrogates de fase estão no corpo. Precisões que a verificação acrescentou: Halder tem **n=6** voluntários; Maschke retém **185,09 ± 8,77** canais (não "no máximo 195"); Widmann 134(2) é de **fevereiro de 2025** (online 2024-11-28); Helfrich é **PNAS 123(21):e2514098123** e o primeiro autor é **Janna D.** Helfrich. Duas cláusulas são inferência do projeto e ficam marcadas como tal: o comportamento **conjunto** de inclinação e LZc em Halder, e "enfraquece o expoente como marcador puro" em Helfrich. **Segue faltando a reverificação pelo autor** (Z8), e nenhuma entra em `capitulos/17_referencias.md` antes disso |
+| Demais referências externas (Schartner 2017, Toker 2022, Höhn 2024) | ⚠️ Verificadas por agentes, **não reverificadas pelo autor** (Z8). Nenhuma entra em `capitulos/17_referencias.md` antes disso |
 | Atributos do ANPHY-Sleep e demais datasets (canais, tamanho, licença) | ⚠️ Reportados por agentes a partir de páginas oficiais; não reconferidos — condição 3 de §12.4 |
 | Estimador de irreversibilidade usado por de la Fuente 2023 e Camassa 2024 | ✅ **Verificado em 2026-08-13** (§5.5.1): CNN sobre componentes principais e assimetria de covariância defasada (INSIDEOUT), respectivamente. **Nenhum dos dois é da família ordinal deste protocolo** — as referências valem como evidência conceitual e direcional, não como calibração de expectativa |
-| Cobertura de 20 h dos hipnogramas do Sleep-EDF | ❌ Não verificada — é o objeto de Z12 (etapa 0.4) |
+| Cobertura de ~20 h dos hipnogramas do Sleep-EDF | ✅ **Medida em 2026-08-17**, e a resposta é positiva com folga: a duração **pontuada** iguala a duração do PSG (mediana 100%, mínimo 96,4% dos 39 registros), a primeira anotação pontuada é um bloco de vigília de 7,5–8,8 h, e há **923 a 2052 épocas** de W anotadas fora da janela de corte (mediana 1669) contra um critério de §3.2 de ≥30. O corte atual usa 38,5% do registro (mediana). ⚠️ A medição foi feita por agente como **smoke test do código**, sem rejeição de artefato: é um limite superior, e a **etapa 0.4 continua sendo do autor** — o artefato de registro é o que ele rodar |
 | Tabela de escala n × dz da §10.2 | ⚠️ Álgebra da fórmula fechada já adotada pelo projeto, **não simulação**; substituída pela saída da etapa 0.6 |
 | Todos os limiares numéricos de §3.2, §5.1 e §6 | ⚠️ **Estipulações de desenho**, fixadas antes da execução; justificadas, não derivadas |
